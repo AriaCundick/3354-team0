@@ -1,0 +1,16 @@
+1.	Music Manager
+	1.1	Songs
+		1.1.1	Load from file system/remove from file system songs
+		1.1.2	Play/Stop/Repeat songs
+		1.1.3	(optional) Loop a portion of a song
+		1.1.4	(optional) Queue a song to be played next.
+		1.1.5	(optional) Export a portion of a song
+		1.1.6	(optional) On launch of program, continue the last song when the program last terminated. 
+		1.1.7	(optional) Add comment/note feature for a song
+		1.1.8	(optional) View all notes for a song/playlist/etc.
+		1.1.9	Add photo for album cover
+		1.1.10	Search songs by title, artist, album, genre
+		1.1.11	Sort songs alphabetically by song name/artist/album, by date uploaded, most played, etc.
+	1.2	Playlists (song organization)
+		1.2.1	Create/delete playlists
+		1.2.2	Edit contents of playlists
