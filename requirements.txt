@@ -51,6 +51,7 @@ Functional Requirements
 10. The playlist function allow the user to create or delete and edit existing playlists.
 	10.1 The system shall allow the user name a newly created playlist.
 		10.1.1 The system shall allow the user to add songs after the playlist is created.
+		10.1.2 The system shall check if a song already exists in a playlist.
 	10.2 The system shall allow the user to delete an existing playlist.
 	10.3 The system shall allow a user to add or remove songs to and from an existing playlist. 
 
