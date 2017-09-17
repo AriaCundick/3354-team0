@@ -39,6 +39,20 @@ Functional Requirements
 	7.2 The system shall create a directory meant for exports (if not already done so).
 		7.2.1 The system shall automatically load the song into the program and use all metadata from the original song.
 	7.3 The system shall continue playback of a song (if one is currently playing) when the export occurs.
+	
+8. The add art function shall allow the user to upload an image/album art that is associated with a certain song.
+
+9. The search function shall allow the user to be able to search for a song through different criteria such as title, artist name, album name, or genre.
+	9.1 The system shall display the exact song(s) if the title is used as search criteria.
+	9.2 The system shall display all songs by a specific artist if artist name is used as search criteria.
+	9.3 The system shall display all songs in a certain album if album name is used as search criteria.
+	9.4 The system shall display songs that are categorized under a certain genre if it is used as search criteria. 
+	
+10. The playlist function allow the user to create or delete and edit existing playlists.
+	10.1 The system shall allow the user name a newly created playlist.
+		10.1.1 The system shall allow the user to add songs after the playlist is created.
+	10.2 The system shall allow the user to delete an existing playlist.
+	10.3 The system shall allow a user to add or remove songs to and from an existing playlist. 
 
 
 Use Case Diagram
