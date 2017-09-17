@@ -1,7 +1,8 @@
 Definitions, Acronyms, and Abbreviations
 mp3 - Motion Picture Experts Group 3
 wav - Windows Wave (audio format)
-
+playback - The reproduction of previously recorded sounds or moving images.
+playlist - A collection of songs.
 
 
 Functional Requirements
@@ -27,6 +28,17 @@ Functional Requirements
 	5.1 The system shall repeat the loop infinitely until the user stops the loop.
 		5.1.1 The system shall stop repeating the loop and continue the rest of the song if the loop button is pressed while the song is playing.
 		5.1.2 The system shall pause the song if the pause button is pressed while in a loop.
+
+6. The queue function shall allow a song to be loaded into a temporary playlist that will have highest priority in terms of songs being loaded for playback.
+	6.1 The system shall dynamically allocate space for a queue playlist where songs queued can be referenced.
+	6.2 The system shall load the next song in queue after the current song has finished.
+	6.3 The system shall remove the song from the queue only once it has reached its end.
+
+7. The export function shall allow a specified portion of a song to be output into its own mp3 file for whatever purpose.
+	7.1 The system shall allow the user to specify two points, a beginning and ending, where the export should take place.
+	7.2 The system shall create a directory meant for exports (if not already done so).
+		7.2.1 The system shall automatically load the song into the program and use all metadata from the original song.
+	7.3 The system shall continue playback of a song (if one is currently playing) when the export occurs.
 
 
 Use Case Diagram
