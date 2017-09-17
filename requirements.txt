@@ -20,7 +20,7 @@ Functional Requirements
 	3.1 The system shall retrieve the time of playback before stopping the song in order to resume playback later.
 
 4. The repeat function shall allow the last played song to be replayed starting from 0:00.
-	4.1
+	4.1 The system shall load the song from the beginning and play it back repeatedly until the replay button is unselected.
 
 5. The loop function shall allow a portion of a song specified by the user to be played continually and repeatedly until specified otherwise.
 	5.1 The system shall repeat the loop infinitely until the user stops the loop.
