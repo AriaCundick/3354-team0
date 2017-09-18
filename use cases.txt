@@ -1,6 +1,6 @@
 User use cases-
 
----done---
+---use case diagram 1: DONE---
 uploading songs
 	entering metadata
 
@@ -16,7 +16,7 @@ creating/removing/displaying notes
 
 export portion of a song
 
----need to do---
+---need to do these in use case diagram 2: NOT DONE---
 
 exporting playlists
 importing playlists
