@@ -1,0 +1,26 @@
+User use cases-
+playback
+	playing/pausing/shuffling/repeating/looping/volume
+
+create playlists
+	adding/removing songs
+	editing the order
+
+exporting playlists
+importing playlists
+
+creating/removing notes
+	adding comments about a song along with the time.
+
+uploading songs
+	entering metadata
+
+queueing
+
+searching
+
+filtering playlists
+
+preference
+
+export portion of a song
