@@ -90,6 +90,11 @@ Functional Requirements
 	16.1 The system shall stop playback of the current song before termination.
 		16.1.1 The system shall store data associated with this song to be resumed on later launch of the application
 
+17. The add note function shall allow the user to attach a note to a song.
+	17.1 The note should show up at the specified time it was created in a side panel.
+		17.1.1 The user shall be allowed to change the note's time of appearance during the song
+	17.2 The user shall be allowed to display all notes of a song or playlist in a master-view
+
 
 
 Use Case Diagram
