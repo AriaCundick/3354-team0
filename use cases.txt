@@ -1,4 +1,9 @@
 User use cases-
+
+---done---
+uploading songs
+	entering metadata
+
 playback
 	playing/pausing/shuffling/repeating/looping/volume
 
@@ -6,15 +11,15 @@ create playlists
 	adding/removing songs
 	editing the order
 
-exporting playlists
-importing playlists
-
-creating/removing notes
+creating/removing/displaying notes
 	adding comments about a song along with the time.
 
-uploading songs
-	entering metadata
+export portion of a song
 
+---need to do---
+
+exporting playlists
+importing playlists
 queueing
 
 searching
@@ -23,4 +28,3 @@ filtering playlists
 
 preference
 
-export portion of a song

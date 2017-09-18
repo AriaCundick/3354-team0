@@ -102,6 +102,8 @@ Functional Requirements
 
 19. The shuffle function shall allow the user to play the songs in a playlist in random order.
 
+20. The skip function shall allow the user to skip the current song being played.
+
 
 
 Use Case Diagram
