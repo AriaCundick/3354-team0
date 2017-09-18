@@ -41,9 +41,7 @@ Functional Requirements
 	7.3 The system shall continue playback of a song (if one is currently playing) when the export occurs.
 	
 8. The add art function shall allow the user to upload an image/album art that is associated with a certain song.
-	8.1 The system shall allow the user to categorize songs based on album, genre, artist, 			    etc,. with an image to ease the search process.
-	8.2 The system shall allow the user to color mark the song categories for proper 	    organization.
-
+	
 9. The search function shall allow the user to be able to search for a song through different criteria such as title, artist name, album name, or genre.
 	9.1 The system shall display the exact song(s) if the title is used as search criteria.
 	9.2 The system shall display all songs by a specific artist if artist name is used as search criteria.
@@ -79,6 +77,10 @@ Functional Requirements
 14. The preference function shall allow users to mark songs.
 	14.1 The system shall allow the users to mark their favorite songs.
 	14.2 The system shall also make song recommendations based on user's music preferences.
+
+15. The category function shall allow the users to categorize songs.
+	15.1 The system shall allow the users to categorize songs based on album, genre, artist, etc., to ease the search process.
+	15.2 The system shall allow the users to color mark the song categories for proper organization.
 
 
 Use Case Diagram
