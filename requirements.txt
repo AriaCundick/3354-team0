@@ -57,5 +57,17 @@ Functional Requirements
 	10.2 The system shall allow the user to delete an existing playlist.
 	10.3 The system shall allow a user to add or remove songs to and from an existing playlist. 
 
+11. The export playlist function allows the user to share a playlist
+	11.1 The songs in the playlist shall be exported to a text file along with the playlist title
+		11.1.1 The songs in the text file shall be in order of the original playlist
+		11.1.2 The songs in the text file shall be represented by their name, artist, and album
+	11.2 Playlist author shall be listed in text file
+
+12. The import playlist function allows the user to add an entire playlist to their playlist collection
+	12.1 Playlist to be formed shall be read from a text file
+		12.1.2 Songs in newly formed playlist shall be in the same order as they appeared in text file
+	12.2 Playlist to be formed shall denote the original creator of the playlist
+	12.3 Playlist to be formed shall adopt the name given to it by original creator
+	12.4 Playlist to be formed shall be added to the receiver's playlist collection
 
 Use Case Diagram
