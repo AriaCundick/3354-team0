@@ -11,6 +11,8 @@ Functional Requirements
 	1.2 The system shall allow the user to manually add the songs, or do a recurisive  directory search for any mp3 or wav files to be uploaded.
 	1.3 The system shall require the following information for each song: Title, Album, Artist, Genre, Length, Date published, Explicit or not.
 		1.3.1 The system shall read the last 128 bytes of data to determine the metadata of the song (if any exists).
+	1.4 The system shall create tables that reference the location in memory of a song when uploaded
+		1.5 The system shall store the current title of the mp3/wav file and the location it is in.
 
 2. The Play function shall allow the currently loaded song to continue playback from it's current state.
 	2.1 The system shall load the song starting from the beginning if it is not already loaded.
@@ -41,6 +43,7 @@ Functional Requirements
 	7.3 The system shall continue playback of a song (if one is currently playing) when the export occurs.
 	
 8. The add art function shall allow the user to upload an image/album art that is associated with a certain song.
+	8.1 The system shall prompt the user for an image file to be attached as the cover art for a song.
 	
 9. The search function shall allow the user to be able to search for a song through different criteria such as title, artist name, album name, or genre.
 	9.1 The system shall display the exact song(s) if the title is used as search criteria.
@@ -48,25 +51,26 @@ Functional Requirements
 	9.3 The system shall display all songs in a certain album if album name is used as search criteria.
 	9.4 The system shall display songs that are categorized under a certain genre if it is used as search criteria. 
 	
-10. The playlist function allow the user to create or delete and edit existing playlists.
-	10.1 The system shall allow the user name a newly created playlist.
+10. The playlist function allows the user to create or delete and edit existing playlists.
+	10.1 The system shall allow the user to name a newly created playlist.
 		10.1.1 The system shall allow the user to add songs after the playlist is created.
 		10.1.2 The system shall check if a song already exists in a playlist.
 	10.2 The system shall allow the user to delete an existing playlist.
 	10.3 The system shall allow a user to add or remove songs to and from an existing playlist. 
 
-11. The export playlist function allows the user to share a playlist
-	11.1 The songs in the playlist shall be exported to a text file along with the playlist title
-		11.1.1 The songs in the text file shall be in order of the original playlist
-		11.1.2 The songs in the text file shall be represented by their name, artist, and album
-	11.2 Playlist author shall be listed in text file
+11. The export playlist function allows the user to share a playlist.
+	11.1 The songs in the playlist shall be exported to a text file along with the playlist title.
+		11.1.1 The songs in the text file shall be in order of the original playlist.
+		11.1.2 The songs in the text file shall be represented by their name, artist, and album.
+	11.2 Playlist author shall be listed in text file.
 
-12. The import playlist function allows the user to add an entire playlist to their playlist collection
-	12.1 Playlist to be formed shall be read from a text file
-		12.1.2 Songs in newly formed playlist shall be in the same order as they appeared in text file
-	12.2 Playlist to be formed shall denote the original creator of the playlist
-	12.3 Playlist to be formed shall adopt the name given to it by original creator
-	12.4 Playlist to be formed shall be added to the receiver's playlist collection
+12. The import playlist function allows the user to add an entire playlist to their playlist collection.
+	12.1 Playlist to be formed shall be read from a text file.
+		12.1.1 Songs in newly formed playlist shall be in the same order as they appeared in text file.
+		12.1.2 The system shall 
+	12.2 Playlist to be formed shall denote the original creator of the playlist.
+	12.3 Playlist to be formed shall adopt the name given to it by original creator.
+	12.4 Playlist to be formed shall be added to the receiver's playlist collection.
 
 13. The registration function shall allow users to create an account.
 	13.1 The system shall allow new users to create an account with name and email address.
@@ -81,6 +85,11 @@ Functional Requirements
 15. The category function shall allow the users to categorize songs.
 	15.1 The system shall allow the users to categorize songs based on album, genre, artist, etc., to ease the search process.
 	15.2 The system shall allow the users to color mark the song categories for proper organization.
+
+16. The close function shall terminate the application
+	16.1 The system shall stop playback of the current song before termination.
+		16.1.1 The system shall store data associated with this song to be resumed on later launch of the application
+
 
 
 Use Case Diagram
