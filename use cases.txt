@@ -18,13 +18,18 @@ export portion of a song
 
 ---need to do these in use case diagram 2: NOT DONE---
 
-exporting playlists
+exporting playlists (DONE)
+
 importing playlists
-queueing
+queueing (DONE)
 
-searching
+searching (DONE)
+	search by artist
+	search by song title(s)
+	search by album name
+	search by genre
 
-filtering playlists
+filtering playlists (DONE)
 
-preference
+preference (DONE)
 
