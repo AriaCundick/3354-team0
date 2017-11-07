@@ -20,7 +20,7 @@ public class NameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Create new intent for the main page activity.
-        final Intent mainPageIntent = new Intent(NameActivity.this, MainMenuActivity.class);
+        final Intent mainPageIntent = new Intent(NameActivity.this, LibraryActivity.class);
 
         //If the user has already entered their name, skip this page.
         if(checkForName())
