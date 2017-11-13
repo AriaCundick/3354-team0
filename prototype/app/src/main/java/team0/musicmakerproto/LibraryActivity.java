@@ -1,18 +1,30 @@
 package team0.musicmakerproto;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-import java.util.List;
+import android.widget.Toast;
+
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class LibraryActivity extends AppCompatActivity {
 
-	private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private TextView mTextMessage;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -42,6 +54,7 @@ public class LibraryActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 		getPermission();
 	}
 
@@ -75,6 +88,7 @@ public class LibraryActivity extends AppCompatActivity {
                     Toast.makeText(LibraryActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
         }
     }
+
     
     //Change List<String> to List<Song>
 	//Done - G
@@ -85,6 +99,7 @@ public class LibraryActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DISPLAY_NAME,
+
                 MediaStore.Audio.Media.DURATION
         };
 
@@ -108,6 +123,7 @@ public class LibraryActivity extends AppCompatActivity {
                     String songDuration = cursor.getString(4);
                     cursor.moveToNext();
                     if(path != null && path.endsWith(".mp3")) {
+
                         //mp3Files.add(path);
                         mp3Files.add(new Song(title, artist, path, displayName, songDuration));
 						Log.i("TAG", "added song");

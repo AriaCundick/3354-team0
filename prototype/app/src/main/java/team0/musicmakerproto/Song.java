@@ -2,7 +2,7 @@ package team0.musicmakerproto;
 
 import java.util.HashMap;
 
-public class Song(){
+public class Song{
 	String title;
 	String artist;
 	String path;
@@ -17,6 +17,7 @@ public class Song(){
 	public Song(){
 		notes = new HashMap<String, String>();
 	}
+
 	//Constructor for quick song creation when searching for songs
 	public Song(String inTitle, String inArtist, String inPath, String inDisplayName, String inSongDuration){
 		title = inTitle;

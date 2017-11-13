@@ -2,7 +2,7 @@ package team0.musicmakerproto;
 
 import java.util.ArrayList;
 
-public class Playlist(){
+public class Playlist{
 	ArrayList<Song> songs;
 	String playlistName;
 	
