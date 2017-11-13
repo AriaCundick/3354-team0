@@ -20,7 +20,8 @@
         </activity>
         <activity
             android:name=".LibraryActivity"
-            android:label="@string/title_activity_main_menu"></activity>
+            android:label="@string/title_activity_main_menu" />
+        <activity android:name=".CurrentSongActivity"></activity>
     </application>
 
 </manifest>

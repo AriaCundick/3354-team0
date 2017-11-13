@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="team0.musicmakerproto.CurrentSongActivity">
+
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="66dp"
+        android:layout_height="63dp"
+        app:srcCompat="@drawable/ic_play_btn"
+        tools:layout_editor_absoluteX="159dp"
+        tools:layout_editor_absoluteY="393dp" />
+
+    <ImageButton
+        android:id="@+id/forwardButton"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        app:srcCompat="@android:drawable/ic_media_next"
+        tools:layout_editor_absoluteX="248dp"
+        tools:layout_editor_absoluteY="406dp" />
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        app:srcCompat="@android:drawable/ic_media_previous"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="406dp" />
+
+    <SeekBar
+        android:id="@+id/scrubBar"
+        android:layout_width="358dp"
+        android:layout_height="11dp"
+        tools:layout_editor_absoluteX="13dp"
+        tools:layout_editor_absoluteY="382dp" />
+
+    <SeekBar
+        android:id="@+id/volumeBar"
+        android:layout_width="198dp"
+        android:layout_height="17dp"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="469dp" />
+
+    <EditText
+        android:id="@+id/timeStamp"
+        android:layout_width="36dp"
+        android:layout_height="21dp"
+        android:ems="10"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="406dp" />
+
+    <ImageView
+        android:id="@+id/albumArt"
+        android:layout_width="354dp"
+        android:layout_height="352dp"
+        app:srcCompat="@android:drawable/screen_background_dark"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+</android.support.constraint.ConstraintLayout>
