@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -29,6 +30,7 @@ public class NameActivity extends AppCompatActivity {
             finish();
         }
 
+        //If the user has not entered their name, create the page.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name);
         btn = (Button)findViewById(R.id.un_btn);
@@ -37,9 +39,11 @@ public class NameActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveName();
-                startActivity(mainPageIntent);
-                finish();
+                if(nameRuleCheck()) {
+                    saveName();
+                    startActivity(mainPageIntent);
+                    finish();
+                }
             }
         });
     }
@@ -91,11 +95,33 @@ public class NameActivity extends AppCompatActivity {
         //Parse the string from the text field where the user enters their name.
         String name = ((EditText)findViewById(R.id.username)).getText().toString().trim() + "\n";
         try {
+
             outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
             outputStream.write(filename.getBytes());
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /*
+     * Author: Aria Cundick
+     * Description: Checks to see if the name entered meets the requirements.
+     *              (i.e. not blank).
+     * @return true if name requirements are met. Otherwise, returns false.
+     */
+    private boolean nameRuleCheck() {
+        //Parse the string from the text field where the user enters their name.
+        String name = ((EditText)findViewById(R.id.username)).getText().toString().trim() + "\n";
+
+        //Invalid name, return false.
+        if(name.equals("\n"))
+        {
+            //Make toast to user to tell them what was wrong with their input.
+            Toast.makeText(this, "Name can't be blank.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }
