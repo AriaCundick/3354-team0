@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class LibraryActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -54,10 +55,10 @@ public class LibraryActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        getPermission();
-    }
+		getPermission();
+	}
 
-    @TargetApi(Build.VERSION_CODES.M)
+	@TargetApi(Build.VERSION_CODES.M)
     private void getPermission()
     {
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
@@ -88,21 +89,23 @@ public class LibraryActivity extends AppCompatActivity {
         }
     }
 
+    
     //Change List<String> to List<Song>
-    private List<String> findSongsOnDevice(){
+	//Done - G
+    private List<Song> findSongsOnDevice(){
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
         String[] songDataWanted = {
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.
+
+                MediaStore.Audio.Media.DURATION
         };
 
         //Ascending order
         final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
-        List<String> mp3Files = new ArrayList<>();
+        List<Song> mp3Files = new ArrayList<Song>();
 
         Cursor cursor = null;
         try {
@@ -120,16 +123,18 @@ public class LibraryActivity extends AppCompatActivity {
                     String songDuration = cursor.getString(4);
                     cursor.moveToNext();
                     if(path != null && path.endsWith(".mp3")) {
-                        mp3Files.add(path);
-                        Log.i("TAG", "added song");
+
+                        //mp3Files.add(path);
+                        mp3Files.add(new Song(title, artist, path, displayName, songDuration));
+						Log.i("TAG", "added song");
                     }
                 }
-
             }
 
-            //print to see list of paths of the mp3 files in the Logcat.
-            for( String file : mp3Files) {
-                Log.i("TAG", file);
+            //print to see list of paths of the mp3 files in the Logcat
+			//Changed so that it uses Song instead of String - G
+            for( Song file : mp3Files) {
+                Log.i("TAG", file.getPath());
             }
             if(mp3Files.isEmpty())
                 Log.i("TAG", "mp3Files list is empty");
@@ -142,8 +147,6 @@ public class LibraryActivity extends AppCompatActivity {
             }
         }
 
-        //Change the datatype of mp3Files to Song instead of String
-        //so they can be returned as an aggregate playlist of all songs.
         return mp3Files;
     }
 }
