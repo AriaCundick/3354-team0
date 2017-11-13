@@ -61,6 +61,7 @@ public class LibraryActivity extends AppCompatActivity {
 	@TargetApi(Build.VERSION_CODES.M)
     private void getPermission()
     {
+        //Check if permission to access external storage is granted.
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
         {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
