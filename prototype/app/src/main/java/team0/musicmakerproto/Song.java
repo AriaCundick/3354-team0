@@ -8,6 +8,7 @@ public class Song{
 	String path;
 	String displayName;
 	String songDuration;
+	int id;
 	
 	//Holds Notes, referenced by time(String)
 	//Change second String to Note newNote when Note.java available
@@ -19,13 +20,13 @@ public class Song{
 	}
 
 	//Constructor for quick song creation when searching for songs
-	public Song(String inTitle, String inArtist, String inPath, String inDisplayName, String inSongDuration){
+	public Song(String inTitle, String inArtist, String inPath, String inDisplayName, String inSongDuration, int inID){
 		title = inTitle;
 		artist = inArtist;
 		path = inPath;
 		displayName = inDisplayName;
 		songDuration = inSongDuration;
-		
+		id = inID;
 		notes = new HashMap<String, String>();
 	}
 	

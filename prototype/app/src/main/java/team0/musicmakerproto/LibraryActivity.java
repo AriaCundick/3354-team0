@@ -126,8 +126,9 @@ public class LibraryActivity extends AppCompatActivity {
                     if(path != null && path.endsWith(".mp3")) {
 
                         //mp3Files.add(path);
-                        mp3Files.add(new Song(title, artist, path, displayName, songDuration));
-						Log.i("TAG", "added song");
+                        mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size() + 1));
+						String id = String.valueOf(mp3Files.size());
+                        Log.i("TAG", id);
                     }
                 }
             }
