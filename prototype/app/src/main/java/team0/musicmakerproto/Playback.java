@@ -16,12 +16,16 @@ public class Playback {
     int pauseTime;
     Playlist playlist; //Keep track of the playlist from which the current song is stored.
     boolean isPlaying; //Keep track of if a song is currently played or paused.
+    int id;
+    Context context;
 
     private Playback()
     {
         currentSong = null;
         pauseTime = 0;
         isPlaying = false;
+        id = 0;
+        context = null;
     }
 
     public static Playback getInstance()
@@ -43,7 +47,7 @@ public class Playback {
                 currentSong.start();
 
             } else if (!currentSong.isPlaying()) {
-                currentSong.seekTo(pauseTime);
+                
                 currentSong.start();
             }
         }
@@ -66,17 +70,32 @@ public class Playback {
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
         togglePlay();
         playlist = p;
+        id = id;
+        context = c;
     }
 
 
-    private static void skipForward()
+    public void skipForward()
+    {
+        if(isPlaying)
+            currentSong.stop();
+
+        if(id + 1 >= playlist.size())
+            id = 0;
+        else
+            id++;
+        togglePlay(id, playlist, context);
+    }
+
+    public void skipBackward()
     {
 
     }
 
-    private static void skipBackward()
+    //Checks to see if the id is within range of the list of songs.
+    private boolean illegalIDAccess(int nextID)
     {
-
+        return nextID > playlist.size() || nextID < 1;
     }
 
 }

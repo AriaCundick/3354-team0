@@ -46,6 +46,7 @@ public class Playlist implements Parcelable{
 	public ArrayList<Song> getSongs(){ return songs;}
 	public String getPlaylistName() { return playlistName;}
 	public Image getPlaylistIMG() { return playlistIMG;}
+	public int size() {return songs.size();}
 
 	@Override
 	public int describeContents() {

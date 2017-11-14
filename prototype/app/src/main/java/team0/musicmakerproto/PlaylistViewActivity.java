@@ -38,4 +38,9 @@ public class PlaylistViewActivity extends AppCompatActivity {
         playback.togglePlay();
     }
 
+    public void skipForwardBtnPressed(View view)
+    {
+        playback.skipForward();
+    }
+
 }
