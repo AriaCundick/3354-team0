@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -131,7 +130,7 @@ public class LibraryActivity extends AppCompatActivity {
     }
 
     
-
+    //Query the external storage of the device to find all mp3 files and compile them into an ArrayList.
     private ArrayList<Song> findSongsOnDevice(){
 
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
@@ -145,7 +144,7 @@ public class LibraryActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.DURATION
         };
 
-        //Ascending order
+        //Sort in Ascending order based on the current languages alphabet/conventions.
         final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
         ArrayList<Song> mp3Files = new ArrayList<Song>();
 

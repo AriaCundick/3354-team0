@@ -47,7 +47,6 @@ public class Playback {
                 currentSong.start();
 
             } else if (!currentSong.isPlaying()) {
-                
                 currentSong.start();
             }
         }
