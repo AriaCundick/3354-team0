@@ -14,8 +14,11 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +49,9 @@ public class LibraryActivity extends AppCompatActivity {
         }
     };
 
+    // current song activity button
+    ImageButton PBarButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +60,16 @@ public class LibraryActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // open current song activity
+        PBarButton = (ImageButton) findViewById(R.id.PBarBackground);
+        PBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loadCurrentSongActivity = new Intent(LibraryActivity.this,CurrentSongActivity.class);
+                startActivity(loadCurrentSongActivity);
+            }
+        });
 
 		getPermission();
 	}
@@ -150,6 +166,9 @@ public class LibraryActivity extends AppCompatActivity {
         }
 
         return mp3Files;
+
     }
+
+
 
 }

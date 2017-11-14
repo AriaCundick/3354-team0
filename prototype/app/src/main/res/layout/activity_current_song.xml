@@ -6,63 +6,111 @@
     android:layout_height="match_parent"
     tools:context="team0.musicmakerproto.CurrentSongActivity">
 
-    <ImageButton
-        android:id="@+id/playButton"
-        android:layout_width="66dp"
-        android:layout_height="63dp"
-        app:layout_constraintBottom_toTopOf="@+id/volumeBar"
-        app:layout_constraintTop_toBottomOf="@+id/scrubBar"
-        app:srcCompat="@drawable/ic_play_btn"
-        tools:layout_editor_absoluteX="159dp" />
-
-    <ImageButton
-        android:id="@+id/forwardButton"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/playbackBar"
+        android:layout_width="327dp"
+        android:layout_height="146dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
-        app:layout_constraintStart_toEndOf="@+id/playButton"
-        app:srcCompat="@android:drawable/ic_media_next"
-        tools:layout_editor_absoluteY="406dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/albumArt">
 
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
-        app:layout_constraintEnd_toStartOf="@+id/playButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/timeStamp"
-        app:srcCompat="@android:drawable/ic_media_previous"
-        tools:layout_editor_absoluteY="406dp" />
+        <SeekBar
+            android:id="@+id/scrubber"
+            android:layout_width="318dp"
+            android:layout_height="18dp"
+            android:layout_marginBottom="123dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <SeekBar
-        android:id="@+id/scrubBar"
-        android:layout_width="358dp"
-        android:layout_height="11dp"
-        tools:layout_editor_absoluteX="13dp"
-        tools:layout_editor_absoluteY="382dp" />
+        <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="63dp"
+            android:layout_marginTop="7dp"
+            android:background="@android:drawable/screen_background_light_transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrubber"
+            app:srcCompat="@drawable/ic_play_btn"
+            tools:layout_editor_absoluteX="138dp" />
 
-    <SeekBar
-        android:id="@+id/volumeBar"
-        android:layout_width="198dp"
-        android:layout_height="17dp"
-        tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="469dp" />
+        <ImageButton
+            android:id="@+id/forwardButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="72dp"
+            android:layout_marginEnd="85dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:drawable/screen_background_light_transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/playButton"
+            app:layout_constraintTop_toBottomOf="@+id/scrubber"
+            app:srcCompat="@drawable/ic_skip_btn" />
 
-    <EditText
-        android:id="@+id/timeStamp"
-        android:layout_width="36dp"
-        android:layout_height="21dp"
-        android:ems="10"
-        android:inputType="number"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="406dp" />
+        <SeekBar
+            android:id="@+id/volumeControl"
+            android:layout_width="227dp"
+            android:layout_height="21dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginEnd="49dp"
+            android:layout_marginStart="49dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playButton" />
 
-    <ImageView
+        <TextView
+            android:id="@+id/timeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="94dp"
+            android:layout_marginEnd="94dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="0:00"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/playButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrubber" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/albumArt"
-        android:layout_width="354dp"
-        android:layout_height="352dp"
-        app:srcCompat="@android:drawable/screen_background_dark"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:layout_width="329dp"
+        android:layout_height="325dp"
+        android:layout_marginBottom="151dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/albumArtIMG"
+            android:layout_width="330dp"
+            android:layout_height="325dp"
+            android:layout_marginStart="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/screen_background_dark" />
+
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -100,6 +100,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_skip_btn" />
 
+        <ImageButton
+            android:id="@+id/PBarBackground"
+            android:layout_width="366dp"
+            android:layout_height="50dp"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:tint="@android:color/transparent"
+            app:srcCompat="?attr/selectableItemBackgroundBorderless"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
