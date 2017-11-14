@@ -71,7 +71,7 @@ public class Playback {
 
     private static void skipForward()
     {
-    
+
     }
 
     private static void skipBackward()

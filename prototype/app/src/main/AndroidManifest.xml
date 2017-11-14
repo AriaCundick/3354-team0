@@ -24,6 +24,7 @@
             android:name=".LibraryActivity"
             android:label="@string/title_activity_main_menu" />
         <activity android:name=".PlaylistViewActivity"></activity>
+        <activity android:name=".CurrentSongActivity"></activity>
     </application>
 
 </manifest>

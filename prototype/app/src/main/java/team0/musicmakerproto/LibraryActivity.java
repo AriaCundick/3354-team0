@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageButton;
+
 import java.util.ArrayList;
 
 
@@ -50,6 +52,9 @@ public class LibraryActivity extends AppCompatActivity {
         }
     };
 
+    // current song activity button
+    ImageButton PBarButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,7 @@ public class LibraryActivity extends AppCompatActivity {
 
 		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
 
+        //Press playlist element on the grid view.
         playlistCollection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -75,8 +81,20 @@ public class LibraryActivity extends AppCompatActivity {
             }
         });
 
+        // open current song activity
+        PBarButton = (ImageButton) findViewById(R.id.PBarBackground);
+        PBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loadCurrentSongActivity = new Intent(LibraryActivity.this,CurrentSongActivity.class);
+                startActivity(loadCurrentSongActivity);
+            }
+        });
+
         /* Load all playlists into the grid view. */
         playlistCollection.setAdapter(new PlaylistAdapter(this, allPlaylists));
+
+
 	}
 
 	@TargetApi(Build.VERSION_CODES.M)
@@ -173,5 +191,9 @@ public class LibraryActivity extends AppCompatActivity {
         }
 
         return mp3Files;
+
     }
+
+
+
 }
