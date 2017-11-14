@@ -1,6 +1,8 @@
 package team0.musicmakerproto;
 
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
 
 /**
  * Class: Playback
@@ -54,18 +56,22 @@ public class Playback {
         }
     }
 
-    //
-    public void togglePlay(int id, Playlist p)
+
+    public void togglePlay(int id, Playlist p, Context c)
     {
-        if (currentSong == null) {
-            
-        }
+        if(isPlaying)
+            currentSong.stop();
+
+        isPlaying = false;
+        currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
+        togglePlay();
+        playlist = p;
     }
 
 
     private static void skipForward()
     {
-
+    
     }
 
     private static void skipBackward()

@@ -10,6 +10,8 @@ import android.widget.ListView;
 public class PlaylistViewActivity extends AppCompatActivity {
 
     private ListView songs;
+    final Playback playback = Playback.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,17 +20,22 @@ public class PlaylistViewActivity extends AppCompatActivity {
 
         //Get playlist data from previous activity.
         Intent i = getIntent();
-        Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");
+        final Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");
+
 
         songs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                playback.togglePlay(i, p, PlaylistViewActivity.this);
             }
         });
         //Load songs onto the list view from the playlist.
         songs.setAdapter(new SongAdapter(this, p.getSongs()));
     }
 
+    public void playPauseBtnPressed(View view)
+    {
+        playback.togglePlay();
+    }
 
 }
