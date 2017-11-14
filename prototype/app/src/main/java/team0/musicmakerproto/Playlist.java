@@ -11,6 +11,7 @@ public class Playlist{
 		songs = new ArrayList<Song>();
 		playlistName = "untitled";
 	}
+
 	public Playlist(String name){
 		songs = new ArrayList<Song>();
 		playlistName = name;
@@ -19,6 +20,11 @@ public class Playlist{
 	//Adds a song
 	public void addSong(Song newSong){
 		songs.add(newSong);
+	}
+
+	public void readExistingPlaylist(ArrayList<Song> songs)
+	{
+		this.songs = songs;
 	}
 	
 	//Returns arrayList of songs
