@@ -2,17 +2,21 @@ package team0.musicmakerproto;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,11 +63,17 @@ public class LibraryActivity extends AppCompatActivity {
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
 		allSongs.readExistingPlaylist(getPermission());
-		for(Song s : allSongs.getSongs())
-		    Log.i("Songs", s.getDisplayName());
 
-        Log.i("OOPS", "here1");
 		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
+
+        playlistCollection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(LibraryActivity.this, PlaylistViewActivity.class);
+                intent.putExtra("selected_playlist", allPlaylists.get(i));
+                startActivity(intent);
+            }
+        });
 
         /* Load all playlists into the grid view. */
         playlistCollection.setAdapter(new PlaylistAdapter(this, allPlaylists));

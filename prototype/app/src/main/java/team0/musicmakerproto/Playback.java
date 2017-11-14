@@ -55,9 +55,11 @@ public class Playback {
     }
 
     //
-    public void togglePlay(int id)
+    public void togglePlay(int id, Playlist p)
     {
-
+        if (currentSong == null) {
+            
+        }
     }
 
 
