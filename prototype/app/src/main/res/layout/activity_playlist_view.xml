@@ -2,55 +2,29 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="team0.musicmakerproto.LibraryActivity">
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:itemIconTint="@color/drawer_item"
-        app:itemTextColor="@color/drawer_item"
-        app:menu="@menu/drawer_nav_view" />
-
-    <GridView
-        android:id="@+id/PlaylistGrid"
-        android:layout_width="370dp"
-        android:layout_height="388dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:numColumns="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context="team0.musicmakerproto.PlaylistViewActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/PlaybackPanel"
         android:layout_width="368dp"
-        android:layout_height="52dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlaylistGrid"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/songList">
 
         <ImageView
             android:id="@+id/albumCover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:src="@android:drawable/alert_dark_frame"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +56,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:background="#80ffffff"
+            android:onClick="playPauseBtnPressed"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/PBarSkip"
             app:layout_constraintTop_toTopOf="parent"
@@ -96,22 +71,20 @@
             android:layout_marginRight="24dp"
             android:layout_marginTop="8dp"
             android:background="#80ffffff"
+            android:onClick="skipForwardBtnPressed"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_skip_btn" />
 
-        <ImageButton
-            android:id="@+id/PBarBackground"
-            android:layout_width="366dp"
-            android:layout_height="50dp"
-            android:background="@android:drawable/screen_background_light_transparent"
-            android:backgroundTint="@android:color/transparent"
-            android:tint="@android:color/transparent"
-            app:srcCompat="?attr/selectableItemBackgroundBorderless"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp" />
-
     </android.support.constraint.ConstraintLayout>
 
+    <ListView
+        android:id="@+id/songList"
+        android:layout_width="344dp"
+        android:layout_height="448dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

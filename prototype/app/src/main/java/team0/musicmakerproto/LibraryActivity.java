@@ -2,29 +2,34 @@ package team0.musicmakerproto;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class LibraryActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private Playlist allSongs;
+    private ArrayList<Playlist> allPlaylists;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,6 +51,9 @@ public class LibraryActivity extends AppCompatActivity {
         }
     };
 
+    // current song activity button
+    ImageButton PBarButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,23 +62,55 @@ public class LibraryActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        GridView playlistCollection = (GridView) findViewById(R.id.PlaylistGrid);
 
-		getPermission();
+        allSongs = new Playlist("All Songs");
+        allPlaylists = new ArrayList<Playlist>();
+		allSongs.readExistingPlaylist(getPermission());
+
+		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
+
+        //Press playlist element on the grid view.
+        playlistCollection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(LibraryActivity.this, PlaylistViewActivity.class);
+                intent.putExtra("selected_playlist", allPlaylists.get(i));
+                startActivity(intent);
+            }
+        });
+
+        // open current song activity
+        PBarButton = (ImageButton) findViewById(R.id.PBarBackground);
+        PBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loadCurrentSongActivity = new Intent(LibraryActivity.this,CurrentSongActivity.class);
+                startActivity(loadCurrentSongActivity);
+            }
+        });
+
+        /* Load all playlists into the grid view. */
+        playlistCollection.setAdapter(new PlaylistAdapter(this, allPlaylists));
+
+
 	}
 
 	@TargetApi(Build.VERSION_CODES.M)
-    private void getPermission()
+    private ArrayList<Song> getPermission()
     {
         //Check if permission to access external storage is granted.
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
         {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
-        else
-        {
-            //else permission is already granted.
-            findSongsOnDevice();
-        }
+
+
+            Log.i("OOPS", "here0");
+
+             return findSongsOnDevice();
+
+
     }
 
     //method is invoked when user hits grant/deny on a permission pop-up.
@@ -83,7 +123,6 @@ public class LibraryActivity extends AppCompatActivity {
                 {
                     //Permission granted! query songs.
                     Toast.makeText(LibraryActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-                    findSongsOnDevice();
                 }
                 else
                     Toast.makeText(LibraryActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
@@ -91,22 +130,23 @@ public class LibraryActivity extends AppCompatActivity {
     }
 
     
-    //Change List<String> to List<Song>
-	//Done - G
-    private List<Song> findSongsOnDevice(){
+    //Query the external storage of the device to find all mp3 files and compile them into an ArrayList.
+    private ArrayList<Song> findSongsOnDevice(){
+
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+
+        //Create an array that consists of the fields desired for the queried data.
         String[] songDataWanted = {
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DISPLAY_NAME,
-
                 MediaStore.Audio.Media.DURATION
         };
 
-        //Ascending order
+        //Sort in Ascending order based on the current languages alphabet/conventions.
         final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
-        List<Song> mp3Files = new ArrayList<Song>();
+        ArrayList<Song> mp3Files = new ArrayList<Song>();
 
         Cursor cursor = null;
         try {
@@ -150,5 +190,9 @@ public class LibraryActivity extends AppCompatActivity {
         }
 
         return mp3Files;
+
     }
+
+
+
 }
