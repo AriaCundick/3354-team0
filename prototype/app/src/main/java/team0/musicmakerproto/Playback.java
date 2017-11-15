@@ -37,9 +37,9 @@ public class Playback {
 
     }
 
-    private static void skipForward()
+    private void skipForward()
     {
-    Playback.skipForward();
+    Playlist.skipForward();
 
     }
 
