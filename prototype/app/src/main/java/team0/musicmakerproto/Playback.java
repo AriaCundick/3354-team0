@@ -16,7 +16,7 @@ public class Playback {
     int pauseTime;
     Playlist playlist; //Keep track of the playlist from which the current song is stored.
     boolean isPlaying; //Keep track of if a song is currently played or paused.
-    int songID, shuffleID;
+    int id;
     Context context;
 
     private Playback()
@@ -24,8 +24,7 @@ public class Playback {
         currentSong = null;
         pauseTime = 0;
         isPlaying = false;
-        songID = 0;
-        shuffleID = 0;
+        id = 0;
         context = null;
     }
 
@@ -70,19 +69,9 @@ public class Playback {
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
         togglePlay();
         playlist = p;
-        songID = id;
+        id = id;
         context = c;
     }
-
-    public void toggleShuffle()
-    {
-        //come up with array of randomized integers based on playlist.size()
-    }
-
-    //thread
-    //once song has ended
-    //check if toggle == true
-    //      shuffleID = shuffle
 
 
     public void skipForward()
@@ -90,11 +79,11 @@ public class Playback {
         if(isPlaying)
             currentSong.stop();
 
-        if(songID + 1 >= playlist.size()) //Check if illegal ID access.
-            songID = 0;
+        if(id + 1 >= playlist.size())
+            id = 0;
         else
-            songID++;
-        togglePlay(songID, playlist, context);
+            id++;
+        togglePlay(id, playlist, context);
     }
 
     public void skipBackward()
@@ -102,6 +91,10 @@ public class Playback {
 
     }
 
-
+    //Checks to see if the id is within range of the list of songs.
+    private boolean illegalIDAccess(int nextID)
+    {
+        return nextID > playlist.size() || nextID < 1;
+    }
 
 }
