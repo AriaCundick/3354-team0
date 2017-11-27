@@ -10,6 +10,12 @@ import android.net.Uri;
  * Singleton class (since we want only one instance of playback at any given time).
  */
 
+//TODO
+    //looping
+    //skip back
+    //go to next song when current song finishes playing (reaches end of time)
+    //update current time of playback through a thread.
+    //implement this class to extend Service
 public class Playback {
     private static Playback instance = null;
     private MediaPlayer currentSong;
