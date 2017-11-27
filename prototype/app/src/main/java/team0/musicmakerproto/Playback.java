@@ -86,8 +86,14 @@ public class Playback {
         togglePlay(id, playlist, context);
     }
 
+<<<<<<< HEAD
+    private void skipForward()
+    {
+    Playlist.skipForward();
+=======
     public void skipBackward()
     {
+>>>>>>> 0a806cc151f740c585ed3a223ac91d7664e167bf
 
     }
 
