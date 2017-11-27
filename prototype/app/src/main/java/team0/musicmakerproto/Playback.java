@@ -17,6 +17,7 @@ public class Playback {
     Playlist playlist; //Keep track of the playlist from which the current song is stored.
     boolean isPlaying; //Keep track of if a song is currently played or paused.
     int id;
+
     Context context;
 
     private Playback()
@@ -69,38 +70,42 @@ public class Playback {
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
         togglePlay();
         playlist = p;
-        id = id;
+        this.id = id;
         context = c;
     }
 
 
+    //Skip to the next song in the playlist
     public void skipForward()
     {
+        //Stop the current song being played.
         if(isPlaying)
             currentSong.stop();
 
+        //Do a bounds check to see if the ID needs to circle around to 0.
         if(id + 1 >= playlist.size())
             id = 0;
         else
             id++;
+
+        //Begin playback of next song.
         togglePlay(id, playlist, context);
     }
 
-<<<<<<< HEAD
-    private void skipForward()
-    {
-    Playlist.skipForward();
-=======
+
     public void skipBackward()
     {
->>>>>>> 0a806cc151f740c585ed3a223ac91d7664e167bf
 
     }
 
-    //Checks to see if the id is within range of the list of songs.
-    private boolean illegalIDAccess(int nextID)
+    public String getSongName()
     {
-        return nextID > playlist.size() || nextID < 1;
+        if(playlist != null) {
+            String name = playlist.getSongs().get(id).getTitle();
+            if (name != null)
+                return name;
+        }
+        return "";
     }
 
 }

@@ -2,28 +2,42 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="team0.musicmakerproto.PlaylistViewActivity">
+    tools:context="team0.musicmakerproto.NotesActivity">
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@color/drawer_item"
+        app:itemTextColor="@color/drawer_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/drawer_nav_view" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/PlaybackPanel"
         android:layout_width="368dp"
-        android:layout_height="45dp"
+        android:layout_height="52dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/songList">
+        app:layout_constraintTop_toBottomOf="@+id/PlaylistGrid"
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/albumCover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:layout_marginLeft="4dp"
             android:src="@android:drawable/alert_dark_frame"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +46,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/playlist_view_song_name"
+            android:id="@+id/textView"
             android:layout_width="201dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -40,7 +54,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
-            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +70,6 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:background="#80ffffff"
-            android:onClick="playPauseBtnPressed"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/PBarSkip"
             app:layout_constraintTop_toTopOf="parent"
@@ -72,20 +84,28 @@
             android:layout_marginRight="24dp"
             android:layout_marginTop="8dp"
             android:background="#80ffffff"
-            android:onClick="skipForwardBtnPressed"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_skip_btn" />
 
+        <ImageButton
+            android:id="@+id/PBarBackground"
+            android:layout_width="271dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="4dp"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:tint="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/PBarPlayPause"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/albumCover"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="?attr/selectableItemBackgroundBorderless" />
+
     </android.support.constraint.ConstraintLayout>
 
-    <ListView
-        android:id="@+id/songList"
-        android:layout_width="344dp"
-        android:layout_height="448dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

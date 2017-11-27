@@ -26,11 +26,11 @@ import java.util.ArrayList;
 
 public class LibraryActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private Playlist allSongs;
     private ArrayList<Playlist> allPlaylists;
-
+    private TextView songName;
+    private Playback playback = Playback.getInstance();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -38,13 +38,13 @@ public class LibraryActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.nav_library:
-                    //mTextMessage.setText("Library");
                     return true;
                 case R.id.nav_notes:
-                    //mTextMessage.setText("Notes");
+                    Intent intent = new Intent(LibraryActivity.this, NotesActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                     return true;
                 case R.id.nav_settings:
-                    //mTextMessage.setText("Settings");
                     return true;
             }
             return false;
@@ -59,10 +59,11 @@ public class LibraryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         GridView playlistCollection = (GridView) findViewById(R.id.PlaylistGrid);
+        songName = (TextView) findViewById(R.id.collection_song_name);
+
 
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
@@ -96,6 +97,17 @@ public class LibraryActivity extends AppCompatActivity {
 
 	}
 
+	@Override
+	protected void onResume()
+    {
+        super.onResume();
+        updatePlaybackBar();
+    }
+
+	private void updatePlaybackBar()
+    {
+        songName.setText(playback.getSongName());
+    }
 	@TargetApi(Build.VERSION_CODES.M)
     private ArrayList<Song> getPermission()
     {
