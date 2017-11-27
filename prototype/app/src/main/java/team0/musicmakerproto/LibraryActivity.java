@@ -2,6 +2,8 @@ package team0.musicmakerproto;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,32 +26,51 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
+//NEED TO IMPLEMENT
+//SERVICE FOR MUSIC
+//FRAGMENT FOR NAVIGATION VIEW
+//DATABASE FOR NOTES/SONG/PLAYLIST MGMT
+//TESTING FOR SIMPLE STUFF
 
 public class LibraryActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private Playlist allSongs;
+    private GridView playlistCollection;
     private ArrayList<Playlist> allPlaylists;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        Fragment fragment = null;
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
             switch (item.getItemId()) {
                 case R.id.nav_library:
-                    //mTextMessage.setText("Library");
+                    fragment = new FragmentPlaylistView();
+                    /* Load all playlists into the grid view. */
+                    playlistCollection.setAdapter(new PlaylistAdapter(LibraryActivity.this, allPlaylists));
                     return true;
                 case R.id.nav_notes:
-                    //mTextMessage.setText("Notes");
+                    fragment = new FragmentTest1();
+                    fragChecker();
                     return true;
                 case R.id.nav_settings:
                     //mTextMessage.setText("Settings");
                     return true;
             }
+
             return false;
         }
+
+        public void switchToPlaylistFrag() {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.fragmentView, new FragmentPlaylistView()).commit();
+        }
+
+
     };
 
     // current song activity button
@@ -62,13 +84,23 @@ public class LibraryActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        GridView playlistCollection = (GridView) findViewById(R.id.PlaylistGrid);
+        playlistCollection = (GridView) findViewById(R.id.PlaylistGridFragment);
 
+        //Hardcode the All Songs playlist that queries the device everytime the activity is created
+        //This allows the app to find new songs that have been recently added to the device.
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
 		allSongs.readExistingPlaylist(getPermission());
-
 		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
+        allPlaylists.add(allSongs);
+        allPlaylists.add(allSongs);allPlaylists.add(allSongs);
+        allPlaylists.add(allSongs);
+        allPlaylists.add(allSongs);
+        allPlaylists.add(allSongs);
+        allPlaylists.add(allSongs);
+        allPlaylists.add(allSongs);
+        allPlaylists.add(allSongs);
+
 
         //Press playlist element on the grid view.
         playlistCollection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,7 +125,6 @@ public class LibraryActivity extends AppCompatActivity {
         /* Load all playlists into the grid view. */
         playlistCollection.setAdapter(new PlaylistAdapter(this, allPlaylists));
 
-
 	}
 
 	@TargetApi(Build.VERSION_CODES.M)
@@ -101,16 +132,12 @@ public class LibraryActivity extends AppCompatActivity {
     {
         //Check if permission to access external storage is granted.
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        }
 
-
-            Log.i("OOPS", "here0");
-
-             return findSongsOnDevice();
-
-
+        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            return findSongsOnDevice();
+        else
+            return new ArrayList<Song>();
     }
 
     //method is invoked when user hits grant/deny on a permission pop-up.
@@ -141,7 +168,7 @@ public class LibraryActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION
+                MediaStore.Audio.Media.DURATION,
         };
 
         //Sort in Ascending order based on the current languages alphabet/conventions.
