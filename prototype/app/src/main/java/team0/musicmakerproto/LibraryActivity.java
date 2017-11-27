@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,8 @@ public class LibraryActivity extends AppCompatActivity {
     private ArrayList<Playlist> allPlaylists;
     private TextView songName;
     private Playback playback = Playback.getInstance();
+    private ImageButton PBarButton; // current song activity button
+    private Button addButton;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -51,8 +54,6 @@ public class LibraryActivity extends AppCompatActivity {
         }
     };
 
-    // current song activity button
-    ImageButton PBarButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +63,12 @@ public class LibraryActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         GridView playlistCollection = (GridView) findViewById(R.id.PlaylistGrid);
+
         songName = (TextView) findViewById(R.id.collection_song_name);
+        addButton = (Button) findViewById(R.id.new_playlist_btn);
+        PBarButton = (ImageButton) findViewById(R.id.PBarBackground);
 
-
+        //Initialize playlist collection with hardcoded All Songs playlist.
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
 		allSongs.readExistingPlaylist(getPermission());
@@ -82,7 +86,15 @@ public class LibraryActivity extends AppCompatActivity {
         });
 
         // open current song activity
-        PBarButton = (ImageButton) findViewById(R.id.PBarBackground);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(LibraryActivity.this, AddPlaylistActivity.class);
+                intent.putExtra("all_songs", allPlaylists.get(0));
+                startActivity(intent);
+            }
+        });
         PBarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

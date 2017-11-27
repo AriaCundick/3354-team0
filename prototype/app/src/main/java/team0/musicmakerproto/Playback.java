@@ -16,6 +16,7 @@ import android.net.Uri;
     //go to next song when current song finishes playing (reaches end of time)
     //update current time of playback through a thread.
     //implement this class to extend Service
+    //shuffling
 public class Playback {
     private static Playback instance = null;
     private MediaPlayer currentSong;

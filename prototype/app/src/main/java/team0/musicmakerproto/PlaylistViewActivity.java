@@ -32,6 +32,7 @@ public class PlaylistViewActivity extends AppCompatActivity {
                 updatePlaybackBar();
             }
         });
+
         //Load songs onto the list view from the playlist.
         songs.setAdapter(new SongAdapter(this, p.getSongs()));
     }
