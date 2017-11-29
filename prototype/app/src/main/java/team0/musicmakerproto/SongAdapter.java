@@ -1,6 +1,7 @@
 package team0.musicmakerproto;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,8 @@ public class SongAdapter extends BaseAdapter {
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.textview_song_name);
         final TextView artistTextView = (TextView)convertView.findViewById(R.id.textview_artist_name);
 
+        nameTextView.setEllipsize(TextUtils.TruncateAt.END);
+        nameTextView.setMaxLines(1);
         //Set the actual text of the element to the playlist name.
         nameTextView.setText(s.getTitle());
         artistTextView.setText(s.getArtist());

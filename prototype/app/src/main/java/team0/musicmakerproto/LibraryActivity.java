@@ -211,18 +211,10 @@ public class LibraryActivity extends AppCompatActivity {
                     String songDuration = cursor.getString(4);
                     cursor.moveToNext();
                     if(path != null && path.endsWith(".mp3")) {
-                        Log.i("songs", path);
                         mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size() + 1));
-						Log.i("songs", "ID= " + mp3Files.size() + 1);
-                        //String id = String.valueOf(mp3Files.size());
                     }
                 }
             }
-
-        Log.i("songs", "test2");
-        for(Song s : mp3Files)
-            Log.i("songs", s.getTitle());
-
 
         } catch (Exception e) {
             Log.e("TAG", e.toString());
