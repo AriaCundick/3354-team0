@@ -53,8 +53,7 @@ public class NameActivity extends AppCompatActivity {
      * Description: Check to see if the user has already entered their name.
      *              If their name has been entered, return true.
      *              Otherwise, return false.
-     * @throws Exception An exception is thrown if an error with reading from the file occurs.
-     * @return true if the name exists.
+     * return true if the name exists.
      */
     private boolean checkForName() {
         //Check to see if the user has already entered their name.
@@ -85,8 +84,6 @@ public class NameActivity extends AppCompatActivity {
     /*
      * Author: Aria Cundick
      * Description: Save the user's name to a file to be retrieved later.
-     * @throws Exception An exception is thrown if an error occurs with opening the output stream.
-     * @return Nothing.
      */
     private void saveName() {
         String filename =  "username.txt";
@@ -108,7 +105,7 @@ public class NameActivity extends AppCompatActivity {
      * Author: Aria Cundick
      * Description: Checks to see if the name entered meets the requirements.
      *              (i.e. not blank).
-     * @return true if name requirements are met. Otherwise, returns false.
+     * Return true if name follows constraints
      */
     private boolean nameRuleCheck() {
         //Parse the string from the text field where the user enters their name.

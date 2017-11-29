@@ -1,5 +1,9 @@
 package team0.musicmakerproto;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,14 +16,13 @@ public class Song implements Parcelable {
 	String displayName;
 	String songDuration;
 	int id;
+	static Resources resources;
 	
-	//Holds Notes, referenced by time(String)
-	//Change second String to Note newNote when Note.java available
-	HashMap<String, String> notes;
+	String notes;
 	
 	//Default constructor
 	public Song(){
-		notes = new HashMap<String, String>();
+
 	}
 
 	//Constructor for quick song creation when searching for songs
@@ -30,7 +33,6 @@ public class Song implements Parcelable {
 		displayName = inDisplayName;
 		songDuration = inSongDuration;
 		id = inID;
-		notes = new HashMap<String, String>();
 	}
 	
 	//Set methods
@@ -49,7 +51,8 @@ public class Song implements Parcelable {
 	public void setSongDuration(String newSongDuration){
 		songDuration = newSongDuration;
 	}
-	
+	public void setNote(String newNote) { notes = newNote;}
+	public static void setResources(Resources r) {resources = r;}
 	//Get methods
 	public String getTitle(){
 		return title;
@@ -66,13 +69,20 @@ public class Song implements Parcelable {
 	public String getSongDuration(){
 		return songDuration;
 	}
-	
-	//Adds a note
-	//Change String newNote to Note newNote when Note.java available
-	public void addNote(String time, String newNote){
-		notes.put(time, newNote);
+
+	//Get the image art based on the metadata of the song.
+	public Bitmap getImage() {
+		MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+		mmr.setDataSource(path);
+		byte [] data = mmr.getEmbeddedPicture();
+
+		//If there is no album art for the song, use a default image.
+		if(data == null)
+			return BitmapFactory.decodeResource(resources, R.drawable.ic_default_albumart2);
+		return BitmapFactory.decodeByteArray(data, 0, data.length);
 	}
 
+	// Method for parcel
 	@Override
 	public int describeContents() {
 		return 0;
@@ -86,7 +96,7 @@ public class Song implements Parcelable {
 		parcel.writeString(displayName);
 		parcel.writeString(songDuration);
 		parcel.writeInt(id);
-		parcel.writeMap(notes);
+		parcel.writeString(notes);
 	}
 
 	public static final Parcelable.Creator<Song> CREATOR = new Parcelable.Creator<Song>() {
@@ -107,7 +117,7 @@ public class Song implements Parcelable {
 		displayName = in.readString();
 		songDuration = in.readString();
 		id = in.readInt();
-		notes = in.readHashMap(String.class.getClassLoader());
+		notes = in.readString();
 
 	}
 }

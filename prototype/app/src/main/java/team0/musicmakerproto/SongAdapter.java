@@ -54,7 +54,7 @@ public class SongAdapter extends BaseAdapter {
         final TextView artistTextView = (TextView)convertView.findViewById(R.id.textview_artist_name);
 
         //Set the actual text of the element to the playlist name.
-        nameTextView.setText(s.getDisplayName());
+        nameTextView.setText(s.getTitle());
         artistTextView.setText(s.getArtist());
 
         return convertView;

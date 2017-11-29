@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageButton;
@@ -34,6 +35,7 @@ public class LibraryActivity extends AppCompatActivity {
     private Playback playback = Playback.getInstance();
     private ImageButton PBarButton; // current song activity button
     private Button addButton;
+    private ImageView songIMG;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -64,9 +66,14 @@ public class LibraryActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         GridView playlistCollection = (GridView) findViewById(R.id.PlaylistGrid);
 
+        //Bind GUI objects
         songName = (TextView) findViewById(R.id.collection_song_name);
         addButton = (Button) findViewById(R.id.new_playlist_btn);
         PBarButton = (ImageButton) findViewById(R.id.PBarBackground);
+        songIMG = (ImageView) findViewById(R.id.albumCover);
+
+        //Set static attribute of Song class for later use in album art.
+        Song.setResources(getResources());
 
         //Initialize playlist collection with hardcoded All Songs playlist.
         allSongs = new Playlist("All Songs");
@@ -116,10 +123,19 @@ public class LibraryActivity extends AppCompatActivity {
         updatePlaybackBar();
     }
 
+    /*
+        Description: Updates the playback bar on the bottom of the screen.
+     */
 	private void updatePlaybackBar()
     {
         songName.setText(playback.getSongName());
+        songIMG.setImageBitmap(playback.getSongIMG(getResources()));
     }
+
+    /*
+        Description: Gets permission from the user to query the device's external storage
+        Returns ArrayList of all songs on the device.
+     */
 	@TargetApi(Build.VERSION_CODES.M)
     private ArrayList<Song> getPermission()
     {
@@ -129,11 +145,15 @@ public class LibraryActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
 
-
-            Log.i("OOPS", "here0");
-
-             return findSongsOnDevice();
-
+        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+        {
+            Log.i("info", "findSongsOnDevice() called");
+            return findSongsOnDevice();
+        }
+        else {
+            Log.i("info", "findSongsOnDevice() NOT called");
+            return new ArrayList<Song>();
+        }
 
     }
 
@@ -157,6 +177,7 @@ public class LibraryActivity extends AppCompatActivity {
     //Query the external storage of the device to find all mp3 files and compile them into an ArrayList.
     private ArrayList<Song> findSongsOnDevice(){
 
+        Log.i("songs", "started findSongs..()");
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
         //Create an array that consists of the fields desired for the queried data.
@@ -181,29 +202,27 @@ public class LibraryActivity extends AppCompatActivity {
 
                 while( !cursor.isAfterLast() ){
                     //Song data queried specified in the songDataWanted array.
-                    String title = cursor.getString(0);
+                    String title = cursor.getString(0).trim();
+                    if(title.contains(".mp3"))
+                        title = title.substring(0, title.indexOf(".mp3"));
                     String artist = cursor.getString(1);
                     String path = cursor.getString(2);
                     String displayName  = cursor.getString(3);
                     String songDuration = cursor.getString(4);
                     cursor.moveToNext();
                     if(path != null && path.endsWith(".mp3")) {
-
-                        //mp3Files.add(path);
+                        Log.i("songs", path);
                         mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size() + 1));
-						String id = String.valueOf(mp3Files.size());
-                        Log.i("TAG", id);
+						Log.i("songs", "ID= " + mp3Files.size() + 1);
+                        //String id = String.valueOf(mp3Files.size());
                     }
                 }
             }
 
-            //print to see list of paths of the mp3 files in the Logcat
-			//Changed so that it uses Song instead of String - G
-            for( Song file : mp3Files) {
-                Log.i("TAG", file.getPath());
-            }
-            if(mp3Files.isEmpty())
-                Log.i("TAG", "mp3Files list is empty");
+        Log.i("songs", "test2");
+        for(Song s : mp3Files)
+            Log.i("songs", s.getTitle());
+
 
         } catch (Exception e) {
             Log.e("TAG", e.toString());
