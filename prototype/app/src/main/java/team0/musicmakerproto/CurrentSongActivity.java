@@ -1,5 +1,6 @@
 package team0.musicmakerproto;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ public class CurrentSongActivity extends AppCompatActivity {
     // button variables
     ImageButton repeat;
     ImageButton shuffle;
+    ImageButton noteActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,9 @@ public class CurrentSongActivity extends AppCompatActivity {
 
         repeat = (ImageButton) findViewById(R.id.repeat);
         shuffle = (ImageButton) findViewById(R.id.shuffle);
+        noteActivity = (ImageButton) findViewById(R.id.noteActivity);
+
+
 
         // repeat button onClickListener
         repeat.setOnClickListener(new View.OnClickListener() {
@@ -37,8 +42,16 @@ public class CurrentSongActivity extends AppCompatActivity {
                 shuffle.setColorFilter(Color.parseColor("#d19e4f"));
             }
         });
-    }
 
+        // open note activity
+        noteActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loadNote = new Intent(CurrentSongActivity.this,IndividualNote.class);
+                startActivity(loadNote);
+            }
+        });
+    }
 
 
 }

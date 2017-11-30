@@ -92,7 +92,7 @@ public class LibraryActivity extends AppCompatActivity {
             }
         });
 
-        // open current song activity
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -102,6 +102,8 @@ public class LibraryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // open current song activity
         PBarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

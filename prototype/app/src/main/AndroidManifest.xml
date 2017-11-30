@@ -28,7 +28,8 @@
         <activity
             android:name=".NotesActivity"
             android:label="@string/title_activity_notes" />
-        <activity android:name=".AddPlaylistActivity"></activity>
+        <activity android:name=".AddPlaylistActivity" />
+        <activity android:name=".IndividualNote"></activity>
     </application>
 
 </manifest>
