@@ -37,8 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="4dp"
+            android:layout_marginStart="8dp"
             android:src="@android:drawable/alert_dark_frame"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,9 +94,9 @@
             android:layout_width="271dp"
             android:layout_height="50dp"
             android:layout_marginEnd="4dp"
+            android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="4dp"
             android:background="@android:drawable/screen_background_light_transparent"
             android:backgroundTint="@android:color/transparent"
             android:tint="@android:color/transparent"
@@ -107,5 +107,12 @@
             app:srcCompat="?attr/selectableItemBackgroundBorderless" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <SearchView
+        android:id="@+id/searchNotes"
+        android:layout_width="351dp"
+        android:layout_height="36dp"
+        tools:layout_editor_absoluteX="17dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 </android.support.constraint.ConstraintLayout>

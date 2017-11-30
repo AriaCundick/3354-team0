@@ -10,4 +10,6 @@ public class CurrentSongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_song);
     }
+
+    // open notes activity from page
 }
