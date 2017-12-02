@@ -107,9 +107,21 @@ public class Playback {
         togglePlay(id, playlist, context);
     }
 
-
+    //Skip to the previous song in the playlist
     public void skipBackward()
     {
+        //If playlist hasn't been initialized, don't run the function.
+        if(playlist == null)
+            return;
+
+        //Do a bounds check to see if the ID needs to circle around to 0.
+        if(id - 1 <= playlist.size())
+            id = 0;
+        else
+            id--;
+
+        //Begin playback of previous song.
+        togglePlay(id, playlist, context);
 
     }
 
