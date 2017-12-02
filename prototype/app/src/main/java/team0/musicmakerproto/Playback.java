@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Class: Playback
@@ -36,9 +37,10 @@ public class Playback {
         context = null;
     }
 
+    //Get the static instance of the playback class
     public static Playback getInstance()
     {
-        if(instance == null)
+        if(instance == null) //If the instance is null, instantiate a new one.
             instance = new Playback();
 
         return instance;
@@ -67,6 +69,8 @@ public class Playback {
         }
     }
 
+    public MediaPlayer getCurrentSong() { return currentSong;}
+
     private void stopSong()
     {
         if(currentSong != null)
@@ -82,6 +86,7 @@ public class Playback {
         stopSong();
 
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
+        Log.i("rip1", "here");
         togglePlay();
         playlist = p;
         this.id = id;
