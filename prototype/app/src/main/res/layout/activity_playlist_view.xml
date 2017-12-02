@@ -81,12 +81,23 @@
     <ListView
         android:id="@+id/songList"
         android:layout_width="344dp"
-        android:layout_height="449dp"
+        android:layout_height="388dp"
         android:layout_marginTop="8dp"
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/PlaybackPanel"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_edit_playlist" />
+
+    <Button
+        android:id="@+id/btn_edit_playlist"
+        android:layout_width="343dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/btn_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

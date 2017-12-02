@@ -81,6 +81,7 @@ public class LibraryActivity extends AppCompatActivity {
 		allSongs.readExistingPlaylist(getPermission());
 
 		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
+        findPlaylistsOnDevice();
 
         //Press playlist element on the grid view.
         playlistCollection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,11 +89,12 @@ public class LibraryActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(LibraryActivity.this, PlaylistViewActivity.class);
                 intent.putExtra("selected_playlist", allPlaylists.get(i));
+                intent.putExtra("all_songs_playlist", allPlaylists.get(0));
                 startActivity(intent);
             }
         });
 
-        // open current song activity
+        //Set the functionality for the add button. (Add new playlist).
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -102,6 +104,7 @@ public class LibraryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //Set functionality for playlist bar button. (Open current song details)
         PBarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +119,13 @@ public class LibraryActivity extends AppCompatActivity {
 
 	}
 
+	//Calls the SQLite manager to find every playlist in the database,
+    //and loads them into the allPlaylists object.
+	private void findPlaylistsOnDevice()
+    {
+        //Call to SQLiteManager -> for every playlist found, read it into a new playlist object
+        //append it to the allPlaylists ArrayList.
+    }
 	@Override
 	protected void onResume()
     {
@@ -123,38 +133,28 @@ public class LibraryActivity extends AppCompatActivity {
         updatePlaybackBar();
     }
 
-    /*
-        Description: Updates the playback bar on the bottom of the screen.
-     */
+
+    //Description: Updates the playback bar on the bottom of the screen.
 	private void updatePlaybackBar()
     {
         songName.setText(playback.getSongName());
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
     }
 
-    /*
-        Description: Gets permission from the user to query the device's external storage
-        Returns ArrayList of all songs on the device.
-     */
+    //Description: Gets permission from the user to query the device's external storage
+    //Returns ArrayList of all songs on the device.
 	@TargetApi(Build.VERSION_CODES.M)
     private ArrayList<Song> getPermission()
     {
         //Check if permission to access external storage is granted.
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        }
 
+        //return the queried songs on the external storage of the device
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-        {
-            Log.i("info", "findSongsOnDevice() called");
             return findSongsOnDevice();
-        }
-        else {
-            Log.i("info", "findSongsOnDevice() NOT called");
+        else //If permission is not granted, return an empty playlist.
             return new ArrayList<Song>();
-        }
-
     }
 
     //method is invoked when user hits grant/deny on a permission pop-up.
@@ -217,7 +217,7 @@ public class LibraryActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            Log.e("TAG", e.toString());
+            Log.e("es_querying_error", e.toString());
         }finally{
             if( cursor != null){
                 cursor.close();

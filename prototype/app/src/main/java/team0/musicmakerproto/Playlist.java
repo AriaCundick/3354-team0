@@ -35,7 +35,7 @@ public class Playlist implements Parcelable{
 	public void addSong(Song newSong){
 		songs.add(newSong);
 	}
-
+	public void removeSong(int i) { songs.remove(i);}
 	//Overwrites the current playlist with an existing arraylist of songs.
 	public void readExistingPlaylist(ArrayList<Song> songs)
 	{
