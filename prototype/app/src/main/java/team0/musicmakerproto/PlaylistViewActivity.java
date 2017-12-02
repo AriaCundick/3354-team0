@@ -19,6 +19,7 @@ public class PlaylistViewActivity extends AppCompatActivity {
     private TextView title;
     private ImageView songIMG;
     private Button btnEditPlaylist;
+    private ImageButton pBarButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +28,10 @@ public class PlaylistViewActivity extends AppCompatActivity {
         //Bind GUI elements.
         songs = (ListView) findViewById(R.id.songList);
         title = (TextView) findViewById(R.id.playlist_view_song_name);
-        songIMG = (ImageView) findViewById(R.id.albumCover);
+        songIMG = (ImageView) findViewById(R.id.notes_albumCover);
         btnEditPlaylist = (Button) findViewById(R.id.btn_edit_playlist);
+        pBarButton = (ImageButton) findViewById(R.id.PBarBackground2);
+
 
         //Get playlist data from previous activity.
         Intent i = getIntent();
@@ -38,6 +41,7 @@ public class PlaylistViewActivity extends AppCompatActivity {
         for(Song s : p.getSongs())
             Log.i("playlist", s.getTitle());
         Log.i("playlist", "all songs have been shown");
+
         //Load songs onto the list view from the playlist.
         songs.setAdapter(new SongAdapter(this, p.getSongs()));
         updatePlaybackBar();
@@ -61,8 +65,14 @@ public class PlaylistViewActivity extends AppCompatActivity {
             }
         });
 
-        //Load songs onto the list view from the playlist.
-       // songs.setAdapter(new SongAdapter(this, p.getSongs()));
+        //Set functionality for playlist bar button. (Open current song details)
+        pBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loadCurrentSongActivity = new Intent(PlaylistViewActivity.this, CurrentSongActivity.class);
+                startActivity(loadCurrentSongActivity);
+            }
+        });
     }
 
     //Maps to the play/pause button in the xml file.

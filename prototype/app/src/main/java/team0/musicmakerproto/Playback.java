@@ -15,7 +15,6 @@ import android.net.Uri;
 
 //TODO
     //looping
-    //skip back
     //go to next song when current song finishes playing (reaches end of time)
     //update current time of playback through a thread.
     //implement this class to extend Service
@@ -107,9 +106,21 @@ public class Playback {
         togglePlay(id, playlist, context);
     }
 
-
+    //Skip to the previous song in the playlist
     public void skipBackward()
     {
+        //If playlist hasn't been initialized, don't run the function.
+        if(playlist == null)
+            return;
+
+        //Do a bounds check to see if the ID needs to circle around to 0.
+        if(id - 1 < 0)
+            id = playlist.size() - 1;
+        else
+            id--;
+
+        //Begin playback of previous song.
+        togglePlay(id, playlist, context);
 
     }
 

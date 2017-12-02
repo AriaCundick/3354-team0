@@ -33,7 +33,7 @@ public class LibraryActivity extends AppCompatActivity {
     private ArrayList<Playlist> allPlaylists;
     private TextView songName;
     private Playback playback = Playback.getInstance();
-    private ImageButton PBarButton; // current song activity button
+    private ImageButton pBarButton; // current song activity button
     private Button addButton;
     private ImageView songIMG;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -69,8 +69,8 @@ public class LibraryActivity extends AppCompatActivity {
         //Bind GUI objects
         songName = (TextView) findViewById(R.id.collection_song_name);
         addButton = (Button) findViewById(R.id.new_playlist_btn);
-        PBarButton = (ImageButton) findViewById(R.id.PBarBackground);
-        songIMG = (ImageView) findViewById(R.id.albumCover);
+        pBarButton = (ImageButton) findViewById(R.id.PBarBackground);
+        songIMG = (ImageView) findViewById(R.id.notes_albumCover);
 
         //Set static attribute of Song class for later use in album art.
         Song.setResources(getResources());
@@ -104,8 +104,9 @@ public class LibraryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         //Set functionality for playlist bar button. (Open current song details)
-        PBarButton.setOnClickListener(new View.OnClickListener() {
+        pBarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent loadCurrentSongActivity = new Intent(LibraryActivity.this,CurrentSongActivity.class);
@@ -171,6 +172,21 @@ public class LibraryActivity extends AppCompatActivity {
                 else
                     Toast.makeText(LibraryActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //Maps to the play/pause button in the xml file.
+    //Plays or pauses the current song.
+    public void playPauseBtnPressed(View view)
+    {
+        playback.togglePlay();
+    }
+
+    //Maps to the skipForward button in the xml file
+    //Skips to the next song.
+    public void skipForwardBtnPressed(View view)
+    {
+        playback.skipForward();
+        updatePlaybackBar();
     }
 
     

@@ -74,9 +74,9 @@ public class AddPlaylistActivity extends AppCompatActivity {
         //if name already exists, Toast with message saying "Playlist name already exists"
 
         //else, add the playlist to the SQL db
-        //and run the below code
-        //Intent intent = new Intent(AddPlaylistActivity.this, LibraryActivity.class);
-        //startActivity(intent);
+        //and start the main activity again.
+        Intent intent = new Intent(AddPlaylistActivity.this, LibraryActivity.class);
+        startActivity(intent);
 
     }
 }

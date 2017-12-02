@@ -16,8 +16,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <ImageButton
+            android:id="@+id/PBarBackground2"
+            android:layout_width="271dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="8dp"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/img_transparent_click"
+            app:layout_constraintEnd_toStartOf="@+id/PBarPlayPause"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/notes_albumCover"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="?attr/selectableItemBackgroundBorderless" />
+
         <ImageView
-            android:id="@+id/albumCover"
+            android:id="@+id/notes_albumCover"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"
@@ -43,7 +58,7 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/PBarPlayPause"
-            app:layout_constraintStart_toEndOf="@+id/albumCover"
+            app:layout_constraintStart_toEndOf="@+id/notes_albumCover"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
@@ -53,7 +68,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:background="#80ffffff"
+            android:background="#00000000"
             android:contentDescription="@string/btn_playPause"
             android:onClick="playPauseBtnPressed"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +83,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="8dp"
-            android:background="#80ffffff"
+            android:background="#00000000"
             android:contentDescription="@string/btn_skipForward"
             android:onClick="skipForwardBtnPressed"
             app:layout_constraintBottom_toBottomOf="parent"
