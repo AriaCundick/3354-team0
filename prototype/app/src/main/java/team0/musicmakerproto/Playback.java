@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.Random;
@@ -39,9 +40,10 @@ public class Playback {
         context = null;
     }
 
+    //Get the static instance of the playback class
     public static Playback getInstance()
     {
-        if(instance == null)
+        if(instance == null) //If the instance is null, instantiate a new one.
             instance = new Playback();
 
         return instance;
@@ -70,6 +72,8 @@ public class Playback {
         }
     }
 
+    public MediaPlayer getCurrentSong() { return currentSong;}
+
     private void stopSong()
     {
         if(currentSong != null)
@@ -85,6 +89,7 @@ public class Playback {
         stopSong();
 
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
+        Log.i("rip1", "here");
         togglePlay();
         playlist = p;
         this.id = id;
@@ -127,6 +132,7 @@ public class Playback {
 
     }
 
+<<<<<<< HEAD
     //Shuffles the playlist
     public void shufflePlaylist()
     {
@@ -144,6 +150,9 @@ public class Playback {
 
 
 
+=======
+    //Return the name of the song.
+>>>>>>> f1a096ee41f9156e57df8cce0d23cc9e20fac441
     public String getSongName()
     {
         if(playlist != null) {
@@ -154,6 +163,7 @@ public class Playback {
         return "";
     }
 
+    //Get the song's album art, ore return a default picture.
     public Bitmap getSongIMG(Resources r)
     {
         if(playlist != null) {

@@ -42,12 +42,31 @@ public class EditPlaylistActivity extends AppCompatActivity {
         adapter = new EditSongAdapter(this, p.getSongs());
         songs.setAdapter(adapter);
 
+        //Set onClick functionality for add button
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addSongs(p, allSongs);
+            }
+        });
+
+        //Set onClick functionality for save button
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNewPlaylist(p, allSongs);
+            }
+        });
+
     }
 
-    //Add songs to the current playlist
-    public void addSongs(View v)
+    //Launch activity to add songs to the current playlist
+    public void addSongs(Playlist p, Playlist allSongs)
     {
-        //
+        Intent intent = new Intent(EditPlaylistActivity.this, AddSongsToPlaylistActivity.class);
+        intent.putExtra("selected_playlist", p);
+        intent.putExtra("all_songs_playlist", allSongs);
+        startActivity(intent);
     }
 
     //Delete the playlist from the sqlite database.
@@ -61,10 +80,15 @@ public class EditPlaylistActivity extends AppCompatActivity {
     }
 
     //Update the current playlist in the SQLite database with the current elements in the list view
-    public void saveNewPlaylist(View v)
+    public void saveNewPlaylist(Playlist p, Playlist allSongs)
     {
         //Call to SQLManager class -> update the current playlist by its name (p.getPlaylistName())
         //call adapter.getSongs() to get the most recently edited version of the playlist.
+
+        Intent intent = new Intent(EditPlaylistActivity.this, AddSongsToPlaylistActivity.class);
+        intent.putExtra("selected_playlist", p);
+        intent.putExtra("all_songs_playlist", allSongs);
+        startActivity(intent);
     }
 
 

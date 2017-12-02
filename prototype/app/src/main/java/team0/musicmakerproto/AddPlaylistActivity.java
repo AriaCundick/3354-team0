@@ -45,21 +45,22 @@ public class AddPlaylistActivity extends AppCompatActivity {
             }
         });
 
+        final SongAdapter adapter = new SongAdapter(this, p.getSongs());
+        songs.setAdapter(adapter);
+
         //Set Click Listener for selecting songs to create a new playlist with.
         songs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Set background of element to green for 'added'
-                view.setBackgroundColor(getResources().getColor(R.color.green));
-
                 //Add song to temp playlist
                 Song s = p.getSong(i);
                 newPlaylist.addSong(s);
+
+                //Remove the element from the listview
+                adapter.remove(i);
             }
         });
 
-        //Load songs onto the list view from the playlist.
-        songs.setAdapter(new SongAdapter(this, p.getSongs()));
 
     }
 
