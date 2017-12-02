@@ -7,6 +7,9 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
+import java.util.Collections;
+import java.util.Random;
+
 /**
  * Class: Playback
  * Description: Provides playback functionality and keeps track of the current song being played.
@@ -123,6 +126,23 @@ public class Playback {
         togglePlay(id, playlist, context);
 
     }
+
+    //Shuffles the playlist
+    public void shufflePlaylist()
+    {
+        //Shuffle the playlist
+        for (int i = 0; i<playlist.size(); ++i)
+        {
+            Random rand = new Random();
+            int temp = rand.nextInt(playlist.size() - i) + i;
+
+        }
+
+
+    }
+
+
+
 
     public String getSongName()
     {
