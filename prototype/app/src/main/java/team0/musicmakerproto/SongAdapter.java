@@ -24,6 +24,12 @@ public class SongAdapter extends BaseAdapter {
         this.songs = s;
     }
 
+    public void remove(int id)
+    {
+        songs.remove(id);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return songs.size();

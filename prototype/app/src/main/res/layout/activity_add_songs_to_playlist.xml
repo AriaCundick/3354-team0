@@ -6,4 +6,24 @@
     android:layout_height="match_parent"
     tools:context="team0.musicmakerproto.AddSongsToPlaylistActivity">
 
+    <Button
+        android:id="@+id/btn_add_songs_existing_playlist"
+        android:layout_width="328dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/btn_add_songs_to_plist"
+        app:layout_constraintBottom_toTopOf="@+id/listview_add_songs_existing_playlist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/listview_add_songs_existing_playlist"
+        android:layout_width="344dp"
+        android:layout_height="425dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -79,8 +79,10 @@ public class LibraryActivity extends AppCompatActivity {
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
 		allSongs.readExistingPlaylist(getPermission());
-
+        Playlist tplist = new Playlist();
+        tplist.addSong(allSongs.getSong(0));
 		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
+        allPlaylists.add(tplist);
         findPlaylistsOnDevice();
 
         //Press playlist element on the grid view.

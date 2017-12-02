@@ -15,14 +15,18 @@ public class Song implements Parcelable {
 	String path;
 	String displayName;
 	String songDuration;
-	int id;
+	//int id;
 	static Resources resources;
 	
 	String notes;
 	
-	//Default constructor
-	public Song(){
-
+	//Copy constructor
+	public Song(Song s){
+		title = s.title;
+		artist = s.artist;
+		path = s.path;
+		displayName = s.displayName;
+		songDuration = s.songDuration;
 	}
 
 	//Constructor for quick song creation when searching for songs
@@ -32,7 +36,7 @@ public class Song implements Parcelable {
 		path = inPath;
 		displayName = inDisplayName;
 		songDuration = inSongDuration;
-		id = inID;
+		//id = inID;
 	}
 	
 	//Set methods
@@ -95,7 +99,7 @@ public class Song implements Parcelable {
 		parcel.writeString(path);
 		parcel.writeString(displayName);
 		parcel.writeString(songDuration);
-		parcel.writeInt(id);
+		//parcel.writeInt(id);
 		parcel.writeString(notes);
 	}
 
@@ -116,7 +120,7 @@ public class Song implements Parcelable {
 		path = in.readString();
 		displayName = in.readString();
 		songDuration = in.readString();
-		id = in.readInt();
+		//id = in.readInt();
 		notes = in.readString();
 
 	}
