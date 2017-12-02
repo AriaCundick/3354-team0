@@ -124,6 +124,7 @@ public class Playback {
 
     }
 
+    //Return the name of the song.
     public String getSongName()
     {
         if(playlist != null) {
@@ -134,6 +135,7 @@ public class Playback {
         return "";
     }
 
+    //Get the song's album art, ore return a default picture.
     public Bitmap getSongIMG(Resources r)
     {
         if(playlist != null) {

@@ -14,7 +14,7 @@
     <string name="img_album_cover">Album art of current song</string>
     <string name="img_transparent_click">Trigger new activity on click to view current song</string>
     <string name="btn_edit">Edit Playlist</string>
-    <string name="btn_save_new_playlist">Save</string>
-    <string name="btn_add_songs_to_playlist">Add</string>
-    <string name="btn_delete_playlist">Delete</string>
+    <string name="btn_save_new_playlist">Save Changes</string>
+    <string name="btn_add_songs_to_playlist">Add Songs</string>
+    <string name="btn_delete_playlist">Delete Playlist</string>
 </resources>
