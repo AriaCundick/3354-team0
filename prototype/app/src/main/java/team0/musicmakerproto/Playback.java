@@ -10,16 +10,10 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -29,7 +23,6 @@ import java.util.Random;
  */
 
 //TODO
-    //update current time of playback through a thread.
     //implement this class to extend Service
 @SuppressWarnings("WeakerAccess")
 public class Playback extends Service {
@@ -97,7 +90,6 @@ public class Playback extends Service {
             //If the playback is paused.
             if (!currentSong.isPlaying()) {
                 if (currentSong == null) { //If song is null, instantiate an instance of a song.
-                    // currentSong = MediaPlayer.create(this, R.raw.weeknd);
                     currentSong.start();
 
                 } else if (!currentSong.isPlaying()) {
@@ -131,9 +123,13 @@ public class Playback extends Service {
     {
         stopSong();
 
+        //Create a new instance of the MediaPlayer class.
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
         updateGUIs();
         context = c;
+
+        //Update the GUI of the current activity when the song finishes playing
+        //and also go to the next song.
         currentSong.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
@@ -141,6 +137,7 @@ public class Playback extends Service {
                 updateGUIs();
             }
         });
+
         togglePlay();
         playlist = p;
         this.id = id;
@@ -253,7 +250,7 @@ public class Playback extends Service {
     //Updates the GUI of the current activity for the playback bar
     private void updateGUIs()
     {
-        switch(activityName)
+        switch(activityName) //Switch case based on the current activity name passed onCreation/onResume of an activity.
         {
             case "LibraryActivity":
                 TextView songName = (TextView) ((Activity)context).findViewById(R.id.collection_song_name);

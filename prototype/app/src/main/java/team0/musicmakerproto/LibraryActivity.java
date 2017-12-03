@@ -236,7 +236,6 @@ public class LibraryActivity extends AppCompatActivity {
     //Query the external storage of the device to find all mp3 files and compile them into an ArrayList.
     private ArrayList<Song> findSongsOnDevice(){
 
-        Log.i("songs", "started findSongs..()");
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
         //Create an array that consists of the fields desired for the queried data.
@@ -259,7 +258,6 @@ public class LibraryActivity extends AppCompatActivity {
             if( cursor != null){
                 cursor.moveToFirst();
 
-                //int id = 1;
                 while( !cursor.isAfterLast() ){
                     //Song data queried specified in the songDataWanted array.
                     String title = cursor.getString(0).trim();
@@ -273,7 +271,6 @@ public class LibraryActivity extends AppCompatActivity {
                     if(path != null && path.endsWith(".mp3")) {
                         mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size()));
                     }
-                    //id++;
                 }
             }
 
@@ -288,7 +285,5 @@ public class LibraryActivity extends AppCompatActivity {
         return mp3Files;
 
     }
-
-
 
 }

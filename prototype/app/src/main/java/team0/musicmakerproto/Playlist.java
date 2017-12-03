@@ -6,11 +6,12 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+//Playlists are a collection of songs.
+//Implements parcelable to be capable of being passed through intents.
 public class Playlist implements Parcelable{
 	private ArrayList<Song> songs;
 	private String playlistName;
 	private Image playlistIMG;
-	//private int id;
 
 	//Default Constructor
 	public Playlist(){
@@ -37,6 +38,7 @@ public class Playlist implements Parcelable{
 		songs.add(newSong);
 	}
 	public void removeSong(int i) { songs.remove(i);}
+
 	//Overwrites the current playlist with an existing arraylist of songs.
 	public void readExistingPlaylist(ArrayList<Song> songs)
 	{

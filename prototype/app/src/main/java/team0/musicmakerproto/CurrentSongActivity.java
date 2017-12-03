@@ -112,6 +112,7 @@ public class CurrentSongActivity extends AppCompatActivity {
         return "";
     }
 
+    //Updates the GUI of the activity.
     private void updateGUI()
     {
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
