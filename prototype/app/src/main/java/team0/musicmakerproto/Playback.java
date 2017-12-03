@@ -3,18 +3,17 @@ package team0.musicmakerproto;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.Log;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -24,12 +23,12 @@ import java.util.Random;
  */
 
 //TODO
-    //update current time of playback through a thread.
     //implement this class to extend Service
-public class Playback {
+@SuppressWarnings("WeakerAccess")
+public class Playback extends Service {
     private static Playback instance = null;
     private MediaPlayer currentSong;
-    Playlist playlist; //Keep track of the playlist from which the current song is stored.
+    private Playlist playlist; //Keep track of the playlist from which the current song is stored.
     private int pauseTime, id, shuffleIndex;
     private boolean isShuffling, isLooping;
     private int[] shuffleOrder;
@@ -44,6 +43,34 @@ public class Playback {
         id = 0;
         context = null;
         isShuffling = isLooping = false;
+    }
+
+    @Nullable
+    @Override
+    //Binds service with activity, else returns null.
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    //Method called when service starts
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        id = intent.getIntExtra("id", 0);
+        playlist = intent.getParcelableExtra("playlist");
+
+        togglePlay(id, playlist, context);
+        return START_STICKY;
+    }
+
+    public void setPlaylist(Playlist p) {playlist = p;}
+    public void setId(int i) {id = i;}
+
+    @Override
+    //Method called when service stops
+    public void onDestroy() {
+        super.onDestroy();
+
+        stopSong();
     }
 
     //Get the static instance of the playback class
@@ -63,7 +90,6 @@ public class Playback {
             //If the playback is paused.
             if (!currentSong.isPlaying()) {
                 if (currentSong == null) { //If song is null, instantiate an instance of a song.
-                    // currentSong = MediaPlayer.create(this, R.raw.weeknd);
                     currentSong.start();
 
                 } else if (!currentSong.isPlaying()) {
@@ -97,15 +123,18 @@ public class Playback {
     {
         stopSong();
 
+        //Create a new instance of the MediaPlayer class.
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
         updateGUIs();
         context = c;
+
+        //Update the GUI of the current activity when the song finishes playing
+        //and also go to the next song.
         currentSong.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 skipForward();
                 updateGUIs();
-                Log.i("rip1", "here");
             }
         });
 
@@ -130,7 +159,7 @@ public class Playback {
             shuffleIndex = boundsCheckPos(shuffleIndex);
             togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
-        else if(!isLooping) //play the next song in sequential order.
+        else  //play the next song in sequential order.
         {
             id = boundsCheckPos(id);
             togglePlay(id, playlist, context);
@@ -151,7 +180,7 @@ public class Playback {
             shuffleIndex = boundsCheckNeg(shuffleIndex);
             togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
-        else if(!isLooping) //play the previous song in sequential order.
+        else  //play the previous song in sequential order.
         {
             id = boundsCheckNeg(id);
             togglePlay(id, playlist, context);
@@ -221,26 +250,33 @@ public class Playback {
     //Updates the GUI of the current activity for the playback bar
     private void updateGUIs()
     {
-        switch(activityName)
+        switch(activityName) //Switch case based on the current activity name passed onCreation/onResume of an activity.
         {
             case "LibraryActivity":
                 TextView songName = (TextView) ((Activity)context).findViewById(R.id.collection_song_name);
                 ImageView songIMG = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
                 songName.setText(getSongName());
-                songIMG.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                songIMG.setImageBitmap(getSongIMG((context).getResources()));
                 break;
             case "NotesActivity":
                 TextView songName1 = (TextView) ((Activity)context).findViewById(R.id.notesview_song_name);
                 ImageView songIMG1 = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
                 songName1.setText(getSongName());
-                songIMG1.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                songIMG1.setImageBitmap(getSongIMG((context).getResources()));
                 break;
             case "PlaylistViewActivity":
                 TextView songName2 = (TextView) ((Activity)context).findViewById(R.id.playlist_view_song_name);
                 ImageView songIMG2 = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
                 songName2.setText(getSongName());
-                songIMG2.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                songIMG2.setImageBitmap(getSongIMG((context).getResources()));
                 break;
+            case "CurrentSongActivity":
+                ImageView songIMG3 =(ImageView) ((Activity)context).findViewById(R.id.albumArtIMG);
+                TextView songTitle3 = (TextView) ((Activity)context).findViewById(R.id.songName_current_song_view);
+                TextView songArtist3 = (TextView) ((Activity)context).findViewById(R.id.artistName_current_song_view);
+                songIMG3.setImageBitmap(getSongIMG((context).getResources()));
+                songTitle3.setText(getSongName());
+                songArtist3.setText(getSongArtist());
             default:
         }
     }

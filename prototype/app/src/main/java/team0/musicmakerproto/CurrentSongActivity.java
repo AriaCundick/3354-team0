@@ -58,7 +58,7 @@ public class CurrentSongActivity extends AppCompatActivity {
             }
         });
 
-        // open note activity
+        // open individual note activity for song
         noteActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +123,7 @@ public class CurrentSongActivity extends AppCompatActivity {
             return "";
     }
 
+    //Updates the GUI of the activity.
     private void updateGUI()
     {
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));

@@ -53,6 +53,8 @@ public class PlaylistViewActivity extends AppCompatActivity {
         songs.setAdapter(adapter);
         updatePlaybackBar();
 
+        //When text is changed in the search bar, call the filter function of the adapter
+        //to update the elements in the list view.
         searchFilter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -69,6 +71,7 @@ public class PlaylistViewActivity extends AppCompatActivity {
 
             }
         });
+
         songs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
