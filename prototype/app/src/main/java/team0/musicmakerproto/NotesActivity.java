@@ -7,14 +7,16 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class NotesActivity extends AppCompatActivity {
 
     private Playback playback = Playback.getInstance();
-    private TextView title;
-    private ImageView songIMG;
+    private TextView title;         // song title
+    private ImageView songIMG;      // album art
+    private ImageButton pBarButton; // playback bar
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -44,12 +46,22 @@ public class NotesActivity extends AppCompatActivity {
         //Bind GUI elements;
         title = (TextView) findViewById(R.id.notesview_song_name);
         songIMG = (ImageView) findViewById(R.id.notes_albumCover);
+        pBarButton = (ImageButton) findViewById(R.id.PBarBackground);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.getMenu().getItem(1).setChecked(true); // Set navigationView Notes item to be marked.
 
         updatePlaybackBar();
+
+        //Set functionality for playlist bar button. (Open current song details)
+        pBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loadCurrentSongActivity = new Intent(NotesActivity.this,CurrentSongActivity.class);
+                startActivity(loadCurrentSongActivity);
+            }
+        });
     }
 
     //Maps to the play/pause button in the xml file.
