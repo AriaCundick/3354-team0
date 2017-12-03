@@ -26,6 +26,7 @@ import java.util.Random;
 //TODO
     //update current time of playback through a thread.
     //implement this class to extend Service
+@SuppressWarnings("WeakerAccess")
 public class Playback {
     private static Playback instance = null;
     private MediaPlayer currentSong;
@@ -130,7 +131,7 @@ public class Playback {
             shuffleIndex = boundsCheckPos(shuffleIndex);
             togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
-        else if(!isLooping) //play the next song in sequential order.
+        else  //play the next song in sequential order.
         {
             id = boundsCheckPos(id);
             togglePlay(id, playlist, context);
@@ -151,7 +152,7 @@ public class Playback {
             shuffleIndex = boundsCheckNeg(shuffleIndex);
             togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
-        else if(!isLooping) //play the previous song in sequential order.
+        else  //play the previous song in sequential order.
         {
             id = boundsCheckNeg(id);
             togglePlay(id, playlist, context);
@@ -227,19 +228,19 @@ public class Playback {
                 TextView songName = (TextView) ((Activity)context).findViewById(R.id.collection_song_name);
                 ImageView songIMG = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
                 songName.setText(getSongName());
-                songIMG.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                songIMG.setImageBitmap(getSongIMG((context).getResources()));
                 break;
             case "NotesActivity":
                 TextView songName1 = (TextView) ((Activity)context).findViewById(R.id.notesview_song_name);
                 ImageView songIMG1 = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
                 songName1.setText(getSongName());
-                songIMG1.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                songIMG1.setImageBitmap(getSongIMG((context).getResources()));
                 break;
             case "PlaylistViewActivity":
                 TextView songName2 = (TextView) ((Activity)context).findViewById(R.id.playlist_view_song_name);
                 ImageView songIMG2 = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
                 songName2.setText(getSongName());
-                songIMG2.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                songIMG2.setImageBitmap(getSongIMG((context).getResources()));
                 break;
             default:
         }

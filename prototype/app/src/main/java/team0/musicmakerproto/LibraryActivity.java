@@ -162,9 +162,19 @@ public class LibraryActivity extends AppCompatActivity {
     {
         super.onResume();
         updatePlaybackBar();
+        updatePlaylists();
 
     }
 
+    //update all playlists except for the all songs playlist
+    private void updatePlaylists()
+    {
+        for(int i = 1; i < allPlaylists.size(); i++)
+            allPlaylists.remove(i);
+
+        findPlaylistsOnDevice(); //Changes might occur from other activities,
+                                 //so have to make sure playlists are up to date.
+    }
 
     //Description: Updates the playback bar on the bottom of the screen.
 	public void updatePlaybackBar()
