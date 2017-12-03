@@ -49,6 +49,7 @@ public class AddPlaylistActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                newPlaylist.setPlaylistName(playlistName.getText().toString().trim());
                 SQLCreatePlaylist(newPlaylist);
             }
         });
@@ -92,20 +93,22 @@ public class AddPlaylistActivity extends AppCompatActivity {
     }
 
     //Creates a new playlist in the SQL database
-    private void SQLCreatePlaylist(Playlist p)
+    public boolean SQLCreatePlaylist(Playlist p)
     {
         //First check to see if name already exists
-        String name = playlistName.getText().toString();
+        String name = p.getPlaylistName();
 
         //insert code to query the db for the name
 
         //if name already exists,
         //Toast.makeText(this, "Playlist name already exists", Toast.LENGTH_SHORT).show();
+        //return false
 
         //else, add the playlist to the SQL db
         //and start the main activity again.
         Intent intent = new Intent(AddPlaylistActivity.this, LibraryActivity.class);
         startActivity(intent);
+        return true;
 
     }
 }

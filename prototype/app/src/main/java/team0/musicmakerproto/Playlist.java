@@ -44,7 +44,8 @@ public class Playlist implements Parcelable{
 	{
 		this.songs = songs;
 	}
-	
+	public void setPlaylistName(String s) {playlistName = s;}
+
 	//Returns arrayList of songs
 	public ArrayList<Song> getSongs(){ return songs;}
 	public Song getSong(int id){ return songs.get(id);}

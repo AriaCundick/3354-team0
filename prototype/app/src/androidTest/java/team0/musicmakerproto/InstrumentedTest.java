@@ -1,5 +1,6 @@
 package team0.musicmakerproto;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -35,6 +36,7 @@ public class InstrumentedTest {
     public void initialize()
     {
         playlist = new Playlist();
+        playlist.setPlaylistName("testPlaylist");
         playlist.addSong(new Song("Test", "none", "android.resource://" + BuildConfig.APPLICATION_ID + "/" + R.raw.weeknd, "Test", "30", 0));
     }
 
@@ -46,7 +48,6 @@ public class InstrumentedTest {
 
         //play the song, then skip it 100 times to make sure MediaPlayer resources don't run out in the Playback class
         p.togglePlay(0, playlist, InstrumentationRegistry.getContext());
-        MediaPlayer mp = MediaPlayer.create(InstrumentationRegistry.getContext(), Uri.parse(playlist.getSong(0).getPath()));
 
         for(int i = 0; i < 1000; i ++)
             p.skipForward();
@@ -54,4 +55,6 @@ public class InstrumentedTest {
         assertEquals("Current song status:", true, p.getCurrentSong().isPlaying());
 
     }
+
+
 }
