@@ -8,6 +8,9 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 
+import java.util.Collections;
+import java.util.Random;
+
 /**
  * Class: Playback
  * Description: Provides playback functionality and keeps track of the current song being played.
@@ -129,7 +132,27 @@ public class Playback {
 
     }
 
+<<<<<<< HEAD
+    //Shuffles the playlist
+    public void shufflePlaylist()
+    {
+        //Shuffle the playlist
+        for (int i = 0; i<playlist.size(); ++i)
+        {
+            Random rand = new Random();
+            int temp = rand.nextInt(playlist.size() - i) + i;
+
+        }
+
+
+    }
+
+
+
+
+=======
     //Return the name of the song.
+>>>>>>> f1a096ee41f9156e57df8cce0d23cc9e20fac441
     public String getSongName()
     {
         if(playlist != null) {
