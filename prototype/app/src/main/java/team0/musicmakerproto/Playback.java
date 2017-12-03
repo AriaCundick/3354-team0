@@ -3,11 +3,15 @@ package team0.musicmakerproto;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.IBinder;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,8 +30,9 @@ import java.util.Random;
 //TODO
     //update current time of playback through a thread.
     //implement this class to extend Service
-public class Playback {
+public class Playback extends Service {
     private static Playback instance = null;
+    private MediaPlayer player;
     private MediaPlayer currentSong;
     Playlist playlist; //Keep track of the playlist from which the current song is stored.
     private int pauseTime, id, shuffleIndex;
@@ -44,6 +49,31 @@ public class Playback {
         id = 0;
         context = null;
         isShuffling = isLooping = false;
+    }
+
+    @Nullable
+    @Override
+    //Binds service with activity, else returns null.
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    //Method called when service starts
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+        player.setLooping(true);
+        player.start();
+
+        return START_STICKY;
+    }
+
+    @Override
+    //Method called when service stops
+    public void onDestroy() {
+        super.onDestroy();
+
+        player.stop();
     }
 
     //Get the static instance of the playback class
