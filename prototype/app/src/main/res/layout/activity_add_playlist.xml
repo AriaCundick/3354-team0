@@ -6,18 +6,22 @@
     android:layout_height="match_parent"
     tools:context="team0.musicmakerproto.AddPlaylistActivity">
 
-    <ListView
-        android:id="@+id/new_playlist_listView"
-        android:layout_width="344dp"
-        android:layout_height="428dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <EditText
+        android:id="@+id/search_add_playlist_songs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/searchSong"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_done_newPlaylist" />
 
     <EditText
-        android:imeOptions="actionDone"
         android:id="@+id/new_playlist_name"
         android:layout_width="247dp"
         android:layout_height="wrap_content"
@@ -26,9 +30,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:imeOptions="actionDone"
         android:inputType="textPersonName"
         android:text="@string/textView_newPlaylistPage"
-        app:layout_constraintBottom_toTopOf="@+id/new_playlist_listView"
+        app:layout_constraintBottom_toTopOf="@+id/search_add_playlist_songs"
         app:layout_constraintEnd_toStartOf="@+id/btn_done_newPlaylist"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,4 +48,15 @@
         android:text="@string/btn_add_newPlaylistPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/new_playlist_listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_add_playlist_songs" />
 </android.support.constraint.ConstraintLayout>

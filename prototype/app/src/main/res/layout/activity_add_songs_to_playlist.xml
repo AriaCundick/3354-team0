@@ -6,24 +6,39 @@
     android:layout_height="match_parent"
     tools:context="team0.musicmakerproto.AddSongsToPlaylistActivity">
 
+    <EditText
+        android:id="@+id/search_add_songs_existing_playlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/searchSong"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_songs_existing_playlist" />
+
     <Button
         android:id="@+id/btn_add_songs_existing_playlist"
         android:layout_width="328dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/btn_add_songs_to_plist"
-        app:layout_constraintBottom_toTopOf="@+id/listview_add_songs_existing_playlist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/listview_add_songs_existing_playlist"
-        android:layout_width="344dp"
-        android:layout_height="425dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_add_songs_existing_playlist" />
 </android.support.constraint.ConstraintLayout>

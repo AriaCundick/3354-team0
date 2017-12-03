@@ -3,10 +3,14 @@ package team0.musicmakerproto;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,6 +24,7 @@ public class PlaylistViewActivity extends AppCompatActivity {
     private ImageView songIMG;
     private Button btnEditPlaylist;
     private ImageButton pBarButton;
+    private EditText searchFilter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,20 +36,43 @@ public class PlaylistViewActivity extends AppCompatActivity {
         songIMG = (ImageView) findViewById(R.id.notes_albumCover);
         btnEditPlaylist = (Button) findViewById(R.id.btn_edit_playlist);
         pBarButton = (ImageButton) findViewById(R.id.PBarBackground2);
-
+        searchFilter = (EditText) findViewById(R.id.search_playlist_view_songs);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         //Get playlist data from previous activity.
         Intent i = getIntent();
         final Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");
         final Playlist allSongs = (Playlist) i .getParcelableExtra("all_songs_playlist");
 
+        //Hide the edit button if the selected playlist was the All Songs playlist.
+        if(p.getPlaylistName().equals("All Songs"))
+            btnEditPlaylist.setVisibility(View.INVISIBLE);
+
         for(Song s : p.getSongs())
             Log.i("playlist", s.getTitle());
         Log.i("playlist", "all songs have been shown");
 
         //Load songs onto the list view from the playlist.
-        songs.setAdapter(new SongAdapter(this, p.getSongs()));
+        final SongAdapter adapter = new SongAdapter(this, p.getSongs());
+        songs.setAdapter(adapter);
         updatePlaybackBar();
+
+        searchFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         songs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -87,6 +115,13 @@ public class PlaylistViewActivity extends AppCompatActivity {
     public void skipForwardBtnPressed(View view)
     {
         playback.skipForward();
+        updatePlaybackBar();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
         updatePlaybackBar();
     }
 

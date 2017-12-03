@@ -6,15 +6,31 @@
     android:layout_height="match_parent"
     tools:context="team0.musicmakerproto.EditPlaylistActivity">
 
+    <EditText
+        android:id="@+id/search_edit_playlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/searchSong"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_edit_playlist_add" />
+
     <Button
         android:id="@+id/btn_edit_playlist_add"
         android:layout_width="170dp"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/btn_add_songs_to_playlist"
         app:layout_constraintEnd_toStartOf="@+id/btn_edit_playlist_save"
+        app:layout_constraintHorizontal_bias="0.166"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,10 +38,11 @@
         android:id="@+id/btn_edit_playlist_save"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/btn_save_new_playlist"
+        app:layout_constraintBottom_toTopOf="@+id/search_edit_playlist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,14 +60,14 @@
 
     <ListView
         android:id="@+id/listView_edit_playlist"
-        android:layout_width="344dp"
-        android:layout_height="390dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_edit_playlist_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_edit_playlist_add" />
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_playlist" />
 
 </android.support.constraint.ConstraintLayout>

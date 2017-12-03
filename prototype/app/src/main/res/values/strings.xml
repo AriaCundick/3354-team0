@@ -18,4 +18,6 @@
     <string name="btn_add_songs_to_playlist">Add Songs</string>
     <string name="btn_delete_playlist">Delete Playlist</string>
     <string name="btn_add_songs_to_plist">Add songs to playlist</string>
+    <string name="searchPlaylist">Search for a playlist</string>
+    <string name="searchSong">Search for a song</string>
 </resources>
