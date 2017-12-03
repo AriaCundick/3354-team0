@@ -3,14 +3,19 @@ package team0.musicmakerproto;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.IBinder;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -27,10 +32,10 @@ import java.util.Random;
     //update current time of playback through a thread.
     //implement this class to extend Service
 @SuppressWarnings("WeakerAccess")
-public class Playback {
+public class Playback extends Service {
     private static Playback instance = null;
     private MediaPlayer currentSong;
-    Playlist playlist; //Keep track of the playlist from which the current song is stored.
+    private Playlist playlist; //Keep track of the playlist from which the current song is stored.
     private int pauseTime, id, shuffleIndex;
     private boolean isShuffling, isLooping;
     private int[] shuffleOrder;
@@ -45,6 +50,34 @@ public class Playback {
         id = 0;
         context = null;
         isShuffling = isLooping = false;
+    }
+
+    @Nullable
+    @Override
+    //Binds service with activity, else returns null.
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    //Method called when service starts
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        id = intent.getIntExtra("id", 0);
+        playlist = intent.getParcelableExtra("playlist");
+
+        togglePlay(id, playlist, context);
+        return START_STICKY;
+    }
+
+    public void setPlaylist(Playlist p) {playlist = p;}
+    public void setId(int i) {id = i;}
+
+    @Override
+    //Method called when service stops
+    public void onDestroy() {
+        super.onDestroy();
+
+        stopSong();
     }
 
     //Get the static instance of the playback class
@@ -106,10 +139,8 @@ public class Playback {
             public void onCompletion(MediaPlayer mediaPlayer) {
                 skipForward();
                 updateGUIs();
-                Log.i("rip1", "here");
             }
         });
-
         togglePlay();
         playlist = p;
         this.id = id;
@@ -242,6 +273,13 @@ public class Playback {
                 songName2.setText(getSongName());
                 songIMG2.setImageBitmap(getSongIMG((context).getResources()));
                 break;
+            case "CurrentSongActivity":
+                ImageView songIMG3 =(ImageView) ((Activity)context).findViewById(R.id.albumArtIMG);
+                TextView songTitle3 = (TextView) ((Activity)context).findViewById(R.id.songName_current_song_view);
+                TextView songArtist3 = (TextView) ((Activity)context).findViewById(R.id.artistName_current_song_view);
+                songIMG3.setImageBitmap(getSongIMG((context).getResources()));
+                songTitle3.setText(getSongName());
+                songArtist3.setText(getSongArtist());
             default:
         }
     }

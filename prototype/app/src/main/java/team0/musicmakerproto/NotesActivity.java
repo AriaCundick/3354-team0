@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -22,8 +23,9 @@ import java.util.ArrayList;
 public class NotesActivity extends AppCompatActivity {
 
     private Playback playback = Playback.getInstance();
-    private TextView title;
-    private ImageView songIMG;
+    private TextView title;         // song title
+    private ImageView songIMG;      // album art
+    private ImageButton pBarButton; // playback bar
     private ListView notesListView;
     private ArrayList<Note> notes;
     private EditText searchFilter;
@@ -57,15 +59,25 @@ public class NotesActivity extends AppCompatActivity {
         //Bind GUI elements;
         title = (TextView) findViewById(R.id.notesview_song_name);
         songIMG = (ImageView) findViewById(R.id.notes_albumCover);
+        pBarButton = (ImageButton) findViewById(R.id.NotesPBarBackground);
         notesListView = (ListView) findViewById(R.id.listView_notes_activity);
         searchFilter = (EditText) findViewById(R.id.searchBar_notes_activity);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.getMenu().getItem(1).setChecked(true); // Set navigationView Notes item to be marked.
 
         updatePlaybackBar();
+
+        //Set functionality for playlist bar button. (Open current song details)
+        pBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loadCurrentSongActivity = new Intent(NotesActivity.this,CurrentSongActivity.class);
+                startActivity(loadCurrentSongActivity);
+            }
+        });
+
         notes = new ArrayList<Note>();
         SQLGetNotes();
 
