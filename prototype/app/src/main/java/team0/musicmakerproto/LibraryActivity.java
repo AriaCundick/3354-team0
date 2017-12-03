@@ -40,7 +40,7 @@ public class LibraryActivity extends AppCompatActivity {
     private ImageButton pBarButton; // current song activity button
     private Button addButton;
     private ImageView songIMG;
-    private EditText searchField;
+    private EditText searchFilter;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -76,7 +76,7 @@ public class LibraryActivity extends AppCompatActivity {
         addButton = (Button) findViewById(R.id.new_playlist_btn);
         pBarButton = (ImageButton) findViewById(R.id.PBarBackground);
         songIMG = (ImageView) findViewById(R.id.notes_albumCover);
-        searchField = (EditText) findViewById(R.id.search_library_songs);
+        searchFilter = (EditText) findViewById(R.id.search_library_songs);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         //Set static attribute of Song class for later use in album art.
@@ -97,7 +97,7 @@ public class LibraryActivity extends AppCompatActivity {
         allPlaylists.add(tplist);
         findPlaylistsOnDevice();
 
-        searchField.addTextChangedListener(new TextWatcher() {
+        searchFilter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 

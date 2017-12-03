@@ -44,6 +44,10 @@ public class PlaylistViewActivity extends AppCompatActivity {
         final Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");
         final Playlist allSongs = (Playlist) i .getParcelableExtra("all_songs_playlist");
 
+        //Hide the edit button if the selected playlist was the All Songs playlist.
+        if(p.getPlaylistName().equals("All Songs"))
+            btnEditPlaylist.setVisibility(View.INVISIBLE);
+
         for(Song s : p.getSongs())
             Log.i("playlist", s.getTitle());
         Log.i("playlist", "all songs have been shown");

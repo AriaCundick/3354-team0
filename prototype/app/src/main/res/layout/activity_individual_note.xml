@@ -32,6 +32,7 @@
         android:layout_marginTop="8dp"
         android:background="@color/colorAccent"
         android:fontFamily="sans-serif"
+        android:onClick="btnDone"
         android:text="update notes"
         android:textSize="24sp"
         android:textStyle="italic"

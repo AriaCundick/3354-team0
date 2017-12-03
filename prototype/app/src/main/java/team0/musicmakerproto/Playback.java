@@ -161,6 +161,25 @@ public class Playback {
         return "";
     }
 
+    public String getSongArtist()
+    {
+        if(playlist != null) {
+            String name = playlist.getSongs().get(id).getArtist();
+            if (name != null)
+                return name;
+        }
+        return "";
+    }
+
+    public String getSongPath()
+    {
+        if(playlist != null) {
+            String name = playlist.getSongs().get(id).getPath();
+            if (name != null)
+                return name;
+        }
+        return "";
+    }
     //Get the song's album art, ore return a default picture.
     public Bitmap getSongIMG(Resources r)
     {
