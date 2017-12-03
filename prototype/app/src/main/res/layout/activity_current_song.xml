@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/artistName"
+    android:id="@+id/artist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="team0.musicmakerproto.CurrentSongActivity">
@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/playbackBar"
         android:layout_width="330dp"
-        android:layout_height="126dp"
+        android:layout_height="128dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="27dp"
         android:layout_marginStart="22dp"
@@ -197,35 +197,36 @@
             app:srcCompat="@android:drawable/screen_background_dark" />
 
         <TextView
-            android:id="@+id/songTitle"
-            android:layout_width="278dp"
-            android:layout_height="24dp"
+            android:id="@+id/songName"
+            android:layout_width="280dp"
+            android:layout_height="27dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="song"
+            android:text="song title"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/artistName"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.652"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/albumArtIMG"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/artistName"
-            android:layout_width="278dp"
-            android:layout_height="22dp"
+            android:layout_width="284dp"
+            android:layout_height="26dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="artist"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.714"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/albumArtIMG"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/songName"
+            app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

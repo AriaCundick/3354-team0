@@ -127,8 +127,7 @@ public class Playback {
         if(playlist == null)
             return;
 
-        if(isShuffling) //play the next song in the shuffled order.
-        {
+        if(isShuffling) {
             shuffleIndex = boundsCheckNeg(shuffleIndex);
             togglePlay(shuffleIndex, playlist, context);
         }
@@ -164,7 +163,14 @@ public class Playback {
         return  BitmapFactory.decodeResource(r, R.drawable.ic_default_albumart2);
     }
 
-    public void setShuffling() { isShuffling = !isShuffling; }
+    //GUI onClick calls this function
+    public void setShuffling()
+    {
+        isShuffling = !isShuffling;
+        if(isShuffling)
+            shuffleOrder();
+    }
+
     public void setLooping() { isLooping = !isLooping; }
 
     //Do a bounds check to see if the ID needs to circle around to 0.
