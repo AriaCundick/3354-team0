@@ -34,9 +34,8 @@
         <ImageView
             android:id="@+id/notes_albumCover"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:contentDescription="@string/img_album_cover"
             android:src="@android:drawable/alert_dark_frame"
@@ -96,16 +95,15 @@
 
         <ImageButton
             android:id="@+id/PBarBackground"
-            android:layout_width="271dp"
-            android:layout_height="50dp"
+            android:layout_width="306dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="4dp"
             android:layout_marginStart="8dp"
-            android:background="@android:drawable/screen_background_light_transparent"
-            android:backgroundTint="@android:color/transparent"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/img_transparent_click"
             android:tint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/PBarPlayPause"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/notes_albumCover"
@@ -122,21 +120,24 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="Search for a note"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/listView_notes_activity"
-        android:layout_width="357dp"
-        android:layout_height="306dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/PlaybackPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchBar_notes_activity"
-        app:layout_constraintVertical_bias="0.571"
-        tools:layout_editor_absoluteX="14dp" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

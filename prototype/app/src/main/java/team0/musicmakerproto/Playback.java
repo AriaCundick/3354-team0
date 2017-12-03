@@ -109,7 +109,7 @@ public class Playback {
         if(isShuffling) //play the next song in the shuffled order.
         {
             shuffleIndex = boundsCheckPos(shuffleIndex);
-            togglePlay(shuffleIndex, playlist, context);
+            togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
         else if(!isLooping) //play the next song in sequential order.
         {
@@ -129,7 +129,7 @@ public class Playback {
 
         if(isShuffling) {
             shuffleIndex = boundsCheckNeg(shuffleIndex);
-            togglePlay(shuffleIndex, playlist, context);
+            togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
         else if(!isLooping) //play the next song in sequential order.
         {
@@ -166,9 +166,18 @@ public class Playback {
     //GUI onClick calls this function
     public void setShuffling()
     {
-        isShuffling = !isShuffling;
         if(isShuffling)
+        {
+            isShuffling = false;
+            Log.i("shuffle", "shuffling is false");
+        }
+        else
+        {
+            isShuffling = true;
+            Log.i("shuffle", "shuffling is true");
             shuffleOrder();
+        }
+
     }
 
     public void setLooping() { isLooping = !isLooping; }

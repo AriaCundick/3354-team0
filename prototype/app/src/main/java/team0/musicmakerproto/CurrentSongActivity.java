@@ -1,18 +1,22 @@
 package team0.musicmakerproto;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.graphics.Color;
+import android.widget.ImageView;
 
 public class CurrentSongActivity extends AppCompatActivity {
 
-    // button variables
+    Playback playback = Playback.getInstance();
     ImageButton repeat;
     ImageButton shuffle;
     ImageButton noteActivity;
+    ImageView songIMG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +26,13 @@ public class CurrentSongActivity extends AppCompatActivity {
         repeat = (ImageButton) findViewById(R.id.repeat);
         shuffle = (ImageButton) findViewById(R.id.shuffle);
         noteActivity = (ImageButton) findViewById(R.id.noteActivity);
-
+        songIMG =(ImageView) findViewById(R.id.albumArtIMG);
 
 
         // repeat button onClickListener
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // click buton code here
                 repeat.setColorFilter(Color.parseColor("#6eb7a7"));
             }
         });
@@ -38,8 +41,8 @@ public class CurrentSongActivity extends AppCompatActivity {
         shuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // click buton code here
                 shuffle.setColorFilter(Color.parseColor("#d19e4f"));
+                playback.setShuffling();
             }
         });
 
@@ -51,7 +54,29 @@ public class CurrentSongActivity extends AppCompatActivity {
                 startActivity(loadNote);
             }
         });
+
+        updateGUI();
     }
+
+    private void updateGUI()
+    {
+        songIMG.setImageBitmap(playback.getSongIMG(getResources()));
+    }
+
+    public void btnPlayPause(View v) { playback.togglePlay(); }
+    public void btnSkipForward(View v)
+    {
+        playback.skipForward();
+        updateGUI();
+    }
+
+    public void btnSkipBackward(View v)
+    {
+        playback.skipBackward();
+        updateGUI();
+    }
+
+
 
 
 }

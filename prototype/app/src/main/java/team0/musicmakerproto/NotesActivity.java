@@ -74,4 +74,11 @@ public class NotesActivity extends AppCompatActivity {
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        updatePlaybackBar();
+    }
+
 }

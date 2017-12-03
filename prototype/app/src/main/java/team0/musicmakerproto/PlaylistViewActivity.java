@@ -114,6 +114,13 @@ public class PlaylistViewActivity extends AppCompatActivity {
         updatePlaybackBar();
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        updatePlaybackBar();
+    }
+
     //Updates the GUI to show information regarding the current song being played.
     private void updatePlaybackBar()
     {
