@@ -12,11 +12,15 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +40,7 @@ public class LibraryActivity extends AppCompatActivity {
     private ImageButton pBarButton; // current song activity button
     private Button addButton;
     private ImageView songIMG;
+    private EditText searchField;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -60,7 +65,7 @@ public class LibraryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_library);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -71,6 +76,8 @@ public class LibraryActivity extends AppCompatActivity {
         addButton = (Button) findViewById(R.id.new_playlist_btn);
         pBarButton = (ImageButton) findViewById(R.id.PBarBackground);
         songIMG = (ImageView) findViewById(R.id.notes_albumCover);
+        searchField = (EditText) findViewById(R.id.search_library_songs);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         //Set static attribute of Song class for later use in album art.
         Song.setResources(getResources());
@@ -81,9 +88,31 @@ public class LibraryActivity extends AppCompatActivity {
 		allSongs.readExistingPlaylist(getPermission());
         Playlist tplist = new Playlist();
         tplist.addSong(allSongs.getSong(0));
+
+        /* Load the adapter for the playlist arraylist. */
+        final PlaylistAdapter playlistAdapter = new PlaylistAdapter(this, allPlaylists);
+        playlistCollection.setAdapter(playlistAdapter);
+
 		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
         allPlaylists.add(tplist);
         findPlaylistsOnDevice();
+
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                playlistAdapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         //Press playlist element on the grid view.
         playlistCollection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,8 +145,7 @@ public class LibraryActivity extends AppCompatActivity {
             }
         });
 
-        /* Load all playlists into the grid view. */
-        playlistCollection.setAdapter(new PlaylistAdapter(this, allPlaylists));
+
 
 
 	}

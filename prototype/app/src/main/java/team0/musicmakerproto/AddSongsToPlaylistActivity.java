@@ -3,9 +3,13 @@ package team0.musicmakerproto;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 public class AddSongsToPlaylistActivity extends AppCompatActivity {
@@ -13,6 +17,8 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
     private Button btnAddSongs;
     private ListView songs;
     private Playlist newSongs;
+    private EditText searchFilter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +29,8 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
         //Bind GUI elements.
         btnAddSongs = (Button) findViewById(R.id.btn_add_songs_existing_playlist);
         songs = (ListView) findViewById(R.id.listview_add_songs_existing_playlist);
+        searchFilter = (EditText) findViewById(R.id.search_add_songs_existing_playlist);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         //Get data from last activity
         Intent intent = getIntent();
@@ -32,6 +40,22 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
         final SongAdapter adapter = new SongAdapter(this, allSongs.getSongs());
         songs.setAdapter(adapter);
 
+        searchFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         //Set Click Listener for selecting songs to create a new playlist with.
         songs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -3,10 +3,13 @@ package team0.musicmakerproto;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,7 +21,7 @@ public class AddPlaylistActivity extends AppCompatActivity {
     private ListView songs;
     private Button btnDone;
     private TextView playlistName;
-
+    private EditText searchFilter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,7 @@ public class AddPlaylistActivity extends AppCompatActivity {
         songs = (ListView) findViewById(R.id.new_playlist_listView);
         btnDone = (Button) findViewById(R.id.btn_done_newPlaylist);
         playlistName = (TextView) findViewById(R.id.new_playlist_name);
+        searchFilter = (EditText) findViewById(R.id.search_add_playlist_songs);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         //Get playlist data from previous activity.
@@ -45,8 +49,27 @@ public class AddPlaylistActivity extends AppCompatActivity {
             }
         });
 
+        //Create song adapter that sets the listview to the playlist's songs.
         final SongAdapter adapter = new SongAdapter(this, p.getSongs());
         songs.setAdapter(adapter);
+
+        searchFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         //Set Click Listener for selecting songs to create a new playlist with.
         songs.setOnItemClickListener(new AdapterView.OnItemClickListener() {

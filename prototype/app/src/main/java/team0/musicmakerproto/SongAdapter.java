@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,25 +16,27 @@ import java.util.ArrayList;
  * Created by Aria on 11/13/17.
  */
 
-public class SongAdapter extends BaseAdapter {
+public class SongAdapter extends BaseAdapter implements Filterable {
 
     private final Context mContext;
-    private final ArrayList<Song> songs;
+    private ArrayList<Song> searchableSongs;
+    private ArrayList<Song> allSongs;
 
     public SongAdapter(Context mContext, ArrayList<Song> s) {
         this.mContext = mContext;
-        this.songs = s;
+        this.searchableSongs = this.allSongs = s;
     }
 
     public void remove(int id)
     {
-        songs.remove(id);
+        searchableSongs.remove(id);
+        allSongs.remove(id);
         this.notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return songs.size();
+        return searchableSongs.size();
     }
 
     @Override
@@ -48,7 +52,7 @@ public class SongAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
 
-        final Song s = songs.get(i);
+        final Song s = searchableSongs.get(i);
 
         //Set convertView to the layout of the linearlayout_song.xml file
         if (convertView == null) {
@@ -67,5 +71,47 @@ public class SongAdapter extends BaseAdapter {
         artistTextView.setText(s.getArtist());
 
         return convertView;
+    }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if(results.count > 0)
+                    searchableSongs = (ArrayList<Song>) results.values;
+
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                searchableSongs = allSongs;
+                FilterResults results = new FilterResults();
+                ArrayList<Song> FilteredArraySongs = new ArrayList<Song>();
+
+                // perform your search here using the searchConstraint String.
+
+                constraint = constraint.toString().toLowerCase();
+                for (int i = 0; i < searchableSongs.size(); i++) {
+                    Song dataName = searchableSongs.get(i);
+
+                    //Add song if the constraint string contains the title or artist of the song.
+                    if (dataName.getTitle().toLowerCase().contains(constraint.toString())
+                            || dataName.getArtist().toLowerCase().contains(constraint.toString()))  {
+                        FilteredArraySongs.add(dataName);
+                    }
+                }
+
+                results.count = FilteredArraySongs.size();
+                results.values = FilteredArraySongs;
+                //Log.e("VALUES", results.values.toString());
+
+                return results;
+            }
+        };
+        return filter;
     }
 }
