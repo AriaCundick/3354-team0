@@ -3,14 +3,13 @@ package team0.musicmakerproto;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 //EditPlaylistActivity class is responsible for presenting the GUI for editing a playlist in ways including adding songs,
 //removing songs, or deleting the entire playlist.
@@ -20,6 +19,7 @@ public class EditPlaylistActivity extends AppCompatActivity {
     private Button btnAdd, btnDelete, btnSave;
     private EditSongAdapter adapter;
     private String playlistName;
+    private EditText searchFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,8 @@ public class EditPlaylistActivity extends AppCompatActivity {
         btnDelete = (Button) findViewById(R.id.btn_edit_playlist_delete);
         btnSave = (Button) findViewById(R.id.btn_edit_playlist_save);
         songs = (ListView) findViewById(R.id.listView_edit_playlist);
+        searchFilter = (EditText) findViewById(R.id.search_edit_playlist);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         //Get the playlist sent from last activity
         Intent i = getIntent();
@@ -42,6 +44,22 @@ public class EditPlaylistActivity extends AppCompatActivity {
         adapter = new EditSongAdapter(this, p.getSongs());
         songs.setAdapter(adapter);
 
+        searchFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         //Set onClick functionality for add button
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,10 +101,9 @@ public class EditPlaylistActivity extends AppCompatActivity {
     public void saveNewPlaylist(Playlist p, Playlist allSongs)
     {
         //Call to SQLManager class -> update the current playlist by its name (p.getPlaylistName())
-        //call adapter.getSongs() to get the most recently edited version of the playlist.
+        //call adapter.getSearchableSongs() to get the most recently edited version of the playlist.
 
-        Intent intent = new Intent(EditPlaylistActivity.this, AddSongsToPlaylistActivity.class);
-        intent.putExtra("selected_playlist", p);
+        Intent intent = new Intent(EditPlaylistActivity.this, LibraryActivity.class);
         intent.putExtra("all_songs_playlist", allSongs);
         startActivity(intent);
     }
