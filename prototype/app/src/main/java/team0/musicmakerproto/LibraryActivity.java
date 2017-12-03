@@ -82,9 +82,6 @@ public class LibraryActivity extends AppCompatActivity {
         //Set static attribute of Song class for later use in album art.
         Song.setResources(getResources());
 
-        playback.setActivityName("LibraryActivity");
-        playback.setContext(LibraryActivity.this);
-
         //Initialize playlist collection with hardcoded All Songs playlist.
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
@@ -165,6 +162,7 @@ public class LibraryActivity extends AppCompatActivity {
     {
         super.onResume();
         updatePlaybackBar();
+
     }
 
 
@@ -173,6 +171,8 @@ public class LibraryActivity extends AppCompatActivity {
     {
         songName.setText(playback.getSongName());
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
+        playback.setActivityName("LibraryActivity");
+        playback.setContext(LibraryActivity.this);
     }
 
     //Description: Gets permission from the user to query the device's external storage

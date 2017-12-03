@@ -61,9 +61,6 @@ public class NotesActivity extends AppCompatActivity {
         searchFilter = (EditText) findViewById(R.id.searchBar_notes_activity);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-        playback.setActivityName("NotesActivity");
-        playback.setContext(NotesActivity.this);
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.getMenu().getItem(1).setChecked(true); // Set navigationView Notes item to be marked.
@@ -131,6 +128,8 @@ public class NotesActivity extends AppCompatActivity {
     {
         title.setText(playback.getSongName());
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
+        playback.setActivityName("NotesActivity");
+        playback.setContext(NotesActivity.this);
     }
 
     @Override

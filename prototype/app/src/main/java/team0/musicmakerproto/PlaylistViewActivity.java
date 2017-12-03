@@ -39,9 +39,6 @@ public class PlaylistViewActivity extends AppCompatActivity {
         searchFilter = (EditText) findViewById(R.id.search_playlist_view_songs);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-        playback.setActivityName("PlaylistViewActivity");
-        playback.setContext(PlaylistViewActivity.this);
-
         //Get playlist data from previous activity.
         Intent i = getIntent();
         final Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");
@@ -129,6 +126,8 @@ public class PlaylistViewActivity extends AppCompatActivity {
     {
         title.setText(playback.getSongName());
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
+        playback.setActivityName("PlaylistViewActivity");
+        playback.setContext(PlaylistViewActivity.this);
     }
 
 }

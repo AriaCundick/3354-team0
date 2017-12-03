@@ -80,6 +80,8 @@ public class EditPlaylistActivity extends AppCompatActivity {
 
     }
 
+    
+
     //Launch activity to add songs to the current playlist
     public void addSongs(Playlist p, Playlist allSongs)
     {

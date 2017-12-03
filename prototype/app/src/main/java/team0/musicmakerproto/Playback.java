@@ -85,6 +85,7 @@ public class Playback {
     public void setActivityName(String s) {activityName = s;}
     public void setContext(Context c) {context = c;}
 
+    //Stop the mediaPlayer device.
     private void stopSong()
     {
         if(currentSong != null)
@@ -145,11 +146,11 @@ public class Playback {
         if(playlist == null)
             return;
 
-        if(isShuffling) {
+        if(isShuffling) { //play the previous song in sequential order.
             shuffleIndex = boundsCheckNeg(shuffleIndex);
             togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
-        else if(!isLooping) //play the next song in sequential order.
+        else if(!isLooping) //play the previous song in sequential order.
         {
             id = boundsCheckNeg(id);
             togglePlay(id, playlist, context);
@@ -162,8 +163,6 @@ public class Playback {
 
     }
 
-
-
     //Return the name of the song.
     public String getSongName()
     {
@@ -175,6 +174,7 @@ public class Playback {
         return "";
     }
 
+    //Return the name of the artist of the current song.
     public String getSongArtist()
     {
         if(playlist != null) {
@@ -185,6 +185,7 @@ public class Playback {
         return "";
     }
 
+    //Get the path of the current song
     public String getSongPath()
     {
         if(playlist != null) {
@@ -206,14 +207,17 @@ public class Playback {
     }
 
     //GUI onClick calls this function
+    //Set the shuffling boolean to the opposite value.
     public void setShuffling()
     {
         isShuffling = !isShuffling;
-        if(isShuffling)
-            shuffleOrder();
+
+        if(isShuffling) //if true...
+            shuffleOrder(); //Reorder the shuffle sequence.
 
     }
 
+    //Set the looping boolean to the opposite value.
     public void setLooping() { isLooping = !isLooping; }
 
     //Updates the GUI of the current activity for the playback bar
@@ -254,7 +258,7 @@ public class Playback {
         return id;
     }
 
-    //Do a bounds check to see if the ID needs to circle around to 0.
+    //Do a bounds check to see if the ID needs to circle around to the size of the playlist.
     private int boundsCheckNeg(int id)
     {
         if(id - 1 < 0)
