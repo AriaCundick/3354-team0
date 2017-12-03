@@ -41,7 +41,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             "CREATE TABLE " + DBContract.NoteEntry.TABLE_NAME + " (" +
             DBContract.NoteEntry._ID + " INTEGER PRIMARY KEY, " +
             DBContract.NoteEntry.COL_SONG_ID + " TEXT," +
-            DBContract.NoteEntry.COL_NOTE + " TEXT)";
+            DBContract.NoteEntry.COL_SONG_PATH + " TEXT," +
+            DBContract.NoteEntry.COL_NOTE_TITLE + " TEXT," +
+            DBContract.NoteEntry.COL_NOTE_CONTENT + " TEXT)";
 
     //Partial SQL command for deleting tables
     private static final String SQL_DELETE = "DROP TABLE IF EXISTS ";
@@ -121,13 +123,33 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return true;
     }
 
+    //Adds a note to a song by using the songID in the Note table
     public boolean addNoteToSong(Note inNote, Song inSong){
-        
+        if(!inNote.getPath().equals(inSong.getPath()))
+            return false;
+
+        String songID = getSongID(inSong);
+        if(songID.equals("ERROR"))
+            return false;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(DBContract.NoteEntry.COL_SONG_ID, songID);
+        contentValues.put(DBContract.NoteEntry.COL_SONG_PATH, inNote.getPath());
+        contentValues.put(DBContract.NoteEntry.COL_NOTE_TITLE, inNote.getName());
+        contentValues.put(DBContract.NoteEntry.COL_NOTE_CONTENT, inNote.getContents());
+
+        long result = db.insert(DBContract.NoteEntry.TABLE_NAME, null, contentValues);
+        if(result == -1)
+            return false;
+        else
+            return true;
     }
 
     //Finds the song ID in the table Song using the provided song's path
     public String getSongID(Song inSong){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         //Specifies what columns from the database will be returned
         String[] projection = {DBContract.SongEntry._ID};
@@ -159,7 +181,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Finds the playlist ID in the table Playlist using the provided playlist's name
     public String getPlaylistID(Playlist inPlaylist){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         //Specifies what columns from the database will be returned
         String[] projection = {DBContract.PlaylistEntry._ID};

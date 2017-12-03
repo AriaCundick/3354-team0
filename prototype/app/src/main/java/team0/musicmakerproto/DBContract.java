@@ -29,6 +29,8 @@ final class DBContract{
     static class NoteEntry implements BaseColumns{
         static final String TABLE_NAME = "NOTE_TABLE";
         static final String COL_SONG_ID = "SONG_ID";
-        static final String COL_NOTE = "NOTE";
+        static final String COL_SONG_PATH = "SONG_PATH";
+        static final String COL_NOTE_TITLE = "NOTE_TITLE";
+        static final String COL_NOTE_CONTENT = "NOTE_CONTENT";
     }
 }
