@@ -204,7 +204,7 @@ public class Playback {
 
     //GUI onClick calls this function
     //Set the shuffling boolean to the opposite value.
-    public void setShuffling()
+    public void toggleShuffling()
     {
         isShuffling = !isShuffling;
 
@@ -214,7 +214,9 @@ public class Playback {
     }
 
     //Set the looping boolean to the opposite value.
-    public void setLooping() { isLooping = !isLooping; }
+    public void toggleLooping() { isLooping = !isLooping; }
+    public boolean getShuffling() {return isShuffling;}
+    public boolean getLooping() {return isLooping;}
 
     //Updates the GUI of the current activity for the playback bar
     private void updateGUIs()

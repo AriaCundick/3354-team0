@@ -1,12 +1,9 @@
 package team0.musicmakerproto;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.graphics.Color;
 import android.widget.ImageView;
@@ -34,6 +31,8 @@ public class CurrentSongActivity extends AppCompatActivity {
         songIMG =(ImageView) findViewById(R.id.albumArtIMG);
         songTitle = (TextView) findViewById(R.id.songName_current_song_view);
         songArtist = (TextView) findViewById(R.id.artistName_current_song_view);
+        updateRepeatColor();
+        updateShuffleColor();
 
         Playback.getInstance().setActivityName("CurrentSongActivity");
         Playback.getInstance().setContext(CurrentSongActivity.this);
@@ -41,8 +40,8 @@ public class CurrentSongActivity extends AppCompatActivity {
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                repeat.setColorFilter(Color.parseColor("#6eb7a7"));
-                playback.setLooping();
+                playback.toggleLooping();
+                updateRepeatColor();
             }
         });
 
@@ -50,8 +49,8 @@ public class CurrentSongActivity extends AppCompatActivity {
         shuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shuffle.setColorFilter(Color.parseColor("#d19e4f"));
-                playback.setShuffling();
+                playback.toggleShuffling();
+                updateShuffleColor();
             }
         });
 
@@ -71,6 +70,38 @@ public class CurrentSongActivity extends AppCompatActivity {
         updateGUI();
     }
 
+    public void btnPlayPause(View v) { playback.togglePlay(); }
+
+    public void btnSkipForward(View v)
+    {
+        playback.skipForward();
+        updateGUI();
+    }
+
+    public void btnSkipBackward(View v)
+    {
+        playback.skipBackward();
+        updateGUI();
+    }
+
+    //Update the color of the repeat button based on the looping boolean in the playback class
+    private void updateRepeatColor()
+    {
+        if(playback.getLooping())
+            repeat.setColorFilter(Color.parseColor("#6eb7a7"));
+        else
+            repeat.setColorFilter(Color.parseColor("#606060"));
+    }
+
+    //Update the color of the shuffle button based on the shuffling boolean in the playback class
+    private void updateShuffleColor()
+    {
+        if(playback.getShuffling())
+            shuffle.setColorFilter(Color.parseColor("#d19e4f"));
+        else
+            shuffle.setColorFilter(Color.parseColor("#606060"));
+    }
+
     //Call to SQL db to find out if note has been created for the song.
     private String getNoteForSong()
     {
@@ -87,21 +118,6 @@ public class CurrentSongActivity extends AppCompatActivity {
         songTitle.setText(playback.getSongName());
         songArtist.setText(playback.getSongArtist());
     }
-
-    public void btnPlayPause(View v) { playback.togglePlay(); }
-    public void btnSkipForward(View v)
-    {
-        playback.skipForward();
-        updateGUI();
-    }
-
-    public void btnSkipBackward(View v)
-    {
-        playback.skipBackward();
-        updateGUI();
-    }
-
-
 
 
 }
