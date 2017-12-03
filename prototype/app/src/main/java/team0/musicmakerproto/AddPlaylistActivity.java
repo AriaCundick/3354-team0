@@ -33,6 +33,9 @@ public class AddPlaylistActivity extends AppCompatActivity {
         searchFilter = (EditText) findViewById(R.id.search_add_playlist_songs);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
+        Playback.getInstance().setActivityName("AddPlaylistActivity");
+        Playback.getInstance().setContext(AddPlaylistActivity.this);
+
         //Get playlist data from previous activity.
         Intent i = getIntent();
         final Playlist p = (Playlist) i.getParcelableExtra("all_songs");

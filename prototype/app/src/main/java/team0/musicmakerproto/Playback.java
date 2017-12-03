@@ -1,5 +1,6 @@
 package team0.musicmakerproto;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +9,10 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.Random;
@@ -31,6 +36,7 @@ public class Playback {
     private int pauseTime, id, shuffleIndex;
     private boolean isShuffling, isLooping;
     private int[] shuffleOrder;
+    private String activityName;
 
     Context context;
 
@@ -76,6 +82,8 @@ public class Playback {
     }
 
     public MediaPlayer getCurrentSong() { return currentSong;}
+    public void setActivityName(String s) {activityName = s;}
+    public void setContext(Context c) {context = c;}
 
     private void stopSong()
     {
@@ -92,13 +100,22 @@ public class Playback {
         stopSong();
 
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
-        Log.i("rip1", "here");
+        updateGUIs();
+        context = c;
+        currentSong.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                skipForward();
+                updateGUIs();
+                Log.i("rip1", "here");
+            }
+        });
+
         togglePlay();
         playlist = p;
         this.id = id;
-        context = c;
-    }
 
+    }
 
     //Skip to the next song in the playlist
     public void skipForward()
@@ -106,7 +123,6 @@ public class Playback {
         //If playlist hasn't been initialized, don't run the function.
         if(playlist == null)
             return;
-
 
         if(isShuffling) //play the next song in the shuffled order.
         {
@@ -120,8 +136,6 @@ public class Playback {
         }
         else
             togglePlay(id, playlist, context); //replay the current song.
-
-
     }
 
     //Skip to the previous song in the playlist
@@ -201,6 +215,33 @@ public class Playback {
     }
 
     public void setLooping() { isLooping = !isLooping; }
+
+    //Updates the GUI of the current activity for the playback bar
+    private void updateGUIs()
+    {
+        switch(activityName)
+        {
+            case "LibraryActivity":
+                TextView songName = (TextView) ((Activity)context).findViewById(R.id.collection_song_name);
+                ImageView songIMG = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
+                songName.setText(getSongName());
+                songIMG.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                break;
+            case "NotesActivity":
+                TextView songName1 = (TextView) ((Activity)context).findViewById(R.id.notesview_song_name);
+                ImageView songIMG1 = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
+                songName1.setText(getSongName());
+                songIMG1.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                break;
+            case "PlaylistViewActivity":
+                TextView songName2 = (TextView) ((Activity)context).findViewById(R.id.playlist_view_song_name);
+                ImageView songIMG2 = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
+                songName2.setText(getSongName());
+                songIMG2.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                break;
+            default:
+        }
+    }
 
     //Do a bounds check to see if the ID needs to circle around to 0.
     private int boundsCheckPos(int id)

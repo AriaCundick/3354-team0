@@ -82,6 +82,9 @@ public class LibraryActivity extends AppCompatActivity {
         //Set static attribute of Song class for later use in album art.
         Song.setResources(getResources());
 
+        playback.setActivityName("LibraryActivity");
+        playback.setContext(LibraryActivity.this);
+
         //Initialize playlist collection with hardcoded All Songs playlist.
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
@@ -166,7 +169,7 @@ public class LibraryActivity extends AppCompatActivity {
 
 
     //Description: Updates the playback bar on the bottom of the screen.
-	private void updatePlaybackBar()
+	public void updatePlaybackBar()
     {
         songName.setText(playback.getSongName());
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));

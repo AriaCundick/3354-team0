@@ -35,11 +35,14 @@ public class CurrentSongActivity extends AppCompatActivity {
         songTitle = (TextView) findViewById(R.id.songName_current_song_view);
         songArtist = (TextView) findViewById(R.id.artistName_current_song_view);
 
+        Playback.getInstance().setActivityName("CurrentSongActivity");
+        Playback.getInstance().setContext(CurrentSongActivity.this);
         // repeat button onClickListener
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 repeat.setColorFilter(Color.parseColor("#6eb7a7"));
+                playback.setLooping();
             }
         });
 

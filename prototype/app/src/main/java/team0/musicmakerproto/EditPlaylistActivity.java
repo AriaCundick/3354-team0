@@ -34,6 +34,8 @@ public class EditPlaylistActivity extends AppCompatActivity {
         searchFilter = (EditText) findViewById(R.id.search_edit_playlist);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
+        Playback.getInstance().setActivityName("EditPlaylistActivity");
+        Playback.getInstance().setContext(EditPlaylistActivity.this);
         //Get the playlist sent from last activity
         Intent i = getIntent();
         final Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");

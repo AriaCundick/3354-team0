@@ -47,7 +47,7 @@ public class IndividualNote extends AppCompatActivity {
             //update here
         }
     }
-    
+
     public void btnDone(View v)
     {
 

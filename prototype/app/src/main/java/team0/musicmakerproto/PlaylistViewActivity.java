@@ -39,6 +39,9 @@ public class PlaylistViewActivity extends AppCompatActivity {
         searchFilter = (EditText) findViewById(R.id.search_playlist_view_songs);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
+        playback.setActivityName("PlaylistViewActivity");
+        playback.setContext(PlaylistViewActivity.this);
+
         //Get playlist data from previous activity.
         Intent i = getIntent();
         final Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");
@@ -47,10 +50,6 @@ public class PlaylistViewActivity extends AppCompatActivity {
         //Hide the edit button if the selected playlist was the All Songs playlist.
         if(p.getPlaylistName().equals("All Songs"))
             btnEditPlaylist.setVisibility(View.INVISIBLE);
-
-        for(Song s : p.getSongs())
-            Log.i("playlist", s.getTitle());
-        Log.i("playlist", "all songs have been shown");
 
         //Load songs onto the list view from the playlist.
         final SongAdapter adapter = new SongAdapter(this, p.getSongs());
