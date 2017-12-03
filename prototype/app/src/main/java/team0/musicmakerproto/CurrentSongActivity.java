@@ -3,21 +3,26 @@ package team0.musicmakerproto;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class CurrentSongActivity extends AppCompatActivity {
+
+public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarChangeListener {
 
     Playback playback = Playback.getInstance();
-    ImageButton repeat;
-    ImageButton shuffle;
-    ImageButton noteActivity;
-    ImageView songIMG;
-    TextView songTitle, songArtist;
-
+    private ImageButton repeat;
+    private ImageButton shuffle;
+    private ImageButton noteActivity;
+    private ImageView songIMG;
+    private TextView songTitle, songArtist, songTime, currentTimeStamp;
+    private SeekBar songScrubber;
+    private Handler pHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,10 @@ public class CurrentSongActivity extends AppCompatActivity {
         songIMG =(ImageView) findViewById(R.id.albumArtIMG);
         songTitle = (TextView) findViewById(R.id.songName_current_song_view);
         songArtist = (TextView) findViewById(R.id.artistName_current_song_view);
+        songScrubber = (SeekBar) findViewById(R.id.scrubber);
+        songScrubber.setOnSeekBarChangeListener(this);
+        songTime = (TextView) findViewById(R.id.totalDuration);
+        currentTimeStamp = (TextView) findViewById(R.id.timeStamp);
         updateRepeatColor();
         updateShuffleColor();
 
@@ -67,7 +76,12 @@ public class CurrentSongActivity extends AppCompatActivity {
             }
         });
 
+        // song progress/scrubber
+        //songScrubber.setOnSeekBarChangeListener(this);
+
+        // update
         updateGUI();
+        run();
     }
 
     public void btnPlayPause(View v) { playback.togglePlay(); }
@@ -112,6 +126,7 @@ public class CurrentSongActivity extends AppCompatActivity {
         return "";
     }
 
+
     private void updateGUI()
     {
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
@@ -119,5 +134,40 @@ public class CurrentSongActivity extends AppCompatActivity {
         songArtist.setText(playback.getSongArtist());
     }
 
+    // Scrubber to change song Position
+    public void run() {
+        CurrentSongActivity.this.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                if (playback.getCurrentSong() != null) {
+                    int currentPos = playback.getCurrentSong().getCurrentPosition() / 1000;
+                    songScrubber.setProgress(currentPos);
+                }
+
+                songScrubber.postDelayed(this, 1000);
+            }
+        }) ;
+    }
+
+
+    @Override
+    public void onStopTrackingTouch(SeekBar songScrubber) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar songScrubber) {
+
+    }
+
+    // Scrubber used to change song progress
+    @Override
+        public void onProgressChanged(SeekBar songScrubber, int progress, boolean fromUser) {
+            if (playback.getCurrentSong() != null && fromUser) {
+                playback.getCurrentSong().seekTo(progress * 1000);
+            }
+
+    }
 
 }
