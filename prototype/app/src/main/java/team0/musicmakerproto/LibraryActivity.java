@@ -40,7 +40,7 @@ public class LibraryActivity extends AppCompatActivity {
     private ImageButton pBarButton; // current song activity button
     private Button addButton;
     private ImageView songIMG;
-    private EditText searchField;
+    private EditText searchFilter;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -76,7 +76,7 @@ public class LibraryActivity extends AppCompatActivity {
         addButton = (Button) findViewById(R.id.new_playlist_btn);
         pBarButton = (ImageButton) findViewById(R.id.PBarBackground);
         songIMG = (ImageView) findViewById(R.id.notes_albumCover);
-        searchField = (EditText) findViewById(R.id.search_library_songs);
+        searchFilter = (EditText) findViewById(R.id.search_library_songs);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         //Set static attribute of Song class for later use in album art.
@@ -97,7 +97,7 @@ public class LibraryActivity extends AppCompatActivity {
         allPlaylists.add(tplist);
         findPlaylistsOnDevice();
 
-        searchField.addTextChangedListener(new TextWatcher() {
+        searchFilter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -162,14 +162,17 @@ public class LibraryActivity extends AppCompatActivity {
     {
         super.onResume();
         updatePlaybackBar();
+
     }
 
 
     //Description: Updates the playback bar on the bottom of the screen.
-	private void updatePlaybackBar()
+	public void updatePlaybackBar()
     {
         songName.setText(playback.getSongName());
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
+        playback.setActivityName("LibraryActivity");
+        playback.setContext(LibraryActivity.this);
     }
 
     //Description: Gets permission from the user to query the device's external storage
@@ -246,6 +249,7 @@ public class LibraryActivity extends AppCompatActivity {
             if( cursor != null){
                 cursor.moveToFirst();
 
+                //int id = 1;
                 while( !cursor.isAfterLast() ){
                     //Song data queried specified in the songDataWanted array.
                     String title = cursor.getString(0).trim();
@@ -257,8 +261,9 @@ public class LibraryActivity extends AppCompatActivity {
                     String songDuration = cursor.getString(4);
                     cursor.moveToNext();
                     if(path != null && path.endsWith(".mp3")) {
-                        mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size() + 1));
+                        mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size()));
                     }
+                    //id++;
                 }
             }
 

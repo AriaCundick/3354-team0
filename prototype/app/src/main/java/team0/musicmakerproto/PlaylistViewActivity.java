@@ -44,9 +44,9 @@ public class PlaylistViewActivity extends AppCompatActivity {
         final Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");
         final Playlist allSongs = (Playlist) i .getParcelableExtra("all_songs_playlist");
 
-        for(Song s : p.getSongs())
-            Log.i("playlist", s.getTitle());
-        Log.i("playlist", "all songs have been shown");
+        //Hide the edit button if the selected playlist was the All Songs playlist.
+        if(p.getPlaylistName().equals("All Songs"))
+            btnEditPlaylist.setVisibility(View.INVISIBLE);
 
         //Load songs onto the list view from the playlist.
         final SongAdapter adapter = new SongAdapter(this, p.getSongs());
@@ -114,11 +114,20 @@ public class PlaylistViewActivity extends AppCompatActivity {
         updatePlaybackBar();
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        updatePlaybackBar();
+    }
+
     //Updates the GUI to show information regarding the current song being played.
     private void updatePlaybackBar()
     {
         title.setText(playback.getSongName());
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
+        playback.setActivityName("PlaylistViewActivity");
+        playback.setContext(PlaylistViewActivity.this);
     }
 
 }

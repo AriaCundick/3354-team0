@@ -34,6 +34,8 @@ public class EditPlaylistActivity extends AppCompatActivity {
         searchFilter = (EditText) findViewById(R.id.search_edit_playlist);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
+        Playback.getInstance().setActivityName("EditPlaylistActivity");
+        Playback.getInstance().setContext(EditPlaylistActivity.this);
         //Get the playlist sent from last activity
         Intent i = getIntent();
         final Playlist p = (Playlist) i.getParcelableExtra("selected_playlist");
@@ -78,6 +80,8 @@ public class EditPlaylistActivity extends AppCompatActivity {
 
     }
 
+
+
     //Launch activity to add songs to the current playlist
     public void addSongs(Playlist p, Playlist allSongs)
     {
@@ -101,7 +105,7 @@ public class EditPlaylistActivity extends AppCompatActivity {
     public void saveNewPlaylist(Playlist p, Playlist allSongs)
     {
         //Call to SQLManager class -> update the current playlist by its name (p.getPlaylistName())
-        //call adapter.getSearchableSongs() to get the most recently edited version of the playlist.
+        //call adapter.getallSongs() to get the most recently edited version of the playlist.
 
         Intent intent = new Intent(EditPlaylistActivity.this, LibraryActivity.class);
         intent.putExtra("all_songs_playlist", allSongs);

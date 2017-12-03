@@ -10,7 +10,8 @@ public class Playlist implements Parcelable{
 	private ArrayList<Song> songs;
 	private String playlistName;
 	private Image playlistIMG;
-	
+	//private int id;
+
 	//Default Constructor
 	public Playlist(){
 		songs = new ArrayList<Song>();

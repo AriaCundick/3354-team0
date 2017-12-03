@@ -36,9 +36,9 @@ public class EditSongAdapter extends BaseAdapter implements Filterable {
         this.notifyDataSetChanged(); //Update the list view to reflect the changes made in the playlist.
     }
 
-    public ArrayList<Song> getSearchableSongs()
+    public ArrayList<Song> getallSongs()
     {
-        return searchableSongs;
+        return allSongs;
     }
 
     @Override

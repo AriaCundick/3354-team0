@@ -32,6 +32,9 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
         searchFilter = (EditText) findViewById(R.id.search_add_songs_existing_playlist);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
+        Playback.getInstance().setActivityName("AddSongsToPlaylistActivity");
+        Playback.getInstance().setContext(AddSongsToPlaylistActivity.this);
+
         //Get data from last activity
         Intent intent = getIntent();
         final Playlist p = (Playlist) intent.getParcelableExtra("selected_playlist");
@@ -72,7 +75,6 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
         btnAddSongs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLUpdatePlaylist();
                 Intent intent = new Intent(AddSongsToPlaylistActivity.this, EditPlaylistActivity.class);
                 intent.putExtra("selected_playlist", mergePlaylists(p));
                 intent.putExtra("all_songs_playlist", allSongs);
@@ -96,8 +98,4 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
 
     }
 
-    private void SQLUpdatePlaylist()
-    {
-
-    }
 }

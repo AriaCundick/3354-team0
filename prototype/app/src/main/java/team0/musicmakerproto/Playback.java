@@ -1,12 +1,22 @@
 package team0.musicmakerproto;
 
+import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.IBinder;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.Random;
@@ -18,18 +28,17 @@ import java.util.Random;
  */
 
 //TODO
-    //looping
-    //go to next song when current song finishes playing (reaches end of time)
     //update current time of playback through a thread.
     //implement this class to extend Service
-    //shuffling
-public class Playback {
+public class Playback extends Service {
     private static Playback instance = null;
+    private MediaPlayer player;
     private MediaPlayer currentSong;
+    Playlist playlist; //Keep track of the playlist from which the current song is stored.
     private int pauseTime, id, shuffleIndex;
-    private Playlist playlist; //Keep track of the playlist from which the current song is stored.
     private boolean isShuffling, isLooping;
     private int[] shuffleOrder;
+    private String activityName;
 
     Context context;
 
@@ -40,6 +49,31 @@ public class Playback {
         id = 0;
         context = null;
         isShuffling = isLooping = false;
+    }
+
+    @Nullable
+    @Override
+    //Binds service with activity, else returns null.
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    //Method called when service starts
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+        player.setLooping(true);
+        player.start();
+
+        return START_STICKY;
+    }
+
+    @Override
+    //Method called when service stops
+    public void onDestroy() {
+        super.onDestroy();
+
+        player.stop();
     }
 
     //Get the static instance of the playback class
@@ -75,7 +109,10 @@ public class Playback {
     }
 
     public MediaPlayer getCurrentSong() { return currentSong;}
+    public void setActivityName(String s) {activityName = s;}
+    public void setContext(Context c) {context = c;}
 
+    //Stop the mediaPlayer device.
     private void stopSong()
     {
         if(currentSong != null)
@@ -91,11 +128,21 @@ public class Playback {
         stopSong();
 
         currentSong = MediaPlayer.create(c, Uri.parse(p.getSongs().get(id).getPath()));
-        Log.i("rip1", "here");
+        updateGUIs();
+        context = c;
+        currentSong.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                skipForward();
+                updateGUIs();
+                Log.i("rip1", "here");
+            }
+        });
+
         togglePlay();
         playlist = p;
         this.id = id;
-        context = c;
+
     }
 
     //Skip to the next song in the playlist
@@ -106,18 +153,19 @@ public class Playback {
             return;
 
 
-        if(isShuffling) //play the next song in the shuffled order.
+        if(isLooping) //replay the current song.
+            togglePlay(id, playlist, context);
+        else if(isShuffling) //play the next song in the shuffled order.
         {
             shuffleIndex = boundsCheckPos(shuffleIndex);
-            togglePlay(shuffleIndex, playlist, context);
+            togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
         else if(!isLooping) //play the next song in sequential order.
         {
             id = boundsCheckPos(id);
             togglePlay(id, playlist, context);
         }
-        else
-            togglePlay(id, playlist, context); //replay the current song.
+
     }
 
     //Skip to the previous song in the playlist
@@ -127,17 +175,17 @@ public class Playback {
         if(playlist == null)
             return;
 
-        if(isShuffling) {
+        if(isLooping) //replay the current song.
+            togglePlay(id, playlist, context);
+        else if(isShuffling) { //play the previous song in sequential order.
             shuffleIndex = boundsCheckNeg(shuffleIndex);
-            togglePlay(shuffleIndex, playlist, context);
+            togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
-        else if(!isLooping) //play the next song in sequential order.
+        else if(!isLooping) //play the previous song in sequential order.
         {
             id = boundsCheckNeg(id);
             togglePlay(id, playlist, context);
         }
-        else
-            togglePlay(id, playlist, context); //replay the current song.
 
     }
 
@@ -152,6 +200,27 @@ public class Playback {
         return "";
     }
 
+    //Return the name of the artist of the current song.
+    public String getSongArtist()
+    {
+        if(playlist != null) {
+            String name = playlist.getSongs().get(id).getArtist();
+            if (name != null)
+                return name;
+        }
+        return "";
+    }
+
+    //Get the path of the current song
+    public String getSongPath()
+    {
+        if(playlist != null) {
+            String name = playlist.getSongs().get(id).getPath();
+            if (name != null)
+                return name;
+        }
+        return "";
+    }
     //Get the song's album art, ore return a default picture.
     public Bitmap getSongIMG(Resources r)
     {
@@ -164,14 +233,47 @@ public class Playback {
     }
 
     //GUI onClick calls this function
-    public void setShuffling()
+    //Set the shuffling boolean to the opposite value.
+    public void toggleShuffling()
     {
         isShuffling = !isShuffling;
-        if(isShuffling)
-            shuffleOrder();
+
+        if(isShuffling) //if true...
+            shuffleOrder(); //Reorder the shuffle sequence.
+
     }
 
-    public void setLooping() { isLooping = !isLooping; }
+    //Set the looping boolean to the opposite value.
+    public void toggleLooping() { isLooping = !isLooping; }
+    public boolean getShuffling() {return isShuffling;}
+    public boolean getLooping() {return isLooping;}
+
+    //Updates the GUI of the current activity for the playback bar
+    private void updateGUIs()
+    {
+        switch(activityName)
+        {
+            case "LibraryActivity":
+                TextView songName = (TextView) ((Activity)context).findViewById(R.id.collection_song_name);
+                ImageView songIMG = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
+                songName.setText(getSongName());
+                songIMG.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                break;
+            case "NotesActivity":
+                TextView songName1 = (TextView) ((Activity)context).findViewById(R.id.notesview_song_name);
+                ImageView songIMG1 = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
+                songName1.setText(getSongName());
+                songIMG1.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                break;
+            case "PlaylistViewActivity":
+                TextView songName2 = (TextView) ((Activity)context).findViewById(R.id.playlist_view_song_name);
+                ImageView songIMG2 = (ImageView) ((Activity)context).findViewById(R.id.notes_albumCover);
+                songName2.setText(getSongName());
+                songIMG2.setImageBitmap(getSongIMG(((Activity)context).getResources()));
+                break;
+            default:
+        }
+    }
 
     //Do a bounds check to see if the ID needs to circle around to 0.
     private int boundsCheckPos(int id)
@@ -184,7 +286,7 @@ public class Playback {
         return id;
     }
 
-    //Do a bounds check to see if the ID needs to circle around to 0.
+    //Do a bounds check to see if the ID needs to circle around to the size of the playlist.
     private int boundsCheckNeg(int id)
     {
         if(id - 1 < 0)

@@ -44,6 +44,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="7dp"
             android:background="@android:drawable/screen_background_light_transparent"
+            android:onClick="btnPlayPause"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +91,7 @@
             android:layout_marginTop="16dp"
             android:background="@android:color/transparent"
             android:backgroundTint="@android:color/white"
+            android:onClick="btnSkipBackward"
             android:tint="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/volumeControl"
             app:layout_constraintEnd_toStartOf="@+id/playButton"
@@ -108,6 +110,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
             android:background="@android:color/transparent"
+            android:onClick="btnSkipForward"
             android:tint="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/volumeControl"
             app:layout_constraintEnd_toEndOf="parent"
@@ -194,16 +197,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.365"
-            app:srcCompat="@android:drawable/screen_background_dark" />
+            app:srcCompat="@android:color/transparent" />
 
         <TextView
-            android:id="@+id/songName"
+            android:id="@+id/songName_current_song_view"
             android:layout_width="280dp"
             android:layout_height="27dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:maxLines="1"
             android:text="song title"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -214,18 +218,19 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/artistName"
+            android:id="@+id/artistName_current_song_view"
             android:layout_width="284dp"
             android:layout_height="26dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:maxLines="1"
             android:text="artist"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.714"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/songName"
+            app:layout_constraintTop_toBottomOf="@+id/songName_current_song_view"
             app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>

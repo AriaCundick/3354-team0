@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -32,6 +33,9 @@ public class AddPlaylistActivity extends AppCompatActivity {
         playlistName = (TextView) findViewById(R.id.new_playlist_name);
         searchFilter = (EditText) findViewById(R.id.search_add_playlist_songs);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
+        Playback.getInstance().setActivityName("AddPlaylistActivity");
+        Playback.getInstance().setContext(AddPlaylistActivity.this);
 
         //Get playlist data from previous activity.
         Intent i = getIntent();
@@ -91,11 +95,12 @@ public class AddPlaylistActivity extends AppCompatActivity {
     private void SQLCreatePlaylist(Playlist p)
     {
         //First check to see if name already exists
-        String name = playlistName.getText().toString().trim();
+        String name = playlistName.getText().toString();
 
         //insert code to query the db for the name
 
-        //if name already exists, Toast with message saying "Playlist name already exists"
+        //if name already exists,
+        //Toast.makeText(this, "Playlist name already exists", Toast.LENGTH_SHORT).show();
 
         //else, add the playlist to the SQL db
         //and start the main activity again.
