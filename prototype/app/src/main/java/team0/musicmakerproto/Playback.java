@@ -1,5 +1,6 @@
 package team0.musicmakerproto;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -23,7 +24,11 @@ import java.util.Random;
     //update current time of playback through a thread.
     //implement this class to extend Service
     //shuffling
-public class Playback {
+public class Playback extends Service {
+
+    public 
+
+
     private static Playback instance = null;
     private MediaPlayer currentSong;
     int pauseTime;
@@ -132,7 +137,7 @@ public class Playback {
 
     }
 
-<<<<<<< HEAD
+<<d<<<<< HEAD
     //Shuffles the playlist
     public void shufflePlaylist()
     {
