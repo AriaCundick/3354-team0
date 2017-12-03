@@ -121,6 +121,8 @@ public class NotesActivity extends AppCompatActivity {
     private void SQLGetNotes()
     {
         //assign notes from the DB to the notes ArrayList
+        //for every entry in the notes db
+        //notes.add(new Note(noteName, noteContents, notePath);
     }
 
     //Updates the GUI to show information regarding the current song being played.

@@ -24,11 +24,8 @@ import java.util.Random;
  */
 
 //TODO
-    //looping
-    //go to next song when current song finishes playing (reaches end of time)
     //update current time of playback through a thread.
     //implement this class to extend Service
-    //shuffling
 public class Playback {
     private static Playback instance = null;
     private MediaPlayer currentSong;
@@ -125,7 +122,10 @@ public class Playback {
         if(playlist == null)
             return;
 
-        if(isShuffling) //play the next song in the shuffled order.
+
+        if(isLooping) //replay the current song.
+            togglePlay(id, playlist, context);
+        else if(isShuffling) //play the next song in the shuffled order.
         {
             shuffleIndex = boundsCheckPos(shuffleIndex);
             togglePlay(shuffleOrder[shuffleIndex], playlist, context);
@@ -135,8 +135,7 @@ public class Playback {
             id = boundsCheckPos(id);
             togglePlay(id, playlist, context);
         }
-        else
-            togglePlay(id, playlist, context); //replay the current song.
+
     }
 
     //Skip to the previous song in the playlist
@@ -146,7 +145,9 @@ public class Playback {
         if(playlist == null)
             return;
 
-        if(isShuffling) { //play the previous song in sequential order.
+        if(isLooping) //replay the current song.
+            togglePlay(id, playlist, context);
+        else if(isShuffling) { //play the previous song in sequential order.
             shuffleIndex = boundsCheckNeg(shuffleIndex);
             togglePlay(shuffleOrder[shuffleIndex], playlist, context);
         }
@@ -155,11 +156,6 @@ public class Playback {
             id = boundsCheckNeg(id);
             togglePlay(id, playlist, context);
         }
-        else
-            togglePlay(id, playlist, context); //replay the current song.
-
-        //Begin playback of previous song.
-        togglePlay(id, playlist, context);
 
     }
 

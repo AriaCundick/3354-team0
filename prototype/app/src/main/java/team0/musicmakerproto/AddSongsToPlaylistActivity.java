@@ -75,7 +75,6 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
         btnAddSongs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLUpdatePlaylist();
                 Intent intent = new Intent(AddSongsToPlaylistActivity.this, EditPlaylistActivity.class);
                 intent.putExtra("selected_playlist", mergePlaylists(p));
                 intent.putExtra("all_songs_playlist", allSongs);
@@ -99,8 +98,4 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
 
     }
 
-    private void SQLUpdatePlaylist()
-    {
-
-    }
 }

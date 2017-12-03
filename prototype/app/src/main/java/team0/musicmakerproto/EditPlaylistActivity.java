@@ -80,7 +80,7 @@ public class EditPlaylistActivity extends AppCompatActivity {
 
     }
 
-    
+
 
     //Launch activity to add songs to the current playlist
     public void addSongs(Playlist p, Playlist allSongs)
@@ -105,7 +105,7 @@ public class EditPlaylistActivity extends AppCompatActivity {
     public void saveNewPlaylist(Playlist p, Playlist allSongs)
     {
         //Call to SQLManager class -> update the current playlist by its name (p.getPlaylistName())
-        //call adapter.getSearchableSongs() to get the most recently edited version of the playlist.
+        //call adapter.getallSongs() to get the most recently edited version of the playlist.
 
         Intent intent = new Intent(EditPlaylistActivity.this, LibraryActivity.class);
         intent.putExtra("all_songs_playlist", allSongs);
