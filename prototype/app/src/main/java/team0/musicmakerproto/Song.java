@@ -73,6 +73,7 @@ public class Song implements Parcelable {
 	public String getSongDuration(){
 		return songDuration;
 	}
+	//public int getID() { return id; }
 
 	//Get the image art based on the metadata of the song.
 	public Bitmap getImage() {
