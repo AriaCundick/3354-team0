@@ -132,7 +132,6 @@ public class Playback {
 
     }
 
-<<<<<<< HEAD
     //Shuffles the playlist
     public void shufflePlaylist()
     {
@@ -143,16 +142,9 @@ public class Playback {
             int temp = rand.nextInt(playlist.size() - i) + i;
 
         }
-
-
     }
 
-
-
-
-=======
     //Return the name of the song.
->>>>>>> f1a096ee41f9156e57df8cce0d23cc9e20fac441
     public String getSongName()
     {
         if(playlist != null) {
