@@ -6,23 +6,28 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Gerardo Rodriguez on 12/2/2017.
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
+    static final String ID_NOT_FOUND = "ERROR";
+
     static final int DATABASE_VERSION = 1;
     static final String DATABASE_NAME = "MusicManager.db";
 
     //SQL command for creating the Playlist table
     private static final String SQL_CREATE_PLAYLIST_ENTRIES =
-            "CREATE TABLE " + DBContract.PlaylistEntry.TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + DBContract.PlaylistEntry.TABLE_NAME + " (" +
             DBContract.PlaylistEntry._ID + " INTEGER PRIMARY KEY," +
             DBContract.PlaylistEntry.COL_TITLE + " TEXT)";
 
     //SQL command for creating the Song table
     private static final String SQL_CREATE_SONG_ENTRIES =
-            "CREATE TABLE " + DBContract.SongEntry.TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + DBContract.SongEntry.TABLE_NAME + " (" +
             DBContract.SongEntry._ID + " INTEGER PRIMARY KEY," +
             DBContract.SongEntry.COL_TITLE + " TEXT," +
             DBContract.SongEntry.COL_PATH + " TEXT," +
@@ -31,14 +36,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //SQL command for creating the PlaylistSong table
     private static final String SQL_CREATE_PLAYLIST_SONG_ENTRIES =
-            "CREATE TABLE " + DBContract.PlaylistSongEntry.TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + DBContract.PlaylistSongEntry.TABLE_NAME + " (" +
             DBContract.PlaylistSongEntry._ID + " INTEGER PRIMARY KEY," +
             DBContract.PlaylistSongEntry.COL_PLAYLIST_ID + " TEXT," +
             DBContract.PlaylistSongEntry.COL_SONG_ID + " TEXT)";
 
     //SQL command for creating the Note table
     private static final String SQL_CREATE_NOTE_ENTRIES =
-            "CREATE TABLE " + DBContract.NoteEntry.TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + DBContract.NoteEntry.TABLE_NAME + " (" +
             DBContract.NoteEntry._ID + " INTEGER PRIMARY KEY, " +
             DBContract.NoteEntry.COL_SONG_ID + " TEXT," +
             DBContract.NoteEntry.COL_SONG_PATH + " TEXT," +
@@ -71,6 +76,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Insert playlist to Playlist table
     public boolean insertPlaylist(Playlist inPlaylist){
+        //Check if playlist already exists in Playlist table and exit if it does
+        String playlistID = getPlaylistID(inPlaylist);
+        if(!playlistID.equals(ID_NOT_FOUND))
+            return true;
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -85,6 +95,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Insert song into Song table
     public boolean insertSong(Song inSong){
+        //Check if song already exists in Playlist table and exit if it does
+        String songID = getSongID(inSong);
+        if(!songID.equals(ID_NOT_FOUND))
+            return true;
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -103,11 +118,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //Adds a song to a playlist by joining the songID with the playlistID in the PlaylistSong table
     public boolean addSongToPlaylist(Song inSong, Playlist inPlaylist){
         String songID = getSongID(inSong);
-        if(songID.equals("ERROR"))
+        if(songID.equals(ID_NOT_FOUND))
             return false;
 
         String playlistID = getPlaylistID(inPlaylist);
-        if(songID.equals("ERROR"))
+        if(songID.equals(ID_NOT_FOUND))
             return false;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -129,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             return false;
 
         String songID = getSongID(inSong);
-        if(songID.equals("ERROR"))
+        if(songID.equals(ID_NOT_FOUND))
             return false;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -172,10 +187,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         );
 
         //Go through cursor to get songID, return error otherwise
-        String songID = "ERROR";
-        while(cursor.moveToNext()){
+        String songID = ID_NOT_FOUND;
+        if(cursor.moveToNext())
             songID = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.SongEntry._ID));
-        }
         return songID;
     }
 
@@ -204,10 +218,172 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         );
 
         //Go through cursor to get playlistID, return error otherwise
-        String playlistID = "ERROR";
-        while(cursor.moveToNext()){
-            playlistID = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry._ID));
-        }
+        String playlistID = ID_NOT_FOUND;
+        if(cursor.moveToNext())
+            return playlistID = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry._ID));
         return playlistID;
+    }
+
+    //Returns Note object with data from Note table given the Song connected to the Note
+    public Note getNoteFromSong(Song inSong){
+        //Check if inSong exists in Song table, return if false
+        String songID = getSongID(inSong);
+        if(songID.equals(ID_NOT_FOUND))
+            return null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Specifies what columns from the database will be returned
+        String[] projection = {
+                DBContract.NoteEntry.COL_NOTE_TITLE,
+                DBContract.NoteEntry.COL_NOTE_CONTENT,
+                DBContract.NoteEntry.COL_SONG_PATH
+        };
+
+        //Filter results WHERE "selection" = 'selectionArgs'
+        String selection = DBContract.NoteEntry.COL_SONG_ID + " = ?";
+        String[] selectionArgs = {songID};
+
+        //How results will be sorted in the Cursor
+        String sortOrder = DBContract.NoteEntry._ID + " DESC";
+
+        Cursor cursor = db.query(
+                DBContract.NoteEntry.TABLE_NAME,            //Table to query
+                projection,                                 //Columns to return
+                selection,                                  //Columns for WHERE clause
+                selectionArgs,                              //Values for WHERE clause
+                null,                              //How to group rows
+                null,                               //How to filter group rows
+                sortOrder                                   //Sort order
+        );
+
+        //Add data to Note using data from cursor result
+        String noteTitle = "";
+        String noteContent = "";
+        String notePath = "";
+
+        //If note exists in Note table, create and return Note object
+        if(cursor.moveToNext()){
+            noteTitle = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.NoteEntry.COL_NOTE_TITLE));
+            noteContent = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.NoteEntry.COL_NOTE_CONTENT));
+            notePath = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.NoteEntry.COL_SONG_PATH));
+            return new Note(noteTitle, noteContent, notePath);
+        }
+        return null;
+    }
+
+    //Returns ArrayList with all the playlists in the Playlist table along with their songs
+    public ArrayList<Playlist> getPlaylists(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //May cause problems with cursor.getColumnIndexOrThrow() since rawQuery, but maybe not
+        Cursor cursor = db.rawQuery("select * from " + DBContract.PlaylistEntry.TABLE_NAME, null);
+
+        //Setup
+        ArrayList<Playlist> playlists = new ArrayList<Playlist>();
+        String id = "";
+        String name = "";
+
+        //Creates a playlist for every entry in the Playlist table
+        //Gets playlist name from query, gets playlist songs using playlist ID from query and running getSongsInPlaylist()
+        while(cursor.moveToNext()){
+            id = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry._ID));
+            name = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry.COL_TITLE));
+            playlists.add(new Playlist(name, getSongsInPlaylist(id)));
+        }
+        return playlists;
+    }
+
+    //Returns ArrayList of Song objects in a particular playlist using data from Song table
+    private ArrayList<Song> getSongsInPlaylist(String playlistID){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Specifies what columns from the database will be returned
+        String[] projection = {
+                DBContract.SongEntry._ID,
+                DBContract.SongEntry.COL_TITLE,
+                DBContract.SongEntry.COL_PATH,
+                DBContract.SongEntry.COL_ARTIST,
+                DBContract.SongEntry.COL_DURATION
+        };
+
+        //Filter results WHERE "selection" = 'selectionArgs'
+        String selection = DBContract.SongEntry._ID + " = ?";
+        String[] selectionArgs = getSongIDsInPlaylist(playlistID);
+
+        //Check if playlist has no songs, return null if true
+        if(selectionArgs == null)
+            return null;
+
+        //How results will be sorted in the Cursor
+        String sortOrder = DBContract.SongEntry.COL_TITLE + " DESC";
+
+        Cursor cursor = db.query(
+                DBContract.SongEntry.TABLE_NAME,            //Table to query
+                projection,                                 //Columns to return
+                selection,                                  //Columns for WHERE clause
+                selectionArgs,                              //Values for WHERE clause
+                null,                              //How to group rows
+                null,                               //How to filter group rows
+                sortOrder                                   //Sort order
+        );
+
+        //Add songs to songList using data from cursor results
+        ArrayList<Song> songList = new ArrayList<Song>();
+        int songID;
+        String songTitle = "";
+        String songPath = "";
+        String songArtist = "";
+        String songDuration = "";
+        while(cursor.moveToNext()){
+            songID = cursor.getInt(cursor.getColumnIndexOrThrow(DBContract.SongEntry._ID));
+            songTitle = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.SongEntry.COL_TITLE));
+            songPath = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.SongEntry.COL_PATH));
+            songArtist = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.SongEntry.COL_ARTIST));
+            songDuration = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.SongEntry.COL_DURATION));
+            songList.add(new Song(songTitle, songArtist, songPath, songTitle,songDuration, songID));
+        }
+
+        return songList;
+    }
+
+    //Returns songIDs of songs in a particular playlist
+    private String[] getSongIDsInPlaylist(String playlistID){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Specifies what columns from the database will be returned
+        String[] projection = {DBContract.PlaylistSongEntry.COL_SONG_ID};
+
+        //Filter results WHERE "selection" = 'selectionArgs'
+        String selection = DBContract.PlaylistSongEntry.COL_PLAYLIST_ID + " = ?";
+        String[] selectionArgs = {playlistID};
+
+        //How results will be sorted in the Cursor
+        String sortOrder = DBContract.PlaylistSongEntry._ID + " DESC";
+
+        Cursor cursor = db.query(
+                DBContract.PlaylistSongEntry.TABLE_NAME,    //Table to query
+                projection,                                 //Columns to return
+                selection,                                  //Columns for WHERE clause
+                selectionArgs,                              //Values for WHERE clause
+                null,                              //How to group rows
+                null,                               //How to filter group rows
+                sortOrder                                   //Sort order
+        );
+
+        //Check if no songs exist in playlist, return null if true
+        int numSongsInPlaylist = cursor.getCount();
+        if(numSongsInPlaylist <= 0)
+            return null;
+
+        //Add songIDs from cursor results
+        String[] songIDs = new String[numSongsInPlaylist];
+        int index = 0;
+        while(cursor.moveToNext()){
+            songIDs[index] = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistSongEntry.COL_SONG_ID));
+            index++;
+        }
+
+        return songIDs;
     }
 }
