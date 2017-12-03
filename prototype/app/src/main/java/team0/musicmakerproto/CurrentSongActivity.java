@@ -13,8 +13,10 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 
+
 public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarChangeListener {
 
+    DatabaseHelper SQLdb;
     Playback playback = Playback.getInstance();
     private ImageButton repeat;
     private ImageButton shuffle;
@@ -28,6 +30,9 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_song);
+
+        //SQL database instantiation
+        SQLdb = new DatabaseHelper(this);
 
         //Bind GUI elements.
         repeat = (ImageButton) findViewById(R.id.repeat);
@@ -119,14 +124,21 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
     //Call to SQL db to find out if note has been created for the song.
     private String getNoteForSong()
     {
-        //implement sql call for finding the note based on its path
-        //if it exists, return the contents of the note
+        //Needs a Song instance to check with, or at least a dummy Song instance with path
+        String songPath = "";
+        Song inSong = new Song("","",songPath, "", "", 0);
 
+        //implement sql call for finding the note based on its path
+        Note songNote = SQLdb.getNoteFromSong(inSong);
+        //if it exists, return the contents of the note
+        if(songNote!=null)
+            return songNote.getContents();
         //else...
-        return "";
+        else
+            return "";
     }
 
-
+    //Updates the GUI of the activity.
     private void updateGUI()
     {
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));

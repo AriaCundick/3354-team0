@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class LibraryActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private DatabaseHelper SQLdb;
     private Playlist allSongs;
     private ArrayList<Playlist> allPlaylists;
     private TextView songName;
@@ -70,6 +71,9 @@ public class LibraryActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         GridView playlistCollection = (GridView) findViewById(R.id.PlaylistGrid);
+
+        //SQL database instantiation
+        SQLdb = new DatabaseHelper(this);
 
         //Bind GUI objects
         songName = (TextView) findViewById(R.id.collection_song_name);
@@ -156,15 +160,27 @@ public class LibraryActivity extends AppCompatActivity {
     {
         //Call to SQLiteManager -> for every playlist found, read it into a new playlist object
         //append it to the allPlaylists ArrayList.
+        allPlaylists.addAll(SQLdb.getPlaylists());
     }
+
 	@Override
 	protected void onResume()
     {
         super.onResume();
         updatePlaybackBar();
+        updatePlaylists();
 
     }
 
+    //update all playlists except for the all songs playlist
+    private void updatePlaylists()
+    {
+        for(int i = 1; i < allPlaylists.size(); i++)
+            allPlaylists.remove(i);
+
+        findPlaylistsOnDevice(); //Changes might occur from other activities,
+                                 //so have to make sure playlists are up to date.
+    }
 
     //Description: Updates the playback bar on the bottom of the screen.
 	public void updatePlaybackBar()
@@ -226,7 +242,6 @@ public class LibraryActivity extends AppCompatActivity {
     //Query the external storage of the device to find all mp3 files and compile them into an ArrayList.
     private ArrayList<Song> findSongsOnDevice(){
 
-        Log.i("songs", "started findSongs..()");
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
         //Create an array that consists of the fields desired for the queried data.
@@ -249,7 +264,6 @@ public class LibraryActivity extends AppCompatActivity {
             if( cursor != null){
                 cursor.moveToFirst();
 
-                //int id = 1;
                 while( !cursor.isAfterLast() ){
                     //Song data queried specified in the songDataWanted array.
                     String title = cursor.getString(0).trim();
@@ -263,7 +277,6 @@ public class LibraryActivity extends AppCompatActivity {
                     if(path != null && path.endsWith(".mp3")) {
                         mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size()));
                     }
-                    //id++;
                 }
             }
 
@@ -278,7 +291,5 @@ public class LibraryActivity extends AppCompatActivity {
         return mp3Files;
 
     }
-
-
 
 }

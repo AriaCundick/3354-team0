@@ -9,13 +9,14 @@ import android.os.Parcelable;
 
 import java.util.HashMap;
 
+//Songs hold information regarding the title, artist, etc. of a song on the
+//device. It implements parcelabe to be able to be passed in an intent.
 public class Song implements Parcelable {
 	String title;
 	String artist;
 	String path;
 	String displayName;
 	String songDuration;
-	//int id;
 	static Resources resources;
 	
 	String notes;
@@ -36,7 +37,6 @@ public class Song implements Parcelable {
 		path = inPath;
 		displayName = inDisplayName;
 		songDuration = inSongDuration;
-		//id = inID;
 	}
 	
 	//Set methods
@@ -73,7 +73,6 @@ public class Song implements Parcelable {
 	public String getSongDuration(){
 		return songDuration;
 	}
-	//public int getID() { return id; }
 
 	//Get the image art based on the metadata of the song.
 	public Bitmap getImage() {
