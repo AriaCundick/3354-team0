@@ -26,9 +26,10 @@ import java.util.Random;
 public class Playback {
     private static Playback instance = null;
     private MediaPlayer currentSong;
-    int pauseTime;
-    Playlist playlist; //Keep track of the playlist from which the current song is stored.
-    int id;
+    private int pauseTime, id, shuffleIndex;
+    private Playlist playlist; //Keep track of the playlist from which the current song is stored.
+    private boolean isShuffling, isLooping;
+    private int[] shuffleOrder;
 
     Context context;
 
@@ -38,6 +39,7 @@ public class Playback {
         pauseTime = 0;
         id = 0;
         context = null;
+        isShuffling = isLooping = false;
     }
 
     //Get the static instance of the playback class
@@ -96,7 +98,6 @@ public class Playback {
         context = c;
     }
 
-
     //Skip to the next song in the playlist
     public void skipForward()
     {
@@ -104,14 +105,19 @@ public class Playback {
         if(playlist == null)
             return;
 
-        //Do a bounds check to see if the ID needs to circle around to 0.
-        if(id + 1 >= playlist.size())
-            id = 0;
-        else
-            id++;
 
-        //Begin playback of next song.
-        togglePlay(id, playlist, context);
+        if(isShuffling) //play the next song in the shuffled order.
+        {
+            shuffleIndex = boundsCheckPos(shuffleIndex);
+            togglePlay(shuffleIndex, playlist, context);
+        }
+        else if(!isLooping) //play the next song in sequential order.
+        {
+            id = boundsCheckPos(id);
+            togglePlay(id, playlist, context);
+        }
+        else
+            togglePlay(id, playlist, context); //replay the current song.
     }
 
     //Skip to the previous song in the playlist
@@ -121,38 +127,22 @@ public class Playback {
         if(playlist == null)
             return;
 
-        //Do a bounds check to see if the ID needs to circle around to 0.
-        if(id - 1 < 0)
-            id = playlist.size() - 1;
-        else
-            id--;
-
-        //Begin playback of previous song.
-        togglePlay(id, playlist, context);
-
-    }
-
-<<<<<<< HEAD
-    //Shuffles the playlist
-    public void shufflePlaylist()
-    {
-        //Shuffle the playlist
-        for (int i = 0; i<playlist.size(); ++i)
+        if(isShuffling) //play the next song in the shuffled order.
         {
-            Random rand = new Random();
-            int temp = rand.nextInt(playlist.size() - i) + i;
-
+            shuffleIndex = boundsCheckNeg(shuffleIndex);
+            togglePlay(shuffleIndex, playlist, context);
         }
-
+        else if(!isLooping) //play the next song in sequential order.
+        {
+            id = boundsCheckNeg(id);
+            togglePlay(id, playlist, context);
+        }
+        else
+            togglePlay(id, playlist, context); //replay the current song.
 
     }
 
-
-
-
-=======
     //Return the name of the song.
->>>>>>> f1a096ee41f9156e57df8cce0d23cc9e20fac441
     public String getSongName()
     {
         if(playlist != null) {
@@ -172,6 +162,64 @@ public class Playback {
                 return img;
         }
         return  BitmapFactory.decodeResource(r, R.drawable.ic_default_albumart2);
+    }
+
+    public void setShuffling() { isShuffling = !isShuffling; }
+    public void setLooping() { isLooping = !isLooping; }
+
+    //Do a bounds check to see if the ID needs to circle around to 0.
+    private int boundsCheckPos(int id)
+    {
+        if (id + 1 >= playlist.size())
+            id = 0;
+        else
+            id++;
+
+        return id;
+    }
+
+    //Do a bounds check to see if the ID needs to circle around to 0.
+    private int boundsCheckNeg(int id)
+    {
+        if(id - 1 < 0)
+            id = playlist.size() - 1;
+        else
+            id--;
+
+        return id;
+    }
+
+    //Create the order in which to shuffle songs from the playlist
+    private void shuffleOrder()
+    {
+        shuffleOrder = new int[playlist.size()];
+        shuffleIndex = 0;
+
+        for(int i = 0; i <playlist.size(); i++)
+            shuffleOrder[i] = i;
+
+        //Swap the current id to the first position
+        //so it doesn't get played again in the shuffle
+        shuffleOrder = swap(shuffleOrder, id, 0);
+
+        for(int i = 1; i < playlist.size(); i++)
+        {
+            //Swap shuffleOrder[i] with any random element from the array
+            Random rand = new Random();
+            int swapIndex = rand.nextInt(playlist.size() - 1) + 1;
+            while(swapIndex == i) swapIndex = rand.nextInt(playlist.size() - 1) + 1; //Ensures swapIndex isn't the same as i
+            shuffleOrder = swap(shuffleOrder, i, swapIndex);
+        }
+
+    }
+
+    //Swaps two elements of an array.
+    private int[] swap(int[] arr, int i1, int i2)
+    {
+        int temp = arr[i1];
+        arr[i1] = arr[i2];
+        arr[i2] = temp;
+        return arr;
     }
 
 }
