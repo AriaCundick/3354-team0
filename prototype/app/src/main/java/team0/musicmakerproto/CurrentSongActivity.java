@@ -43,12 +43,11 @@ public class CurrentSongActivity extends AppCompatActivity {
             }
         });
 
-        // open note activity
+        // open individual note activity for song
         noteActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loadNote = new Intent(CurrentSongActivity.this,IndividualNote.class);
-                startActivity(loadNote);
+                    Intent loadNote = new Intent(CurrentSongActivity.this,IndividualNote.class);
             }
         });
     }
