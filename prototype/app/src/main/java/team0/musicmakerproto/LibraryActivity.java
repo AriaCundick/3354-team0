@@ -218,6 +218,7 @@ public class LibraryActivity extends AppCompatActivity {
             if( cursor != null){
                 cursor.moveToFirst();
 
+                //int id = 1;
                 while( !cursor.isAfterLast() ){
                     //Song data queried specified in the songDataWanted array.
                     String title = cursor.getString(0).trim();
@@ -229,8 +230,9 @@ public class LibraryActivity extends AppCompatActivity {
                     String songDuration = cursor.getString(4);
                     cursor.moveToNext();
                     if(path != null && path.endsWith(".mp3")) {
-                        mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size() + 1));
+                        mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size()));
                     }
+                    //id++;
                 }
             }
 
