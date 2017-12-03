@@ -35,27 +35,26 @@
     <GridView
         android:id="@+id/PlaylistGrid"
         android:layout_width="370dp"
-        android:layout_height="327dp"
+        android:layout_height="271dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:numColumns="2"
+        app:layout_constraintBottom_toTopOf="@+id/PlaybackPanel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_playlist_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/search_library_songs" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/PlaybackPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         android:background="#33FF0000"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlaylistGrid"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/notes_albumCover"
@@ -134,5 +133,19 @@
             app:srcCompat="?attr/selectableItemBackgroundBorderless" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <EditText
+        android:imeOptions="actionDone"
+        android:id="@+id/search_library_songs"
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/searchPlaylist"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_playlist_btn" />
 
 </android.support.constraint.ConstraintLayout>

@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context="team0.musicmakerproto.PlaylistViewActivity">
 
+    <EditText
+        android:id="@+id/search_playlist_view_songs"
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/searchSong"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_edit_playlist" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/PlaybackPanel"
         android:layout_width="match_parent"
@@ -96,14 +110,14 @@
     <ListView
         android:id="@+id/songList"
         android:layout_width="344dp"
-        android:layout_height="388dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="336dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/PlaybackPanel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_edit_playlist" />
+        app:layout_constraintTop_toBottomOf="@+id/search_playlist_view_songs" />
 
     <Button
         android:id="@+id/btn_edit_playlist"
