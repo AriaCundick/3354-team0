@@ -1,5 +1,6 @@
 package team0.musicmakerproto;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -26,8 +27,8 @@ import java.util.Random;
 public class Playback {
     private static Playback instance = null;
     private MediaPlayer currentSong;
+    Playlist playlist; //Keep track of the playlist from which the current song is stored.
     private int pauseTime, id, shuffleIndex;
-    private Playlist playlist; //Keep track of the playlist from which the current song is stored.
     private boolean isShuffling, isLooping;
     private int[] shuffleOrder;
 
@@ -98,6 +99,7 @@ public class Playback {
         context = c;
     }
 
+
     //Skip to the next song in the playlist
     public void skipForward()
     {
@@ -118,6 +120,8 @@ public class Playback {
         }
         else
             togglePlay(id, playlist, context); //replay the current song.
+
+
     }
 
     //Skip to the previous song in the playlist
@@ -139,7 +143,12 @@ public class Playback {
         else
             togglePlay(id, playlist, context); //replay the current song.
 
+        //Begin playback of previous song.
+        togglePlay(id, playlist, context);
+
     }
+
+
 
     //Return the name of the song.
     public String getSongName()
@@ -166,17 +175,9 @@ public class Playback {
     //GUI onClick calls this function
     public void setShuffling()
     {
+        isShuffling = !isShuffling;
         if(isShuffling)
-        {
-            isShuffling = false;
-            Log.i("shuffle", "shuffling is false");
-        }
-        else
-        {
-            isShuffling = true;
-            Log.i("shuffle", "shuffling is true");
             shuffleOrder();
-        }
 
     }
 
