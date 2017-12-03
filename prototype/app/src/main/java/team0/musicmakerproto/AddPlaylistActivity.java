@@ -18,7 +18,7 @@ import org.w3c.dom.Text;
 
 public class AddPlaylistActivity extends AppCompatActivity {
 
-
+    private DatabaseHelper SQLdb;
     private ListView songs;
     private Button btnDone;
     private TextView playlistName;
@@ -27,6 +27,10 @@ public class AddPlaylistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_playlist);
+
+        //SQL database instantiation
+        SQLdb = new DatabaseHelper(this);
+
         //Bind GUI elements programmatically
         songs = (ListView) findViewById(R.id.new_playlist_listView);
         btnDone = (Button) findViewById(R.id.btn_done_newPlaylist);
@@ -98,17 +102,20 @@ public class AddPlaylistActivity extends AppCompatActivity {
         //First check to see if name already exists
         String name = p.getPlaylistName();
 
-        //insert code to query the db for the name
-
-        //if name already exists,
-        //Toast.makeText(this, "Playlist name already exists", Toast.LENGTH_SHORT).show();
-        //return false
-
+        //if name already exists
+        if(!SQLdb.getPlaylistID(p).equals(DatabaseHelper.ID_NOT_FOUND) || name.equals("All Songs"))
+        {
+            Toast.makeText(this, "Playlist name already exists", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         //else, add the playlist to the SQL db
-        //and start the main activity again.
-        Intent intent = new Intent(AddPlaylistActivity.this, LibraryActivity.class);
-        startActivity(intent);
-        return true;
+        else {
+            SQLdb.insertPlaylist(p);
 
+            //and start the main activity again.
+            Intent intent = new Intent(AddPlaylistActivity.this, LibraryActivity.class);
+            startActivity(intent);
+            return true;
+        }
     }
 }
