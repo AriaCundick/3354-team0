@@ -1,15 +1,10 @@
 package team0.musicmakerproto;
 
-import android.app.Activity;
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -53,8 +48,27 @@ public class InstrumentedTest {
             p.skipForward();
 
         assertEquals("Current song status:", true, p.getCurrentSong().isPlaying());
-
     }
 
+    // Test to see if an index out of bounds exception is triggered on skipping a song in a playlist of size 1.
+    @Test
+    public void testBoundsChecking() {
+        Playback p = Playback.getInstance();
+
+        //play the only song in the playlist
+        p.togglePlay(0, playlist, InstrumentationRegistry.getContext());
+        String songName1 = p.getSongName();
+
+        //Skip forward, which should lead to the same song being played
+        p.skipForward();
+        String songName2 = p.getSongName();
+
+        //Skip backward, leading to the same song as well.
+        p.skipBackward();
+        String songName3 = p.getSongName();
+
+        assertEquals("First played song and second played song:", songName1, songName2);
+        assertEquals("First played song and 3rd played song:", songName1, songName3);
+    }
 
 }

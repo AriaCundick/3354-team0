@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -43,6 +44,7 @@ public class Playback extends Service {
         id = 0;
         context = null;
         isShuffling = isLooping = false;
+        activityName = "NoActivity";
     }
 
     @Nullable
@@ -274,9 +276,11 @@ public class Playback extends Service {
                 ImageView songIMG3 =(ImageView) ((Activity)context).findViewById(R.id.albumArtIMG);
                 TextView songTitle3 = (TextView) ((Activity)context).findViewById(R.id.songName_current_song_view);
                 TextView songArtist3 = (TextView) ((Activity)context).findViewById(R.id.artistName_current_song_view);
+                SeekBar seeker = (SeekBar) ((Activity)context).findViewById(R.id.scrubber);
                 songIMG3.setImageBitmap(getSongIMG((context).getResources()));
                 songTitle3.setText(getSongName());
                 songArtist3.setText(getSongArtist());
+                seeker.setMax(currentSong.getDuration());
             default:
         }
     }
@@ -321,7 +325,11 @@ public class Playback extends Service {
             //Swap shuffleOrder[i] with any random element from the array
             Random rand = new Random();
             int swapIndex = rand.nextInt(playlist.size() - 1) + 1;
-            while(swapIndex == i) swapIndex = rand.nextInt(playlist.size() - 1) + 1; //Ensures swapIndex isn't the same as i
+
+            //Ensures swapIndex isn't the same as i
+            while(swapIndex == i)
+                swapIndex = rand.nextInt(playlist.size() - 1) + 1;
+
             shuffleOrder = swap(shuffleOrder, i, swapIndex);
         }
 
