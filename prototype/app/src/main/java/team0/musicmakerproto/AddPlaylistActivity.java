@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 
 public class AddPlaylistActivity extends AppCompatActivity {
 
+    private DatabaseHelper SQLdb;
     private ListView songs;
     private Button btnDone;
     private TextView playlistName;
@@ -100,18 +101,19 @@ public class AddPlaylistActivity extends AppCompatActivity {
     {
         //First check to see if name already exists
         String name = p.getPlaylistName();
-        DatabaseHelper SQLdb = new DatabaseHelper(this);
-
+        SQLdb = new DatabaseHelper(this);
 
         //if name already exists
         if(!SQLdb.getPlaylistID(p).equals(DatabaseHelper.ID_NOT_FOUND) || name.equals("All Songs"))
         {
             Toast.makeText(this, "Playlist name already exists", Toast.LENGTH_SHORT).show();
+            SQLdb.close();
             return false;
         }
         //else, add the playlist to the SQL db
         else {
             SQLdb.insertPlaylist(p);
+            SQLdb.close();
 
             //and start the main activity again.
             Intent intent = new Intent(AddPlaylistActivity.this, LibraryActivity.class);

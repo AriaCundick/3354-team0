@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Gerardo Rodriguez on 12/2/2017.
@@ -88,6 +87,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(DBContract.PlaylistEntry.COL_TITLE, inPlaylist.getPlaylistName());
 
         long result = db.insert(DBContract.PlaylistEntry.TABLE_NAME, null, contentValues);
+
+        //Database no longer needed
+        db.close();
+
         if(result == -1)
             return false;
         else
@@ -110,6 +113,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(DBContract.SongEntry.COL_DURATION, inSong.getSongDuration());
 
         long result = db.insert(DBContract.SongEntry.TABLE_NAME, null, contentValues);
+
+        //Database no longer needed
+        db.close();
+
         if(result == -1)
             return false;
         else
@@ -118,10 +125,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Adds a song to a playlist by joining the songID with the playlistID in the PlaylistSong table
     public boolean addSongToPlaylist(Song inSong, Playlist inPlaylist){
+        //Checks if song exists in Song table
         String songID = getSongID(inSong);
         if(songID.equals(ID_NOT_FOUND))
             return false;
 
+        //Checks if playlist exists in Playlist table
         String playlistID = getPlaylistID(inPlaylist);
         if(songID.equals(ID_NOT_FOUND))
             return false;
@@ -133,6 +142,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(DBContract.PlaylistSongEntry.COL_SONG_ID, songID);
 
         long result = db.insert(DBContract.PlaylistSongEntry.TABLE_NAME, null, contentValues);
+
+        //Database no longer needed
+        db.close();
+
         if(result == -1)
             return false;
         else
@@ -157,6 +170,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(DBContract.NoteEntry.COL_NOTE_CONTENT, inNote.getContents());
 
         long result = db.insert(DBContract.NoteEntry.TABLE_NAME, null, contentValues);
+
+        //Database no longer needed
+        db.close();
+
         if(result == -1)
             return false;
         else
@@ -186,6 +203,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             null,                       //How to filter group rows
             sortOrder                           //Sort order
         );
+
+        //Database no longer needed
+        db.close();
 
         //Go through cursor to get songID, return error otherwise
         String songID = ID_NOT_FOUND;
@@ -217,6 +237,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 null,                           //How to filter group rows
                 sortOrder                               //Sort order
         );
+
+        //Database no longer needed
+        db.close();
 
         //Go through cursor to get playlistID, return error otherwise
         String playlistID = ID_NOT_FOUND;
@@ -258,6 +281,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 sortOrder                                   //Sort order
         );
 
+        //Database no longer needed
+        db.close();
+
         //Add data to Note using data from cursor result
         String noteTitle = "";
         String noteContent = "";
@@ -284,6 +310,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
         String id = "";
         String name = "";
+
+        //Database no longer needed
+        db.close();
 
         //Creates a playlist for every entry in the Playlist table
         //Gets playlist name from query, gets playlist songs using playlist ID from query and running getSongsInPlaylist()
@@ -329,6 +358,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 sortOrder                                   //Sort order
         );
 
+        //Database no longer needed
+        db.close();
+
         //Add songs to songList using data from cursor results
         ArrayList<Song> songList = new ArrayList<Song>();
         int songID;
@@ -344,8 +376,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             songDuration = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.SongEntry.COL_DURATION));
             songList.add(new Song(songTitle, songArtist, songPath, songTitle,songDuration, songID));
         }
-
-
         return songList;
     }
 
@@ -372,6 +402,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 null,                               //How to filter group rows
                 sortOrder                                   //Sort order
         );
+
+        //Database no longer needed
+        db.close();
 
         //Check if no songs exist in playlist, return null if true
         int numSongsInPlaylist = cursor.getCount();

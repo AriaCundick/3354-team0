@@ -31,9 +31,6 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_song);
 
-        //SQL database instantiation
-        SQLdb = new DatabaseHelper(this);
-
         //Bind GUI elements.
         repeat = (ImageButton) findViewById(R.id.repeat);
         shuffle = (ImageButton) findViewById(R.id.shuffle);
@@ -124,12 +121,19 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
     //Call to SQL db to find out if note has been created for the song.
     private String getNoteForSong()
     {
+        //SQL database instantiation
+        SQLdb = new DatabaseHelper(this);
+
         //Needs a Song instance to check with, or at least a dummy Song instance with path
-        String songPath = "";
+        String songPath = playback.getSongPath();
         Song inSong = new Song("","",songPath, "", "", 0);
 
         //implement sql call for finding the note based on its path
         Note songNote = SQLdb.getNoteFromSong(inSong);
+
+        //SQL database no longer needed
+        SQLdb.close();
+
         //if it exists, return the contents of the note
         if(songNote!=null)
             return songNote.getContents();

@@ -15,6 +15,7 @@ import android.widget.ListView;
 //removing songs, or deleting the entire playlist.
 public class EditPlaylistActivity extends AppCompatActivity {
 
+    private DatabaseHelper SQLdb;
     private ListView songs;
     private Button btnAdd, btnDelete, btnSave;
     private EditSongAdapter adapter;
@@ -94,6 +95,7 @@ public class EditPlaylistActivity extends AppCompatActivity {
     //Delete the playlist from the sqlite database.
     public void deletePlaylist(View v)
     {
+
         //Call to SQLManager class -> delete the current playlist by its name (p.getPlaylistName())
 
         //Go back to main activity.

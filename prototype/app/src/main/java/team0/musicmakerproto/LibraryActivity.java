@@ -72,9 +72,6 @@ public class LibraryActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         GridView playlistCollection = (GridView) findViewById(R.id.PlaylistGrid);
 
-        //SQL database instantiation
-        SQLdb = new DatabaseHelper(this);
-
         //Bind GUI objects
         songName = (TextView) findViewById(R.id.collection_song_name);
         addButton = (Button) findViewById(R.id.new_playlist_btn);
@@ -158,9 +155,15 @@ public class LibraryActivity extends AppCompatActivity {
     //and loads them into the allPlaylists object.
 	private void findPlaylistsOnDevice()
     {
+        //SQL database instantiation
+        SQLdb = new DatabaseHelper(this);
+
         //Call to SQLiteManager -> for every playlist found, read it into a new playlist object
         //append it to the allPlaylists ArrayList.
         allPlaylists.addAll(SQLdb.getPlaylists());
+
+        //SQL database no longer needed
+        SQLdb.close();
     }
 
 	@Override
@@ -241,6 +244,9 @@ public class LibraryActivity extends AppCompatActivity {
     
     //Query the external storage of the device to find all mp3 files and compile them into an ArrayList.
     private ArrayList<Song> findSongsOnDevice(){
+        //SQLite database instantiation and creation of main playlist allSongs
+        SQLdb = new DatabaseHelper(this);
+        SQLdb.insertPlaylist(allSongs);
 
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
@@ -275,7 +281,10 @@ public class LibraryActivity extends AppCompatActivity {
                     String songDuration = cursor.getString(4);
                     cursor.moveToNext();
                     if(path != null && path.endsWith(".mp3")) {
-                        mp3Files.add(new Song(title, artist, path, displayName, songDuration, mp3Files.size()));
+                        Song songToAdd = new Song(title, artist, path, displayName, songDuration, mp3Files.size());
+                        mp3Files.add(songToAdd);
+                        SQLdb.insertSong(songToAdd);
+                        SQLdb.addSongToPlaylist(songToAdd, allSongs);
                     }
                 }
             }
@@ -287,6 +296,9 @@ public class LibraryActivity extends AppCompatActivity {
                 cursor.close();
             }
         }
+
+        //SQL database no longer needed
+        SQLdb.close();
 
         return mp3Files;
 
