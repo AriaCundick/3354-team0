@@ -144,6 +144,7 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
         songTitle.setText(playback.getSongName());
         songArtist.setText(playback.getSongArtist());
+        songTime.setText(milliToTime());
     }
 
     // Scrubber to change song Position
@@ -180,6 +181,32 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
                 playback.getCurrentSong().seekTo(progress * 1000);
             }
 
+    }
+
+    // Convert playback time for single song duration
+    public String milliToTime() {
+
+        String secs = "";
+        String finalTime = "";
+        long originalTime = playback.getCurrentSong().getDuration();
+
+        // conversion of milliseconds
+        int minutes = (int)(originalTime % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int)((originalTime % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+
+        // add "0" to seconds if it is single digit
+        if (seconds < 10) {
+            secs = "0" + seconds;
+        }
+        else {
+            secs = "" + seconds;
+        }
+
+        // append strings
+        finalTime = minutes + ":" + secs;
+
+        // return song duration
+        return finalTime;
     }
 
 }
