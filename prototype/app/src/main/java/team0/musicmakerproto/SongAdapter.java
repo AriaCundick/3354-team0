@@ -99,8 +99,6 @@ public class SongAdapter extends BaseAdapter implements Filterable {
                 FilterResults results = new FilterResults();
                 ArrayList<Song> FilteredArraySongs = new ArrayList<Song>();
 
-                // perform your search here using the searchConstraint String.
-
                 constraint = constraint.toString().toLowerCase();
                 for (int i = 0; i < searchableSongs.size(); i++) {
                     Song dataName = searchableSongs.get(i);

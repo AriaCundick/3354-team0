@@ -25,9 +25,10 @@ public class NotesAdapter extends BaseAdapter implements Filterable {
         this.mContext = mContext;
         this.searchableNotes = this.allNotes = s;
     }
+
     @Override
     public int getCount() {
-        return allNotes.size();
+        return searchableNotes.size();
     }
 
     @Override
@@ -77,16 +78,14 @@ public class NotesAdapter extends BaseAdapter implements Filterable {
 
                 searchableNotes = allNotes;
                 FilterResults results = new FilterResults();
-                ArrayList<String> FilteredArrayNotes = new ArrayList<String>();
-
-                // perform your search here using the searchConstraint String.
+                ArrayList<Note> FilteredArrayNotes = new ArrayList<Note>();
 
                 constraint = constraint.toString().toLowerCase();
                 for (int i = 0; i < searchableNotes.size(); i++) {
-                    String dataName = searchableNotes.get(i).getName();
+                    Note dataName = searchableNotes.get(i);
 
-                    //Add song if the constraint string contains the title of the note.
-                    if (dataName.toLowerCase().contains(constraint.toString()))  {
+                    //Add note if the constraint string contains the title of the note.
+                    if (dataName.getName().toLowerCase().contains(constraint.toString()))  {
                         FilteredArrayNotes.add(dataName);
                     }
                 }

@@ -84,8 +84,6 @@ public class PlaylistAdapter extends BaseAdapter implements Filterable {
                 FilterResults results = new FilterResults();
                 ArrayList<Playlist> FilteredArray = new ArrayList<Playlist>();
 
-                // perform your search here using the searchConstraint String.
-
                 constraint = constraint.toString().toLowerCase();
                 for (int i = 0; i < playlists.size(); i++) {
                     Playlist dataName = playlists.get(i);
