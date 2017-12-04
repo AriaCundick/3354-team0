@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 public class IndividualNote extends AppCompatActivity {
 
+    DatabaseHelper SQLdb;
     EditText textWindow;
     String path, name, contents;
     Intent i;
@@ -45,6 +46,10 @@ public class IndividualNote extends AppCompatActivity {
         if(contents != textWindow.getText().toString())
         {
             //update here
+            SQLdb = new DatabaseHelper(this);
+            SQLdb.updateNote(name, textWindow.getText().toString());
+            SQLdb.close();
+
         }
     }
 

@@ -341,7 +341,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String id = "";
         String name = "";
 
-
         //Creates a playlist for every entry in the Playlist table
         //Gets playlist name from query, gets playlist songs using playlist ID from query and running getSongsInPlaylist()
         while(cursor.moveToNext()){
@@ -455,6 +454,31 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         //db.close();
 
         return songIDs;
+    }
+
+    public boolean updateNote(String title, String newContent){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Set new content value
+        ContentValues values = new ContentValues();
+        values.put(DBContract.NoteEntry.COL_NOTE_CONTENT, newContent);
+
+        //Select content row to update, based on title of note
+        String selection = DBContract.NoteEntry.COL_NOTE_TITLE + " LIKE ?";
+        String[] selectionArgs = {title};
+
+        //Actual updating of Note
+        long count = db.update(
+            DBContract.NoteEntry.TABLE_NAME,
+            values,
+            selection,
+            selectionArgs
+        );
+
+        if(count == -1)
+            return false;
+        else
+            return true;
     }
 
     public boolean deletePlaylist(Playlist inPlaylist){
