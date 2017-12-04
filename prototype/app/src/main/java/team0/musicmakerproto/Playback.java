@@ -44,6 +44,7 @@ public class Playback extends Service {
         id = 0;
         context = null;
         isShuffling = isLooping = false;
+        activityName = "NoActivity";
     }
 
     @Nullable

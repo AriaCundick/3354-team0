@@ -1,15 +1,10 @@
 package team0.musicmakerproto;
 
-import android.app.Activity;
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -53,8 +48,6 @@ public class InstrumentedTest {
             p.skipForward();
 
         assertEquals("Current song status:", true, p.getCurrentSong().isPlaying());
-
     }
-
 
 }
