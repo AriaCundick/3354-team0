@@ -145,6 +145,8 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         songTitle.setText(playback.getSongName());
         songArtist.setText(playback.getSongArtist());
         songTime.setText(milliToTime());
+        songScrubber.setMax(playback.getCurrentSong().getDuration());
+
     }
 
     // Scrubber to change song Position
@@ -156,6 +158,7 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
                 if (playback.getCurrentSong() != null) {
                     int currentPos = playback.getCurrentSong().getCurrentPosition() / 1000;
                     songScrubber.setProgress(currentPos);
+                    currentTimeStamp.setText(String.valueOf(currentPos));
                 }
 
                 songScrubber.postDelayed(this, 1000);

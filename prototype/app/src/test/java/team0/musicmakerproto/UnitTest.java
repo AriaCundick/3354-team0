@@ -28,7 +28,7 @@ public class UnitTest {
         playlist.addSong(new Song("Test", "none", "android.resource://" + BuildConfig.APPLICATION_ID + "/" + R.raw.weeknd, "Test", "30", 0));
     }
 
-    
+
 
 
 }
