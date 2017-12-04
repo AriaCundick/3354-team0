@@ -136,10 +136,14 @@ public class NotesActivity extends AppCompatActivity {
         //SQL database instantiation
         SQLdb = new DatabaseHelper(this);
 
-        //notes.addAll(SQLdb.getNotes());
         //assign notes from the DB to the notes ArrayList
         //for every entry in the notes db
         //notes.add(new Note(noteName, noteContents, notePath);
+
+        //May want to just set notes=SQLdb.getNotes();
+        notes.addAll(SQLdb.getNotes());
+
+        SQLdb.close();
     }
 
     //Updates the GUI to show information regarding the current song being played.

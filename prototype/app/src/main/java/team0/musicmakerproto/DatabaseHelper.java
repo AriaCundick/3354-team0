@@ -85,7 +85,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(DBContract.PlaylistEntry.COL_TITLE, inPlaylist.getPlaylistName());
-
         long result = db.insert(DBContract.PlaylistEntry.TABLE_NAME, null, contentValues);
 
         //Database no longer needed
@@ -284,8 +283,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 sortOrder                                   //Sort order
         );
 
-
-
         //Add data to Note using data from cursor result
         String noteTitle = "";
         String noteContent = "";
@@ -304,12 +301,40 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return null;
     }
 
+    //Returns an ArrayList with all the notes in the Note table
+    public ArrayList<Note> getNotes(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //May cause problems with cursor.getColumnIndexOrThrow() since rawQuery, but maybe not
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBContract.NoteEntry.TABLE_NAME, null);
+
+        //Setup
+        ArrayList<Note> notes = new ArrayList<Note>();
+        String noteName = "";
+        String noteContents = "";
+        String notePath = "";
+
+        //Creates a note for every entry in the Note table
+        //Gets note name, note contents, and note path using query
+        while(cursor.moveToNext()){
+            noteName = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.NoteEntry.COL_NOTE_TITLE));
+            noteContents = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.NoteEntry.COL_NOTE_CONTENT));
+            notePath = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.NoteEntry.COL_SONG_PATH));
+            notes.add(new Note(noteName, noteContents, notePath));
+        }
+
+        //Database no longer needed
+        db.close();
+
+        return notes;
+    }
+
     //Returns ArrayList with all the playlists in the Playlist table along with their songs
     public ArrayList<Playlist> getPlaylists(){
         SQLiteDatabase db = this.getReadableDatabase();
 
         //May cause problems with cursor.getColumnIndexOrThrow() since rawQuery, but maybe not
-        Cursor cursor = db.rawQuery("select * from " + DBContract.PlaylistEntry.TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBContract.PlaylistEntry.TABLE_NAME, null);
 
         //Setup
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
@@ -426,7 +451,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         return songIDs;
     }
-    
+
     public boolean deletePlaylist(Playlist inPlaylist){
         String playlistID = getPlaylistID(inPlaylist);
         if(playlistID.equals(ID_NOT_FOUND))
