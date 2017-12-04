@@ -110,6 +110,12 @@ public class AddPlaylistActivity extends AppCompatActivity {
             SQLdb.close();
             return false;
         }
+        else if(p.size() == 0)
+        {
+            Toast.makeText(this, "Playlist must have songs added to it", Toast.LENGTH_SHORT).show();
+            SQLdb.close();
+            return false;
+        }
         //else, add the playlist to the SQL db
         else {
             SQLdb.insertPlaylist(p);

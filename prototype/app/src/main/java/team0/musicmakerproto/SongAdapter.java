@@ -22,6 +22,13 @@ public class SongAdapter extends BaseAdapter implements Filterable {
     private ArrayList<Song> searchableSongs;
     private ArrayList<Song> allSongs;
 
+    public SongAdapter()
+    {
+        this.mContext = null;
+        this.searchableSongs = this.allSongs = new ArrayList<Song>();
+
+    }
+
     public SongAdapter(Context mContext, ArrayList<Song> s) {
         this.mContext = mContext;
         this.searchableSongs = this.allSongs = s;

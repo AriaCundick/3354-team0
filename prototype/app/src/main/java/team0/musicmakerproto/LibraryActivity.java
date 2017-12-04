@@ -87,15 +87,15 @@ public class LibraryActivity extends AppCompatActivity {
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
 		allSongs.readExistingPlaylist(getPermission());
-        Playlist tplist = new Playlist();
-        tplist.addSong(allSongs.getSong(0));
+        //Playlist tplist = new Playlist();
+        //tplist.addSong(allSongs.getSong(0));
 
         /* Load the adapter for the playlist arraylist. */
         final PlaylistAdapter playlistAdapter = new PlaylistAdapter(this, allPlaylists);
         playlistCollection.setAdapter(playlistAdapter);
 
 		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
-        allPlaylists.add(tplist);
+        //allPlaylists.add(tplist);
         findPlaylistsOnDevice();
 
         searchFilter.addTextChangedListener(new TextWatcher() {
@@ -246,7 +246,7 @@ public class LibraryActivity extends AppCompatActivity {
     private ArrayList<Song> findSongsOnDevice(){
         //SQLite database instantiation and creation of main playlist allSongs
         SQLdb = new DatabaseHelper(this);
-        SQLdb.insertPlaylist(allSongs);
+        //SQLdb.insertPlaylist(allSongs);
 
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
@@ -284,11 +284,12 @@ public class LibraryActivity extends AppCompatActivity {
                         Song songToAdd = new Song(title, artist, path, displayName, songDuration, mp3Files.size());
                         mp3Files.add(songToAdd);
                         SQLdb.insertSong(songToAdd);
-                        SQLdb.addSongToPlaylist(songToAdd, allSongs);
+                        //SQLdb.addSongToPlaylist(songToAdd, allSongs);
                     }
                 }
             }
-
+            for(Song s: mp3Files)
+                Log.i("addquery", s.getTitle());
         } catch (Exception e) {
             Log.e("es_querying_error", e.toString());
         }finally{
