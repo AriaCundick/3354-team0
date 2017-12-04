@@ -43,6 +43,7 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         songArtist = (TextView) findViewById(R.id.artistName_current_song_view);
         songScrubber = (SeekBar) findViewById(R.id.scrubber);
         songScrubber.setOnSeekBarChangeListener(this);
+        songScrubber.setMax(100);
         songTime = (TextView) findViewById(R.id.totalDuration);
         currentTimeStamp = (TextView) findViewById(R.id.timeStamp);
         updateRepeatColor();
@@ -85,7 +86,6 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
 
         // update
         updateGUI();
-        run();
     }
 
     public void btnPlayPause(View v) { playback.togglePlay(); }
@@ -145,24 +145,8 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         songArtist.setText(playback.getSongArtist());
         int currentSongLength = playback.getCurrentSong().getDuration();
         songTime.setText(milliToTime(currentSongLength));
+        updateProgress();
     }
-
-    // Scrubber to change song Position
-    public void run() {
-        CurrentSongActivity.this.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                if (playback.getCurrentSong() != null) {
-                    int currentPos = playback.getCurrentSong().getCurrentPosition() / 1000;
-                    songScrubber.setProgress(currentPos);
-                }
-
-                songScrubber.postDelayed(this, 1000);
-            }
-        }) ;
-    }
-
 
     @Override
     public void onStopTrackingTouch(SeekBar songScrubber) {
@@ -209,11 +193,11 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         String finalTime = "";
         long originalTime = songTime;
 
-        // conversion of milliseconds
+        // Conversion of milliseconds
         int minutes = (int)(originalTime % (1000 * 60 * 60)) / (1000 * 60);
         int seconds = (int)((originalTime % (1000 * 60 * 60)) % (1000 * 60) / 1000);
 
-        // add "0" to seconds if it is single digit
+        // Add "0" to seconds if it is single digit
         if (seconds < 10) {
             secs = "0" + seconds;
         }
@@ -221,10 +205,10 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
             secs = "" + seconds;
         }
 
-        // append strings
+        // Append strings
         finalTime = minutes + ":" + secs;
 
-        // return song duration
+        // Return song duration
         return finalTime;
     }
 
@@ -235,14 +219,15 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         long currentSec = (int) (current / 1000);
         long totalSecs = (int) (total / 1000);
 
-        // calculate percentage
+        // Calculate percentage
         percent = (((double) currentSec / totalSecs));
 
-        // return percentage
+        // Return percentage
         return percent.intValue();
 
     }
 
+    // Convert progress percentage to timer
     public int progressTimerConversion(int progress, int total) {
         int current = 0;
         total = (int) (total / 1000);
@@ -251,21 +236,26 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         return current * 1000;
     }
 
+    // Update song progression
     public void updateProgress() {
         pHandler.postDelayed(updateTimer, 100);
     }
 
+    // Update Timer
     private Runnable updateTimer = new Runnable() {
         public void run() {
             long totalDuration = getSongDuration();
             long currentDuration = getCurrentPosition();
 
-            // display completed time
+            // Display completed time
             currentTimeStamp.setText(milliToTime((int)currentDuration));
 
-            // update progress bar
+            // Update progress bar
             int progress = (int)getProgressPercentage(currentDuration, totalDuration);
-            songScrubber.setProgress(progress);
+            //songScrubber.setProgress(progress);
+            songScrubber.setProgress((int)currentDuration / 1000);
+            //songScrubber.postDelayed(this, 1000);
+
 
             pHandler.postDelayed(this, 100);
         }
