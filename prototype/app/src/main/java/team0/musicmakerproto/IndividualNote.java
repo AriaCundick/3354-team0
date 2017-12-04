@@ -58,19 +58,10 @@ public class IndividualNote extends AppCompatActivity {
 
 
         //Activate next activity
-        String caller = getIntent().getStringExtra("caller");
-        Log.i("call", caller);
-        Class c = null;
-        try {
-
-            c = Class.forName(caller);
-        }catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+        String caller = getIntent().getStringExtra("caller").trim();
         Intent intent;
-        if(c != null)
-            intent = new Intent(IndividualNote.this, c);
+        if(caller.equals("CurrentSongActivity"))
+            intent = new Intent(IndividualNote.this, CurrentSongActivity.class);
         else
             intent = new Intent (IndividualNote.this, NotesActivity.class);
 

@@ -32,6 +32,8 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_song);
 
+        setTitle("Current song");
+
         //Bind GUI elements.
         repeat = (ImageButton) findViewById(R.id.repeat);
         shuffle = (ImageButton) findViewById(R.id.shuffle);
@@ -152,12 +154,15 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
     //Updates the GUI of the activity.
     private void updateGUI()
     {
-        songIMG.setImageBitmap(playback.getSongIMG(getResources()));
-        songTitle.setText(playback.getSongName());
-        songArtist.setText(playback.getSongArtist());
-        int currentSongLength = playback.getCurrentSong().getDuration();
-        songTime.setText(milliToTime(currentSongLength));
-        updateProgress();
+        if(playback.getCurrentSong() != null)
+        {
+            songIMG.setImageBitmap(playback.getSongIMG(getResources()));
+            songTitle.setText(playback.getSongName());
+            songArtist.setText(playback.getSongArtist());
+            int currentSongLength = playback.getCurrentSong().getDuration();
+            songTime.setText(milliToTime(currentSongLength));
+            updateProgress();
+        }
     }
 
 

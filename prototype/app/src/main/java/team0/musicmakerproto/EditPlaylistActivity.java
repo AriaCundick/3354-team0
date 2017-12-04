@@ -27,6 +27,8 @@ public class EditPlaylistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_playlist);
 
+        setTitle("Edit playlist");
+
         //Bind GUI elements to variables
         btnAdd = (Button) findViewById(R.id.btn_edit_playlist_add);
         btnDelete = (Button) findViewById(R.id.btn_edit_playlist_delete);

@@ -30,6 +30,8 @@ public class PlaylistViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_view);
 
+        setTitle("View songs");
+
         //Bind GUI elements.
         songs = (ListView) findViewById(R.id.songList);
         title = (TextView) findViewById(R.id.playlist_view_song_name);

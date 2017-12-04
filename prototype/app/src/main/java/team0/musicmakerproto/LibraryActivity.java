@@ -71,7 +71,7 @@ public class LibraryActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         GridView playlistCollection = (GridView) findViewById(R.id.PlaylistGrid);
-
+        setTitle("Library");
         //Bind GUI objects
         songName = (TextView) findViewById(R.id.collection_song_name);
         addButton = (Button) findViewById(R.id.new_playlist_btn);
