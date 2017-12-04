@@ -28,20 +28,7 @@ public class UnitTest {
         playlist.addSong(new Song("Test", "none", "android.resource://" + BuildConfig.APPLICATION_ID + "/" + R.raw.weeknd, "Test", "30", 0));
     }
 
-    @Test
-    public void testSQLPlaylistCreation() {
-        insertPlaylist(playlist);
-        Playlist newP = new Playlist("testPlaylist");
-
-        assertEquals("Playlist creation of playlist with existing name", false, insertPlaylist(newP));
-
-    }
-
-    private boolean insertPlaylist(Playlist p)
-    {
-        AddPlaylistActivity act = new AddPlaylistActivity();
-        return act.SQLCreatePlaylist(p);
-    }
+    
 
 
 }

@@ -18,7 +18,6 @@ import org.w3c.dom.Text;
 
 public class AddPlaylistActivity extends AppCompatActivity {
 
-    private DatabaseHelper SQLdb;
     private ListView songs;
     private Button btnDone;
     private TextView playlistName;
@@ -29,7 +28,7 @@ public class AddPlaylistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_playlist);
 
         //SQL database instantiation
-        SQLdb = new DatabaseHelper(this);
+
 
         //Bind GUI elements programmatically
         songs = (ListView) findViewById(R.id.new_playlist_listView);
@@ -101,6 +100,8 @@ public class AddPlaylistActivity extends AppCompatActivity {
     {
         //First check to see if name already exists
         String name = p.getPlaylistName();
+        DatabaseHelper SQLdb = new DatabaseHelper(this);
+
 
         //if name already exists
         if(!SQLdb.getPlaylistID(p).equals(DatabaseHelper.ID_NOT_FOUND) || name.equals("All Songs"))
