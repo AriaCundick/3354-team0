@@ -20,6 +20,8 @@ public class IndividualNote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_note);
 
+        setTitle("Edit note");
+        
         //Bind GUI elements.
         textWindow = (EditText) findViewById(R.id.noteWindow);
         textWindow.setMovementMethod(new ScrollingMovementMethod());
@@ -45,25 +47,29 @@ public class IndividualNote extends AppCompatActivity {
         //SQL update of notes db
         if(contents != textWindow.getText().toString())
         {
-            //update here
             SQLdb = new DatabaseHelper(this);
-            SQLdb.updateNote(name, textWindow.getText().toString());
-            SQLdb.close();
+            Song s = new Song("","",path, "", "", 0);
+            //If note doesn't exist, create a new one.
+            if(null == SQLdb.getNoteFromSong(s))
+               SQLdb.addNoteToSong(new Note(name, contents, path), s);
+            else //update the note if it already exists.
+            {
 
+                SQLdb.updateNote(name, textWindow.getText().toString());
+                SQLdb.close();
+            }
         }
     }
 
     public void btnDone(View v)
     {
 
+        SQLUpdateNote();
 
         //Activate next activity
         String caller = getIntent().getStringExtra("caller").trim();
         Intent intent;
-        if(caller.equals("CurrentSongActivity"))
-            intent = new Intent(IndividualNote.this, CurrentSongActivity.class);
-        else
-            intent = new Intent (IndividualNote.this, NotesActivity.class);
+        intent = new Intent (IndividualNote.this, NotesActivity.class);
 
         startActivity(intent);
 
