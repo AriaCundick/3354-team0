@@ -121,6 +121,7 @@ public class AddPlaylistActivity extends AppCompatActivity {
             SQLdb.insertPlaylist(p);
             for(Song s: p.getSongs())
                 SQLdb.addSongToPlaylist(s, p);
+
             SQLdb.close();
 
             //and start the main activity again.

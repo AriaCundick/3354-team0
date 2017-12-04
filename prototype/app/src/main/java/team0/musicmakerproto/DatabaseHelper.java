@@ -369,8 +369,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         };
 
         //Filter results WHERE "selection" = 'selectionArgs'
-        String selection = DBContract.SongEntry._ID + " = ?";
         String[] selectionArgs = getSongIDsInPlaylist(playlistID, db);
+        String selection = DBContract.SongEntry._ID + " = ";
+
+        if(selectionArgs.length > 0)
+            selection += "?";
+        for(int i = 1; i < selectionArgs.length; i++)
+            selection += " or " + DBContract.SongEntry._ID+ "= ?";
 
         //Check if playlist has no songs, return null if true
         if(selectionArgs == null)
