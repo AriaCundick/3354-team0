@@ -220,7 +220,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //Finds the playlist ID in the table Playlist using the provided playlist's name
     public String getPlaylistID(Playlist inPlaylist){
         SQLiteDatabase db = this.getReadableDatabase();
-        return getPlaylistID(db, inPlaylist);
+        String buffer = getPlaylistID(db, inPlaylist);
+
+        //Database no longer needed
+        db.close();
+
+        return buffer;
     }
 
     private String getPlaylistID(SQLiteDatabase db, Playlist inPlaylist){
@@ -248,9 +253,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String playlistID = ID_NOT_FOUND;
         if(cursor.moveToNext())
             playlistID = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry._ID));
-
-        //Database no longer needed
-        db.close();
 
         return playlistID;
     }
