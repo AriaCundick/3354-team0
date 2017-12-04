@@ -131,7 +131,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         //Checks if playlist exists in Playlist table
         String playlistID = getPlaylistID(inPlaylist);
-        if(songID.equals(ID_NOT_FOUND))
+        if(playlistID.equals(ID_NOT_FOUND))
             return false;
 
         SQLiteDatabase db = this.getWritableDatabase();

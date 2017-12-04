@@ -161,25 +161,6 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
     }
 
 
-
-
-    // Scrubber to change song Position
-    public void run() {
-        CurrentSongActivity.this.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                if (playback.getCurrentSong() != null) {
-                    int currentPos = playback.getCurrentSong().getCurrentPosition() / 1000;
-                    songScrubber.setProgress(currentPos);
-                    currentTimeStamp.setText(String.valueOf(currentPos));
-                }
-
-                songScrubber.postDelayed(this, 1000);
-            }
-        }) ;
-    }
-
     @Override
     public void onStopTrackingTouch(SeekBar songScrubber) {
         pHandler.removeCallbacks(updateTimer);
