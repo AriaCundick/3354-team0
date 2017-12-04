@@ -21,7 +21,7 @@ public class IndividualNote extends AppCompatActivity {
         setContentView(R.layout.activity_individual_note);
 
         setTitle("Edit note");
-        
+
         //Bind GUI elements.
         textWindow = (EditText) findViewById(R.id.noteWindow);
         textWindow.setMovementMethod(new ScrollingMovementMethod());
