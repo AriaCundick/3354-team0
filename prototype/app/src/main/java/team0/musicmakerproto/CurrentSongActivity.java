@@ -22,6 +22,7 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
     private ImageButton shuffle;
     private ImageButton noteActivity;
     private ImageView songIMG;
+    private ImageButton playPause;
     private TextView songTitle, songArtist, songTime, currentTimeStamp;
     private SeekBar songScrubber;
     private Handler pHandler = new Handler();
@@ -37,6 +38,7 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         //Bind GUI elements.
         repeat = (ImageButton) findViewById(R.id.repeat);
         shuffle = (ImageButton) findViewById(R.id.shuffle);
+        playPause = (ImageButton) findViewById(R.id.playButton);
         noteActivity = (ImageButton) findViewById(R.id.noteActivity);
         songIMG =(ImageView) findViewById(R.id.albumArtIMG);
         songTitle = (TextView) findViewById(R.id.songName_current_song_view);
@@ -88,14 +90,20 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         updateGUI();
     }
 
-    public void btnPlayPause(View v) { playback.togglePlay(); }
 
+    // Toggle play
+    public void btnPlayPause(View v) {
+        playback.togglePlay();
+    }
+
+    // Skip forward
     public void btnSkipForward(View v)
     {
         playback.skipForward();
         updateGUI();
     }
 
+    // Skip backwards
     public void btnSkipBackward(View v)
     {
         playback.skipBackward();
