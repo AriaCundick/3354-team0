@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(DBContract.PlaylistEntry.COL_TITLE, inPlaylist.getPlaylistName());
+        contentValues.put(DBContract.PlaylistEntry.COL_TITLE, inPlaylist.getPlaylistName());7
         long result = db.insert(DBContract.PlaylistEntry.TABLE_NAME, null, contentValues);
 
         //Database no longer needed
@@ -340,7 +340,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
         String id = "";
         String name = "";
-
 
         //Creates a playlist for every entry in the Playlist table
         //Gets playlist name from query, gets playlist songs using playlist ID from query and running getSongsInPlaylist()
