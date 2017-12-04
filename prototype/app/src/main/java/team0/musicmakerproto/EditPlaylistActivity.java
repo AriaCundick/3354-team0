@@ -99,7 +99,7 @@ public class EditPlaylistActivity extends AppCompatActivity {
         SQLdb = new DatabaseHelper(this);
 
         //Call to SQLManager class -> delete the current playlist by its name (p.getPlaylistName())
-        //SQLdb.deletePlaylist(p.getPlaylistName());
+        //SQLdb.deletePlaylist(p);
 
         //Go back to main activity.
         Intent intent = new Intent(EditPlaylistActivity.this, LibraryActivity.class);

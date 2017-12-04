@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class NotesActivity extends AppCompatActivity {
 
+    private DatabaseHelper SQLdb;
     private Playback playback = Playback.getInstance();
     private TextView title;         // song title
     private ImageView songIMG;      // album art
@@ -132,6 +133,10 @@ public class NotesActivity extends AppCompatActivity {
 
     private void SQLGetNotes()
     {
+        //SQL database instantiation
+        SQLdb = new DatabaseHelper(this);
+
+        //notes.addAll(SQLdb.getNotes());
         //assign notes from the DB to the notes ArrayList
         //for every entry in the notes db
         //notes.add(new Note(noteName, noteContents, notePath);

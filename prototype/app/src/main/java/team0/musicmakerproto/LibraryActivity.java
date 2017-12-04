@@ -246,7 +246,7 @@ public class LibraryActivity extends AppCompatActivity {
     private ArrayList<Song> findSongsOnDevice(){
         //SQLite database instantiation and creation of main playlist allSongs
         SQLdb = new DatabaseHelper(this);
-        SQLdb.insertPlaylist(allSongs);
+        //SQLdb.addPlaylist(allSongs);
 
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
@@ -284,7 +284,7 @@ public class LibraryActivity extends AppCompatActivity {
                         Song songToAdd = new Song(title, artist, path, displayName, songDuration, mp3Files.size());
                         mp3Files.add(songToAdd);
                         SQLdb.insertSong(songToAdd);
-                        SQLdb.addSongToPlaylist(songToAdd, allSongs);
+                        //SQLdb.addSongToPlaylist(songToAdd, allSongs);
                     }
                 }
             }
