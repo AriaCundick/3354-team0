@@ -1,7 +1,11 @@
 package team0.musicmakerproto;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,9 +18,11 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class NameActivity extends AppCompatActivity {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class NameActivity extends AppCompatActivity {
 
         //If the user has not entered their name, create the page.
         super.onCreate(savedInstanceState);
+        getPermission();
         setContentView(R.layout.activity_name);
         btn = (Button)findViewById(R.id.un_btn);
 
@@ -48,8 +55,34 @@ public class NameActivity extends AppCompatActivity {
         });
     }
 
+    //Description: Gets permission from the user to query the device's external storage
+    //Returns ArrayList of all songs on the device.
+    @TargetApi(Build.VERSION_CODES.M)
+    private void getPermission()
+    {
+        //Check if permission to access external storage is granted.
+        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
+    }
+
+    //method is invoked when user hits grant/deny on a permission pop-up.
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch(requestCode) //switch case for request code
+        {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    //Permission granted! query songs.
+                    Toast.makeText(NameActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    Toast.makeText(NameActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     /*
-     * Author: Aria Cundick
      * Description: Check to see if the user has already entered their name.
      *              If their name has been entered, return true.
      *              Otherwise, return false.
@@ -82,7 +115,6 @@ public class NameActivity extends AppCompatActivity {
     }
 
     /*
-     * Author: Aria Cundick
      * Description: Save the user's name to a file to be retrieved later.
      */
     private void saveName() {
@@ -102,7 +134,6 @@ public class NameActivity extends AppCompatActivity {
     }
 
     /*
-     * Author: Aria Cundick
      * Description: Checks to see if the name entered meets the requirements.
      *              (i.e. not blank).
      * Return true if name follows constraints

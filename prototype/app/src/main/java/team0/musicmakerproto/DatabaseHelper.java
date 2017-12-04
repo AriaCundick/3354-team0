@@ -324,8 +324,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         while(cursor.moveToNext()){
             id = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry._ID));
             name = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry.COL_TITLE));
-            Log.i("SQL", "hello there");
-            playlists.add(new Playlist(name, getSongsInPlaylist(id)));
+            playlists.add(new Playlist(name, getSongsInPlaylist(id, db)));
         }
 
         //Database no longer needed
@@ -334,8 +333,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     //Returns ArrayList of Song objects in a particular playlist using data from Song table
-    private ArrayList<Song> getSongsInPlaylist(String playlistID){
-        SQLiteDatabase db = this.getReadableDatabase();
+    private ArrayList<Song> getSongsInPlaylist(String playlistID, SQLiteDatabase db){
+        //SQLiteDatabase db = this.getReadableDatabase();
 
         //Specifies what columns from the database will be returned
         String[] projection = {
@@ -348,11 +347,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         //Filter results WHERE "selection" = 'selectionArgs'
         String selection = DBContract.SongEntry._ID + " = ?";
-        String[] selectionArgs = getSongIDsInPlaylist(playlistID);
+        String[] selectionArgs = getSongIDsInPlaylist(playlistID, db);
 
         //Check if playlist has no songs, return null if true
         if(selectionArgs == null)
             return null;
+
         //How results will be sorted in the Cursor
         String sortOrder = DBContract.SongEntry.COL_TITLE + " DESC";
 
@@ -381,17 +381,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             songArtist = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.SongEntry.COL_ARTIST));
             songDuration = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.SongEntry.COL_DURATION));
             songList.add(new Song(songTitle, songArtist, songPath, songTitle,songDuration, songID));
+            Log.i("SQL", songTitle);
         }
 
-        //Database no longer needed
-        db.close();
         return songList;
     }
 
     //Returns songIDs of songs in a particular playlist
-    private String[] getSongIDsInPlaylist(String playlistID){
-        SQLiteDatabase db = this.getReadableDatabase();
-
+    private String[] getSongIDsInPlaylist(String playlistID, SQLiteDatabase db){
         //Specifies what columns from the database will be returned
         String[] projection = {DBContract.PlaylistSongEntry.COL_SONG_ID};
 
@@ -426,10 +423,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             index++;
         }
 
-        //Database no longer needed
-        db.close();
         return songIDs;
     }
 
-    /*public void */
 }

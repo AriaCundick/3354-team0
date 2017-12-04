@@ -87,15 +87,12 @@ public class LibraryActivity extends AppCompatActivity {
         allSongs = new Playlist("All Songs");
         allPlaylists = new ArrayList<Playlist>();
 		allSongs.readExistingPlaylist(getPermission());
-        //Playlist tplist = new Playlist();
-        //tplist.addSong(allSongs.getSong(0));
 
         /* Load the adapter for the playlist arraylist. */
         final PlaylistAdapter playlistAdapter = new PlaylistAdapter(this, allPlaylists);
         playlistCollection.setAdapter(playlistAdapter);
 
 		allPlaylists.add(allSongs); //Add the allSongs playlist to the playlist arraylist.
-        //allPlaylists.add(tplist);
         findPlaylistsOnDevice();
 
         searchFilter.addTextChangedListener(new TextWatcher() {
@@ -194,14 +191,10 @@ public class LibraryActivity extends AppCompatActivity {
         playback.setContext(LibraryActivity.this);
     }
 
-    //Description: Gets permission from the user to query the device's external storage
-    //Returns ArrayList of all songs on the device.
+
 	@TargetApi(Build.VERSION_CODES.M)
     private ArrayList<Song> getPermission()
     {
-        //Check if permission to access external storage is granted.
-        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
 
         //return the queried songs on the external storage of the device
         if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
@@ -210,21 +203,6 @@ public class LibraryActivity extends AppCompatActivity {
             return new ArrayList<Song>();
     }
 
-    //method is invoked when user hits grant/deny on a permission pop-up.
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch(requestCode) //switch case for request code
-        {
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    //Permission granted! query songs.
-                    Toast.makeText(LibraryActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-                }
-                else
-                    Toast.makeText(LibraryActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     //Maps to the play/pause button in the xml file.
     //Plays or pauses the current song.
