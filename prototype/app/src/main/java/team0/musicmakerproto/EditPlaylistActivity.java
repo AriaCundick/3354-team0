@@ -95,8 +95,11 @@ public class EditPlaylistActivity extends AppCompatActivity {
     //Delete the playlist from the sqlite database.
     public void deletePlaylist(View v)
     {
+        //SQL database instantiation
+        SQLdb = new DatabaseHelper(this);
 
         //Call to SQLManager class -> delete the current playlist by its name (p.getPlaylistName())
+        //SQLdb.deletePlaylist(p.getPlaylistName());
 
         //Go back to main activity.
         Intent intent = new Intent(EditPlaylistActivity.this, LibraryActivity.class);

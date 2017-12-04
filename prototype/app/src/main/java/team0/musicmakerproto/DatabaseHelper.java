@@ -238,13 +238,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 sortOrder                               //Sort order
         );
 
-        //Database no longer needed
-        db.close();
+
 
         //Go through cursor to get playlistID, return error otherwise
         String playlistID = ID_NOT_FOUND;
         if(cursor.moveToNext())
-            return playlistID = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry._ID));
+            playlistID = cursor.getString(cursor.getColumnIndexOrThrow(DBContract.PlaylistEntry._ID));
+
+        //Database no longer needed
+        db.close();
+
         return playlistID;
     }
 
@@ -421,4 +424,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         return songIDs;
     }
+
+    /*public void */
 }
