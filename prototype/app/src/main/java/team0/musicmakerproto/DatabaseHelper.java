@@ -153,9 +153,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Adds a note to a song by using the songID in the Note table
     public boolean addNoteToSong(Note inNote, Song inSong){
+        //Returns false if Note is not associated with right Song
         if(!inNote.getPath().equals(inSong.getPath()))
             return false;
 
+        //Returns false if Song does not exist
         String songID = getSongID(inSong);
         if(songID.equals(ID_NOT_FOUND))
             return false;
@@ -218,7 +220,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //Finds the playlist ID in the table Playlist using the provided playlist's name
     public String getPlaylistID(Playlist inPlaylist){
         SQLiteDatabase db = this.getReadableDatabase();
+        return getPlaylistID(db, inPlaylist);
+    }
 
+    private String getPlaylistID(SQLiteDatabase db, Playlist inPlaylist){
         //Specifies what columns from the database will be returned
         String[] projection = {DBContract.PlaylistEntry._ID};
 
@@ -454,6 +459,29 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         //db.close();
 
         return songIDs;
+    }
+
+    public void updatePlaylist(Playlist inPlaylist){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Delete former playlist links if playlist already existed in Playlist table, create a new playlist otherwise
+        String playlistID = getPlaylistID(db, inPlaylist);
+        if(!playlistID.equals(ID_NOT_FOUND)){
+            //Delete all the links connecting songs to this playlist in PlaylistSong table
+            String playlistSongSelection = DBContract.PlaylistSongEntry.COL_PLAYLIST_ID + " LIKE ?";
+            String[] selectionArgs = {playlistID};
+            db.delete(DBContract.PlaylistSongEntry.TABLE_NAME, playlistSongSelection, selectionArgs);
+        }
+        else{
+            insertPlaylist(inPlaylist);
+        }
+
+        //Add new songs to playlist in PlaylistSong table
+        for(Song s: inPlaylist.getSongs())
+            addSongToPlaylist(s, inPlaylist);
+
+        //SQL database no longer needed
+        db.close();
     }
 
     public boolean updateNote(String title, String newContent){

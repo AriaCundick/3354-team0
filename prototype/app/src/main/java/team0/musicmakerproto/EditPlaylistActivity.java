@@ -111,8 +111,14 @@ public class EditPlaylistActivity extends AppCompatActivity {
     //Update the current playlist in the SQLite database with the current elements in the list view
     public void saveNewPlaylist(Playlist p, Playlist allSongs)
     {
+        //SQL database instantiation
+        SQLdb = new DatabaseHelper(this);
+
         //Call to SQLManager class -> update the current playlist by its name (p.getPlaylistName())
         //call adapter.getallSongs() to get the most recently edited version of the playlist.
+        p.readExistingPlaylist(adapter.getallSongs());
+
+        SQLdb.updatePlaylist(p);
 
         Intent intent = new Intent(EditPlaylistActivity.this, LibraryActivity.class);
         intent.putExtra("all_songs_playlist", allSongs);
