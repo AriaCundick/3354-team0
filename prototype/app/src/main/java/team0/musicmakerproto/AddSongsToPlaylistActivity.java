@@ -24,6 +24,7 @@ public class AddSongsToPlaylistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_songs_to_playlist);
 
+        setTitle("Add songs to a playlist");
         newSongs = new Playlist();
 
         //Bind GUI elements.

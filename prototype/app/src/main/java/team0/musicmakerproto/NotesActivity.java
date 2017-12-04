@@ -57,6 +57,8 @@ public class NotesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
 
+        setTitle("View notes");
+
         //Bind GUI elements;
         title = (TextView) findViewById(R.id.notesview_song_name);
         songIMG = (ImageView) findViewById(R.id.notes_albumCover);

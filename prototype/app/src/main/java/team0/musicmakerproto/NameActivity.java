@@ -38,6 +38,8 @@ public class NameActivity extends AppCompatActivity {
 
         //If the user has not entered their name, create the page.
         super.onCreate(savedInstanceState);
+        setTitle("Music Manager");
+
         getPermission();
         setContentView(R.layout.activity_name);
         btn = (Button)findViewById(R.id.un_btn);

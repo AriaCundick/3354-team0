@@ -27,9 +27,7 @@ public class AddPlaylistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_playlist);
-
-        //SQL database instantiation
-
+        setTitle("Create new playlist");
 
         //Bind GUI elements programmatically
         songs = (ListView) findViewById(R.id.new_playlist_listView);
