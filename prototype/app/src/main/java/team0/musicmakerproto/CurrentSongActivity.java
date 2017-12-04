@@ -185,7 +185,7 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
     @Override
         public void onProgressChanged(SeekBar songScrubber, int progress, boolean fromUser) {
             if (playback.getCurrentSong() != null && fromUser) {
-                playback.getCurrentSong().seekTo(progress * 1000);
+                playback.getCurrentSong().seekTo(progress/1000);
             }
 
     }
