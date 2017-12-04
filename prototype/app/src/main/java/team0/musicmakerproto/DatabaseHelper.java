@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(DBContract.PlaylistEntry.COL_TITLE, inPlaylist.getPlaylistName());7
+        contentValues.put(DBContract.PlaylistEntry.COL_TITLE, inPlaylist.getPlaylistName());
         long result = db.insert(DBContract.PlaylistEntry.TABLE_NAME, null, contentValues);
 
         //Database no longer needed
@@ -454,6 +454,31 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         //db.close();
 
         return songIDs;
+    }
+
+    public boolean updateNote(String title, String newContent){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Set new content value
+        ContentValues values = new ContentValues();
+        values.put(DBContract.NoteEntry.COL_NOTE_CONTENT, newContent);
+
+        //Select content row to update, based on title of note
+        String selection = DBContract.NoteEntry.COL_NOTE_TITLE + " LIKE ?";
+        String[] selectionArgs = {title};
+
+        //Actual updating of Note
+        long count = db.update(
+            DBContract.NoteEntry.TABLE_NAME,
+            values,
+            selection,
+            selectionArgs
+        );
+
+        if(count == -1)
+            return false;
+        else
+            return true;
     }
 
     public boolean deletePlaylist(Playlist inPlaylist){

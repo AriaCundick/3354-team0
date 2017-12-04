@@ -47,8 +47,9 @@ public class IndividualNote extends AppCompatActivity {
         {
             //update here
             SQLdb = new DatabaseHelper(this);
+            SQLdb.updateNote(name, textWindow.getText().toString());
+            SQLdb.close();
 
-            
         }
     }
 
