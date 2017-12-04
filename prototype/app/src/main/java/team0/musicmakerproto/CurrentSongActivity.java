@@ -50,6 +50,7 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
 
         Playback.getInstance().setActivityName("CurrentSongActivity");
         Playback.getInstance().setContext(CurrentSongActivity.this);
+
         // repeat button onClickListener
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +82,6 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
             }
         });
 
-        // song progress/scrubber
-        //songScrubber.setOnSeekBarChangeListener(this);
 
         // update
         updateGUI();
@@ -144,7 +143,8 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         songIMG.setImageBitmap(playback.getSongIMG(getResources()));
         songTitle.setText(playback.getSongName());
         songArtist.setText(playback.getSongArtist());
-        songTime.setText(milliToTime());
+        int currentSongLength = playback.getCurrentSong().getDuration();
+        songTime.setText(milliToTime(currentSongLength));
     }
 
     // Scrubber to change song Position
@@ -166,12 +166,17 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
 
     @Override
     public void onStopTrackingTouch(SeekBar songScrubber) {
+        pHandler.removeCallbacks(updateTimer);
+        int songDuration = getSongDuration();
+        int currentPosition = progressTimerConversion(songScrubber.getProgress(), songDuration);
 
+        playback.getCurrentSong().seekTo(currentPosition);
+        updateProgress();
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar songScrubber) {
-
+        pHandler.removeCallbacks(updateTimer);
     }
 
     // Scrubber used to change song progress
@@ -183,12 +188,26 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
 
     }
 
+    // Get a song's current duration
+    public int getSongDuration() {
+        int songDuration = playback.getCurrentSong().getDuration();
+
+        return songDuration;
+    }
+
+    // Get a song's current position
+    public int getCurrentPosition() {
+        int  songPosition = playback.getCurrentSong().getCurrentPosition();
+
+        return songPosition;
+    }
+
     // Convert playback time for single song duration
-    public String milliToTime() {
+    public String milliToTime(int songTime) {
 
         String secs = "";
         String finalTime = "";
-        long originalTime = playback.getCurrentSong().getDuration();
+        long originalTime = songTime;
 
         // conversion of milliseconds
         int minutes = (int)(originalTime % (1000 * 60 * 60)) / (1000 * 60);
@@ -209,4 +228,46 @@ public class CurrentSongActivity extends AppCompatActivity implements OnSeekBarC
         return finalTime;
     }
 
+    // Current song progress (current is current song duration, total is total song duration)
+    public int getProgressPercentage(long current, long total) {
+        Double percent = (double) 0;
+
+        long currentSec = (int) (current / 1000);
+        long totalSecs = (int) (total / 1000);
+
+        // calculate percentage
+        percent = (((double) currentSec / totalSecs));
+
+        // return percentage
+        return percent.intValue();
+
+    }
+
+    public int progressTimerConversion(int progress, int total) {
+        int current = 0;
+        total = (int) (total / 1000);
+        current = (int) ((((double) progress / 100) * total));
+
+        return current * 1000;
+    }
+
+    public void updateProgress() {
+        pHandler.postDelayed(updateTimer, 100);
+    }
+
+    private Runnable updateTimer = new Runnable() {
+        public void run() {
+            long totalDuration = getSongDuration();
+            long currentDuration = getCurrentPosition();
+
+            // display completed time
+            currentTimeStamp.setText(milliToTime((int)currentDuration));
+
+            // update progress bar
+            int progress = (int)getProgressPercentage(currentDuration, totalDuration);
+            songScrubber.setProgress(progress);
+
+            pHandler.postDelayed(this, 100);
+        }
+    };
 }
