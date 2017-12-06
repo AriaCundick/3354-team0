@@ -77,7 +77,13 @@ public class Song implements Parcelable {
 	//Get the image art based on the metadata of the song.
 	public Bitmap getImage() {
 		MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-		mmr.setDataSource(path);
+		try {
+			mmr.setDataSource(path);
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+			return BitmapFactory.decodeResource(resources, R.drawable.ic_default_albumart2);
+		}
 		byte [] data = mmr.getEmbeddedPicture();
 
 		//If there is no album art for the song, use a default image.

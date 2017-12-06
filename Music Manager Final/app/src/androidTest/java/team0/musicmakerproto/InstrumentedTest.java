@@ -1,7 +1,9 @@
 package team0.musicmakerproto;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
@@ -9,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
+import static team0.musicmakerproto.Song.resources;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -48,6 +51,19 @@ public class InstrumentedTest {
             p.skipForward();
 
         assertEquals("Current song status:", true, p.getCurrentSong().isPlaying());
+    }
+
+    //Test the return values for no song image.
+    @Test
+    public void testSongIMG()
+    {
+        Song s = new Song("", "", "/made/up/dir", "", "", 0);
+        assertEquals("Get Image object for made up path:", null, s.getImage());
+        s.setPath("");
+        assertEquals("Get Image object for blank path:", null, s.getImage());
+        s.setPath("android.resource://" + BuildConfig.APPLICATION_ID + "/" + R.raw.weeknd);
+        assertEquals("Get Image object for valid path:", BitmapFactory.decodeResource(resources, R.drawable.ic_default_albumart2), s.getImage());
+
     }
 
     // Test to see if an index out of bounds exception is triggered on skipping a song in a playlist of size 1.

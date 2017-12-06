@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class LibraryActivityTest   {
-    public ActivityTestRule<LibraryActivity> activityRule = new ActivityTestRule<>(LibraryActivity.class);
+    ActivityTestRule<LibraryActivity> activityRule = new ActivityTestRule<>(LibraryActivity.class);
     LibraryActivity act;
 
     @Before
